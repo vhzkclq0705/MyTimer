@@ -7,9 +7,21 @@
 
 import UIKit
 import SnapKit
+import ExpyTableView
 
 class TimerListVC: UIViewController {
 
+    lazy var tableView: ExpyTableView = {
+        let tableView = ExpyTableView(frame: .zero, style: .insetGrouped)
+        tableView.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
+        tableView.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
+        tableView.expandingAnimation = .fade
+        tableView.collapsingAnimation = .fade
+        tableView.separatorStyle = .none
+        
+        return tableView
+    }()
+    
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -39,27 +51,99 @@ class TimerListVC: UIViewController {
         return button
     }()
     
-    lazy var recognizeTapGesture: UITapGestureRecognizer = {
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
+    lazy var addSectionLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 0
+        label.text = "섹션 추가"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
-        return gesture
+        return label
     }()
+    
+    lazy var addTimerLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 0
+        label.text = "타이머 추가"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        
+        return label
+    }()
+    
+    
+    let viewModel = TimerViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
     }
+}
+
+extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
+    // true = Expandable, false = Non-Expandable(Same as default TableView)
+    func tableView(_ tableView: ExpyTableView, canExpandSection section: Int) -> Bool {
+        return true
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+        //return viewModel.numOfSections
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return 2
+        default: return 3
+        }
+        //return viewModel.numOfTimers(section)
+    }
+    
+    // Check whether the Section is open or closed.
+    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
+        // This function is only a stub.
+    }
+    
+    // About Section headers
+    func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
+        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else { return UITableViewCell() }
+        
+        header.updateTitle("test")
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
+        
+        cell.updateUI(title: "title!", time: "12:34")
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+}
+
+extension TimerListVC {
     
 }
 
 extension TimerListVC {
     func setup() {
-        view.addGestureRecognizer(recognizeTapGesture)
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        [addTimerButton, addSectionButton, addButton]
-            .forEach { view.addSubview($0) }
+        [tableView, addTimerButton, addSectionButton,
+         addButton, addTimerLabel, addSectionLabel]
+        .forEach { view.addSubview($0) }
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(50)
+        }
         
         addButton.snp.makeConstraints {
             $0.bottom.right.equalToSuperview().offset(-40)
@@ -74,6 +158,17 @@ extension TimerListVC {
             $0.bottom.equalToSuperview().offset(-40)
             $0.centerX.equalTo(addButton)
         }
+        
+        addTimerLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-40)
+            $0.right.equalTo(addTimerButton.snp.left).offset(-10)
+        }
+        
+        addSectionLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-40)
+            $0.right.equalTo(addSectionButton.snp.left).offset(-10)
+        }
+        
     }
     
     func buttonConfig(_ isMain: Bool) -> UIButton.Configuration {
@@ -93,6 +188,7 @@ extension TimerListVC {
     @objc func addButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         sender.isSelected ? showButtons() : hideButtons()
+        tableView.layer.opacity = sender.isSelected ? 0.7 : 1
     }
     
     @objc func addTimerButtonTapped(_ sender: UIButton) {
@@ -104,24 +200,36 @@ extension TimerListVC {
     }
     
     @objc func recognizeTapped(_ sender: Any) {
-        hideButtons()
+        if addButton.isSelected {
+            hideButtons()
+        }
     }
     
     func showButtons() {
         UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.addButton.transform = CGAffineTransform(rotationAngle: Double.pi / 4)
             self?.addTimerButton.alpha = 1
+            self?.addTimerLabel.alpha = 1
             self?.addTimerButton.snp.updateConstraints {
                 $0.bottom.equalToSuperview().offset(-110)
             }
             self?.addTimerButton.superview?.layoutIfNeeded()
+            self?.addTimerLabel.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-120)
+            }
+            self?.addTimerLabel.superview?.layoutIfNeeded()
         }, completion: {_ in
             UIView.animate(withDuration: 0.2, delay: 0, animations: { [weak self] in
                 self?.addSectionButton.alpha = 1
+                self?.addSectionLabel.alpha = 1
                 self?.addSectionButton.snp.updateConstraints {
                     $0.bottom.equalToSuperview().offset(-170)
                 }
                 self?.addSectionButton.superview?.layoutIfNeeded()
+                self?.addSectionLabel.snp.updateConstraints {
+                    $0.bottom.equalToSuperview().offset(-180)
+                }
+                self?.addSectionLabel.superview?.layoutIfNeeded()
             })
         })
     }
@@ -130,17 +238,27 @@ extension TimerListVC {
         UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.addButton.transform = CGAffineTransform(rotationAngle: 0)
             self?.addSectionButton.alpha = 0
+            self?.addSectionLabel.alpha = 0
             self?.addSectionButton.snp.updateConstraints {
                 $0.bottom.equalToSuperview().offset(-40)
             }
             self?.addSectionButton.superview?.layoutIfNeeded()
+            self?.addSectionLabel.snp.updateConstraints {
+                $0.bottom.equalToSuperview().offset(-40)
+            }
+            self?.addSectionLabel.superview?.layoutIfNeeded()
         }) { _ in
             UIView.animate(withDuration: 0.2, delay: 0, animations: { [weak self] in
                 self?.addTimerButton.alpha = 0
+                self?.addTimerLabel.alpha = 0
                 self?.addTimerButton.snp.updateConstraints {
                     $0.bottom.equalToSuperview().offset(-40)
                 }
                 self?.addTimerButton.superview?.layoutIfNeeded()
+                self?.addTimerLabel.snp.updateConstraints {
+                    $0.bottom.equalToSuperview().offset(-40)
+                }
+                self?.addTimerLabel.superview?.layoutIfNeeded()
             })
         }
     }

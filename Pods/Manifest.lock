@@ -1,0 +1,20 @@
+PODS:
+  - ExpyTableView (1.2.1)
+  - SnapKit (5.6.0)
+
+DEPENDENCIES:
+  - ExpyTableView
+  - SnapKit
+
+SPEC REPOS:
+  trunk:
+    - ExpyTableView
+    - SnapKit
+
+SPEC CHECKSUMS:
+  ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+
+PODFILE CHECKSUM: 25ab7c5b85f86e9f8aa71afb91409668d63aac98
+
+COCOAPODS: 1.11.2
