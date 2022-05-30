@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 
-class AddSectionView: UIView, UITextFieldDelegate {
+class AddSectionView: UIView {
     
+
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섹션을 추가하세요!"
@@ -23,23 +24,20 @@ class AddSectionView: UIView, UITextFieldDelegate {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.textColor = .black
-        textField.placeholder = "섹션 제목 입력"
+        textField.addLeftPadding()
+        textField.attributedPlaceholder = NSAttributedString(string: "섹션 제목 입력", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
         textField.font = .systemFont(ofSize: 20 ,weight: .regular)
         textField.layer.borderColor = Colors.color(0).cgColor
         textField.layer.borderWidth = 2
         textField.layer.cornerRadius = 5
         textField.delegate = self
-        
+
         return textField
     }()
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.color(0)
-        button.tintColor = .white
-        button.layer.cornerRadius = 5
-        button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.setupDetailButton()
         button.setTitle("확인", for: .normal)
         button.addTarget(self, action: #selector(okButtonTapped(_:)), for: .touchUpInside)
         
@@ -48,11 +46,7 @@ class AddSectionView: UIView, UITextFieldDelegate {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.color(0)
-        button.tintColor = .white
-        button.layer.cornerRadius = 5
-        button.layer.shadowColor = UIColor.gray.cgColor
-        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.setupDetailButton()
         button.setTitle("취소", for: .normal)
         button.addTarget(self, action: #selector(cancleButtonTapped(_:)), for: .touchUpInside)
         
@@ -89,14 +83,14 @@ extension AddSectionView {
         }
         
         okButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(20)
-            $0.right.equalTo(textField.snp.right)
+            $0.bottom.equalToSuperview().inset(10)
+            $0.right.equalToSuperview().inset(30)
             $0.left.equalTo(textField.snp.centerX).offset(20)
         }
         
         cancleButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(20)
-            $0.left.equalTo(textField.snp.left)
+            $0.bottom.equalToSuperview().inset(10)
+            $0.left.equalToSuperview().inset(30)
             $0.right.equalTo(textField.snp.centerX).offset(-20)
         }
         
@@ -111,3 +105,8 @@ extension AddSectionView {
     }
 }
 
+extension AddSectionView: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+}

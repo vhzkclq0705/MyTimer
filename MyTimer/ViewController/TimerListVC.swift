@@ -70,7 +70,6 @@ class TimerListVC: UIViewController {
         return label
     }()
     
-    
     let viewModel = TimerViewModel()
     
     override func viewDidLoad() {
@@ -145,22 +144,22 @@ extension TimerListVC {
         }
         
         addTimerButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-110)
             $0.centerX.equalTo(addButton)
         }
         
         addSectionButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-170)
             $0.centerX.equalTo(addButton)
         }
         
         addTimerLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-120)
             $0.right.equalTo(addTimerButton.snp.left).offset(-10)
         }
         
         addSectionLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-180)
             $0.right.equalTo(addSectionButton.snp.left).offset(-10)
         }
         
@@ -182,7 +181,7 @@ extension TimerListVC {
 extension TimerListVC {
     @objc func addButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        sender.isSelected ? showButtons() : hideButtons()
+        displayButtons(sender.isSelected)
         tableView.layer.opacity = sender.isSelected ? 0.7 : 1
     }
     
@@ -195,67 +194,29 @@ extension TimerListVC {
         let heigth: CGFloat = width / 2
         let x: CGFloat = view.center.x - width / 2
         let y: CGFloat = view.center.y - heigth / 2
-        print(width, heigth)
+        
         let addSectionView = AddSectionView(frame: CGRect(x: x, y: y, width: width, height: heigth))
         
         view.addSubview(addSectionView)
     }
     
-    func showButtons() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.addButton.transform = CGAffineTransform(rotationAngle: Double.pi / 4)
-            self?.addTimerButton.alpha = 1
-            self?.addTimerLabel.alpha = 1
-            self?.addTimerButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-110)
+    func displayButtons(_ show: Bool) {
+        let angle: CGFloat = show ? Double.pi / 4 : 0
+        UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
+            self?.addButton.transform = CGAffineTransform(rotationAngle: angle)
+            if show {
+                self?.addTimerButton.alpha = 1; self?.addTimerLabel.alpha = 1
+            } else {
+                self?.addSectionButton.alpha = 0; self?.addSectionLabel.alpha = 0
             }
-            self?.addTimerButton.superview?.layoutIfNeeded()
-            self?.addTimerLabel.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-120)
-            }
-            self?.addTimerLabel.superview?.layoutIfNeeded()
-        }, completion: {_ in
-            UIView.animate(withDuration: 0.2, delay: 0, animations: { [weak self] in
-                self?.addSectionButton.alpha = 1
-                self?.addSectionLabel.alpha = 1
-                self?.addSectionButton.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().offset(-170)
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
+                if show {
+                    self?.addSectionButton.alpha = 1; self?.addSectionLabel.alpha = 1
+                } else {
+                    self?.addTimerButton.alpha = 0; self?.addTimerLabel.alpha = 0
                 }
-                self?.addSectionButton.superview?.layoutIfNeeded()
-                self?.addSectionLabel.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().offset(-180)
-                }
-                self?.addSectionLabel.superview?.layoutIfNeeded()
             })
         })
-    }
-    
-    func hideButtons() {
-        UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.addButton.transform = CGAffineTransform(rotationAngle: 0)
-            self?.addSectionButton.alpha = 0
-            self?.addSectionLabel.alpha = 0
-            self?.addSectionButton.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-40)
-            }
-            self?.addSectionButton.superview?.layoutIfNeeded()
-            self?.addSectionLabel.snp.updateConstraints {
-                $0.bottom.equalToSuperview().offset(-40)
-            }
-            self?.addSectionLabel.superview?.layoutIfNeeded()
-        }) { _ in
-            UIView.animate(withDuration: 0.2, delay: 0, animations: { [weak self] in
-                self?.addTimerButton.alpha = 0
-                self?.addTimerLabel.alpha = 0
-                self?.addTimerButton.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().offset(-40)
-                }
-                self?.addTimerButton.superview?.layoutIfNeeded()
-                self?.addTimerLabel.snp.updateConstraints {
-                    $0.bottom.equalToSuperview().offset(-40)
-                }
-                self?.addTimerLabel.superview?.layoutIfNeeded()
-            })
-        }
     }
 }
