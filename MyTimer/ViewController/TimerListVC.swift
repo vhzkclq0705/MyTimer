@@ -19,6 +19,8 @@ class TimerListVC: UIViewController {
         tableView.expandingAnimation = .fade
         tableView.collapsingAnimation = .fade
         tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
         
         return tableView
     }()
@@ -76,6 +78,11 @@ class TimerListVC: UIViewController {
         super.viewDidLoad()
         setup()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(
+            self, name: NSNotification.Name(rawValue: "reload"), object: nil)
+    }
 }
 
 // About how to display TableView
@@ -90,7 +97,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numOfTimers(section)
+        return viewModel.numOfTimers(section) + 1
     }
     
     // About Section headers
@@ -127,9 +134,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
 // Functions for UI setup
 extension TimerListVC {
     func setup() {
-        tableView.delegate = self
-        tableView.dataSource = self
         viewModel.load()
+        print(viewModel.sections)
         
         [tableView, addTimerButton, addSectionButton,
          addButton, addTimerLabel, addSectionLabel]
@@ -163,6 +169,9 @@ extension TimerListVC {
             $0.right.equalTo(addSectionButton.snp.left).offset(-10)
         }
         
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(reload),
+            name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
     
     func buttonConfig(_ isMain: Bool) -> UIButton.Configuration {
@@ -200,6 +209,11 @@ extension TimerListVC {
         view.addSubview(addSectionView)
     }
     
+    @objc func reload() {
+        self.tableView.reloadData()
+    }
+    
+    // AddButton tap animation
     func displayButtons(_ show: Bool) {
         let angle: CGFloat = show ? Double.pi / 4 : 0
         UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in

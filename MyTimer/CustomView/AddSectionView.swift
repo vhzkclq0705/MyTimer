@@ -10,7 +10,6 @@ import SnapKit
 
 class AddSectionView: UIView {
     
-
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섹션을 추가하세요!"
@@ -22,14 +21,7 @@ class AddSectionView: UIView {
     
     lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.textColor = .black
-        textField.addLeftPadding()
-        textField.attributedPlaceholder = NSAttributedString(string: "섹션 제목 입력", attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
-        textField.font = .systemFont(ofSize: 20 ,weight: .regular)
-        textField.layer.borderColor = Colors.color(0).cgColor
-        textField.layer.borderWidth = 2
-        textField.layer.cornerRadius = 5
+        textField.setupDetailTextField("섹션 제목")
         textField.delegate = self
 
         return textField
@@ -61,7 +53,6 @@ class AddSectionView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension AddSectionView {
@@ -97,10 +88,18 @@ extension AddSectionView {
     }
     
     @objc func okButtonTapped(_ sender: UIButton) {
-        
+        guard let term = textField.text, term.isEmpty == false else { return }
+        TimerManager.shared.addSection(term)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil, userInfo: nil)
+        self.removeFromSuperview()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil, userInfo: nil)
         self.removeFromSuperview()
     }
 }
