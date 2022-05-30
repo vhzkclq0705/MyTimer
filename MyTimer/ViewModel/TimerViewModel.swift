@@ -10,6 +10,7 @@ import UIKit
 
 class TimerViewModel {
     
+    let manager = TimerManager.shared
     var sections = [Section]()
     
     var numOfSections: Int {
@@ -25,33 +26,12 @@ class TimerViewModel {
     }
     
     func sectionColor(_ section: Int) -> UIColor {
-        // Convert Double type RGB to CGFloat type
-        let red: CGFloat = sections[section].red
-        let green: CGFloat = sections[section].green
-        let blue: CGFloat = sections[section].blue
-        
-        return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+        let num = section % 7 + 1
+        return Colors.color(num)
     }
     
     func timerInfo(section: Int, index: Int) -> Timer {
         return sections[section].timers[index]
-    }
-    
-    func addSection(_ title: String) {
-        // Create random color
-        let red = drand48()
-        let green = drand48()
-        let blue = drand48()
-        let section = Section(title: title, red: red, green: green, blue: blue, timers: [])
-        
-        sections.append(section)
-        save()
-    }
-    
-    func addTimer(title: String, time: String, section: Int) {
-        let timer = Timer(title: title, time: time)
-        sections[section].timers.append(timer)
-        save()
     }
     
     func deleteSection(_ section: Section) {
@@ -65,15 +45,12 @@ class TimerViewModel {
     }
     
     func save() {
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(sections), forKey: "Sections")
-        
-        print("Save Success!")
+        manager.sections = sections
+        manager.save()
     }
     
     func load() {
-        guard let data = UserDefaults.standard.data(forKey: "Sections") else { return }
-        sections = (try? PropertyListDecoder().decode([Section].self, from: data)) ?? []
-        
-        print("Load Success!")
+        manager.load()
+        sections = manager.sections
     }
 }

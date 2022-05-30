@@ -168,8 +168,8 @@ extension TimerListVC {
     
     func buttonConfig(_ isMain: Bool) -> UIButton.Configuration {
         var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = isMain ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        config.background.backgroundColor = isMain ? #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        config.baseForegroundColor = isMain ? .white : Colors.color(0)
+        config.background.backgroundColor = isMain ? Colors.color(0) : .white
         config.cornerStyle = .capsule
         
         let fontSize: CGFloat = isMain ? 35 : 25
@@ -191,13 +191,14 @@ extension TimerListVC {
     }
     
     @objc func addSectionButtonTapped(_ sender: UIButton) {
+        let width: CGFloat = view.bounds.width * 2 / 3
+        let heigth: CGFloat = width / 2
+        let x: CGFloat = view.center.x - width / 2
+        let y: CGFloat = view.center.y - heigth / 2
+        print(width, heigth)
+        let addSectionView = AddSectionView(frame: CGRect(x: x, y: y, width: width, height: heigth))
         
-    }
-    
-    @objc func recognizeTapped(_ sender: Any) {
-        if addButton.isSelected {
-            hideButtons()
-        }
+        view.addSubview(addSectionView)
     }
     
     func showButtons() {

@@ -6,11 +6,9 @@
 //
 
 import Foundation
+import UIKit
 
 struct Section: Codable, Equatable {
     var title: String
-    var red: Double
-    var green: Double
-    var blue: Double
     var timers = [Timer]()
 }
