@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76CC802E2844901100683831 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802D2844901100683831 /* Section.swift */; };
+		76CC80302844C54B00683831 /* AddSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802F2844C54A00683831 /* AddSectionView.swift */; };
+		76CC80322844C56200683831 /* AddTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80312844C56200683831 /* AddTimerView.swift */; };
+		76CC80342844C57100683831 /* DetailTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80332844C57100683831 /* DetailTimerView.swift */; };
 		76D9AE122843637200A2F5B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE112843637200A2F5B9 /* AppDelegate.swift */; };
 		76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE132843637200A2F5B9 /* SceneDelegate.swift */; };
 		76D9AE162843637200A2F5B9 /* TimerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE152843637200A2F5B9 /* TimerListVC.swift */; };
@@ -24,6 +28,10 @@
 		0B6F2167A43B1BD151D1DC4A /* Pods-MyTimer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTimer.release.xcconfig"; path = "Target Support Files/Pods-MyTimer/Pods-MyTimer.release.xcconfig"; sourceTree = "<group>"; };
 		440F088CC7FA7E29B462743C /* Pods_MyTimer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyTimer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62188C104FED3EA5DDEA309C /* Pods-MyTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTimer.debug.xcconfig"; path = "Target Support Files/Pods-MyTimer/Pods-MyTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		76CC802D2844901100683831 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		76CC802F2844C54A00683831 /* AddSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionView.swift; sourceTree = "<group>"; };
+		76CC80312844C56200683831 /* AddTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerView.swift; sourceTree = "<group>"; };
+		76CC80332844C57100683831 /* DetailTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerView.swift; sourceTree = "<group>"; };
 		76D9AE0E2843637200A2F5B9 /* MyTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76D9AE112843637200A2F5B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		76D9AE132843637200A2F5B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				76D9AE3E2843C91A00A2F5B9 /* Timer.swift */,
+				76CC802D2844901100683831 /* Section.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -124,6 +133,9 @@
 		76D9AE29284368D500A2F5B9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				76CC802F2844C54A00683831 /* AddSectionView.swift */,
+				76CC80312844C56200683831 /* AddTimerView.swift */,
+				76CC80332844C57100683831 /* DetailTimerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -275,11 +287,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */,
+				76CC80342844C57100683831 /* DetailTimerView.swift in Sources */,
+				76CC802E2844901100683831 /* Section.swift in Sources */,
 				76D9AE162843637200A2F5B9 /* TimerListVC.swift in Sources */,
 				76D9AE3F2843C91A00A2F5B9 /* Timer.swift in Sources */,
 				76D9AE122843637200A2F5B9 /* AppDelegate.swift in Sources */,
 				76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */,
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderCell.swift in Sources */,
+				76CC80302844C54B00683831 /* AddSectionView.swift in Sources */,
+				76CC80322844C56200683831 /* AddTimerView.swift in Sources */,
 				76D9AE382843B16400A2F5B9 /* TimerListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

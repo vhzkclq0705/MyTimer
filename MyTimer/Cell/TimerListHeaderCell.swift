@@ -13,6 +13,8 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     static let id = "timerListHeaderCell"
     
+    var color: UIColor!
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 25, weight: .bold)
@@ -37,11 +39,11 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         super.layoutSubviews()
         setup()
     }
+    
 }
 
 extension TimerListHeaderCell {
     func setup() {
-        self.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         self.selectionStyle = .none
         
         [titleLabel, detailButton].forEach { contentView.addSubview($0) }
@@ -59,8 +61,9 @@ extension TimerListHeaderCell {
         }
     }
     
-    func updateTitle(_ text: String) {
+    func updateUI(text: String, color: UIColor) {
         titleLabel.text = text
+        self.backgroundColor = color
     }
     
     func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {

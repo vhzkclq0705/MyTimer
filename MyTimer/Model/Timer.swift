@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Timer: Codable {
+struct Timer: Codable, Equatable {
     var title: String
     var time: String
-    var count: Int
 }
