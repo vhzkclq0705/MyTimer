@@ -66,21 +66,23 @@ extension AddSectionView {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(10)
             $0.centerX.equalToSuperview()
+            $0.height.equalTo(30)
         }
         
         textField.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.left.right.equalToSuperview().inset(30)
+            $0.height.equalTo(30)
         }
         
         okButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(30)
             $0.right.equalToSuperview().inset(30)
             $0.left.equalTo(textField.snp.centerX).offset(20)
         }
         
         cancleButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(30)
             $0.left.equalToSuperview().inset(30)
             $0.right.equalTo(textField.snp.centerX).offset(-20)
         }

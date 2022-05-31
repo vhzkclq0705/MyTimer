@@ -195,12 +195,19 @@ extension TimerListVC {
     }
     
     @objc func addTimerButtonTapped(_ sender: UIButton) {
+        let width: CGFloat = view.bounds.width * 2 / 3
+        let heigth: CGFloat = width * 1.5
+        let x: CGFloat = view.center.x - width / 2
+        let y: CGFloat = view.center.y - heigth / 2
         
+        let addTimerView = AddTimerView(frame: CGRect(x: x, y: y, width: width, height: heigth))
+        
+        view.addSubview(addTimerView)
     }
     
     @objc func addSectionButtonTapped(_ sender: UIButton) {
         let width: CGFloat = view.bounds.width * 2 / 3
-        let heigth: CGFloat = width / 2
+        let heigth: CGFloat = width / 1.5
         let x: CGFloat = view.center.x - width / 2
         let y: CGFloat = view.center.y - heigth / 2
         
