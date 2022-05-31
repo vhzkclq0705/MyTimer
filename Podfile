@@ -9,5 +9,6 @@ target 'MyTimer' do
 
   pod 'SnapKit'
   pod 'ExpyTableView'
+  pod 'DropDown'
 
 end

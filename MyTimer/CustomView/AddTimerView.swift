@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DropDown
 
 class AddTimerView: UIView {
     
@@ -19,6 +20,33 @@ class AddTimerView: UIView {
         return label
     }()
     
+    lazy var sectionLable: UITextField = {
+        let textField = UITextField()
+        textField.setupDetailTextField("섹션 선택")
+        textField.isUserInteractionEnabled = false
+        
+        return textField
+    }()
+    
+    lazy var sectionButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Colors.color(0)
+        button.setImage(UIImage(systemName: "arrowtriangle.down.fill"), for: .normal)
+        button.setImage(UIImage(systemName: "arrowtriangle.up.fill"), for: .selected)
+        button.tintColor = .white
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(dropDownTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var sectionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
+    }()
+    
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.setupDetailTextField("타이머 이름")
@@ -27,9 +55,8 @@ class AddTimerView: UIView {
         return textField
     }()
     
-    lazy var minPickerView: UIPickerView = {
+    lazy var pickerView: UIPickerView = {
         let pickerView = UIPickerView()
-       // pickerView.setValue(UIColor.black, forKeyPath: "textColor")
         pickerView.delegate = self
         pickerView.dataSource = self
         return pickerView
@@ -53,16 +80,8 @@ class AddTimerView: UIView {
         return button
     }()
     
-    lazy var secPickerView: UIPickerView = {
-        let pickerView = UIPickerView()
-        pickerView.tintColor = .black
-        pickerView.backgroundColor = .white
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        return pickerView
-    }()
-    
     let viewModel = AddTimerViewModel()
+    let dropDown = DropDown()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,8 +97,15 @@ extension AddTimerView: UITextFieldDelegate {
     func setup() {
         self.backgroundColor = .white
         self.layer.cornerRadius = 15
+        viewModel.loadSections()
+        initDropDown()
+        setDropDown()
         
-        [titleLabel, textField, minPickerView, okButton, cancleButton]
+        [sectionLable, sectionButton]
+            .forEach { sectionView.addSubview($0) }
+        
+        [titleLabel, sectionView, textField,
+         pickerView, okButton, cancleButton]
             .forEach { self.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
@@ -88,14 +114,31 @@ extension AddTimerView: UITextFieldDelegate {
             $0.height.equalTo(30)
         }
         
-        textField.snp.makeConstraints {
+        sectionView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(10)
             $0.left.right.equalToSuperview().inset(30)
             $0.height.equalTo(30)
         }
         
-        minPickerView.snp.makeConstraints {
+        sectionLable.snp.makeConstraints {
+            $0.top.left.bottom.equalTo(sectionView)
+            $0.right.equalTo(sectionButton.snp.left)
+        }
+        
+        sectionButton.snp.makeConstraints {
+            $0.top.right.bottom.equalTo(sectionView)
+            $0.height.equalTo(sectionButton.snp.width)
+        }
+        
+        textField.snp.makeConstraints {
+            $0.top.equalTo(sectionView.snp.bottom).offset(10)
+            $0.left.right.equalToSuperview().inset(30)
+            $0.height.equalTo(30)
+        }
+        
+        pickerView.snp.makeConstraints {
             $0.top.equalTo(textField.snp.bottom).offset(10)
+            $0.bottom.equalToSuperview().inset(60)
             $0.left.right.equalToSuperview()
         }
         
@@ -111,11 +154,31 @@ extension AddTimerView: UITextFieldDelegate {
             $0.right.equalTo(textField.snp.centerX).offset(-20)
         }
     }
+    
+    func setDropDown() {
+        dropDown.dataSource = viewModel.sections
+        dropDown.anchorView = sectionView
+        dropDown.bottomOffset = CGPoint(x: 0, y: 30)
+        dropDown.selectionAction = { [weak self] (index, item) in
+            self?.viewModel.section = index
+            self?.sectionLable.text = item
+            self?.sectionButton.isSelected = false
+        }
+        dropDown.cancelAction = { [weak self] in
+            self?.sectionButton.isSelected = false
+        }
+    }
 }
 
 extension AddTimerView {
     @objc func okButtonTapped(_ sender: UIButton) {
-        //print(minPickerView)
+        guard let section = sectionLable.text, section.isEmpty == false else { return }
+        guard let title = textField.text, title.isEmpty == false else { return }
+        viewModel.addTimer(title: title)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil, userInfo: nil)
+        self.removeFromSuperview()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
@@ -123,6 +186,11 @@ extension AddTimerView {
             name: NSNotification.Name(rawValue: "reload"),
             object: nil, userInfo: nil)
         self.removeFromSuperview()
+    }
+    
+    @objc func dropDownTapped(_ sender: UIButton) {
+        dropDown.show()
+        sectionButton.isSelected = true
     }
 }
 

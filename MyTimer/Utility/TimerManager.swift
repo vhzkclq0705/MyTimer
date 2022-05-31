@@ -22,8 +22,8 @@ class TimerManager {
         save()
     }
     
-    func addTimer(title: String, time: String, section: Int) {
-        let timer = Timer(title: title, time: time)
+    func addTimer(title: String, min: Int, sec: Int, section: Int) {
+        let timer = Timer(title: title, min: min, sec: sec)
         sections[section].timers.append(timer)
         save()
     }

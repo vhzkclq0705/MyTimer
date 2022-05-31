@@ -116,13 +116,14 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
         
         let timer = viewModel.timerInfo(section: indexPath.section, index: indexPath.row)
-        cell.updateUI(title: timer.title, time: timer.time)
+        
+        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 50
     }
     
     // Check whether the Section is open or closed.
@@ -135,14 +136,14 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
 extension TimerListVC {
     func setup() {
         viewModel.load()
-        print(viewModel.sections)
         
         [tableView, addTimerButton, addSectionButton,
          addButton, addTimerLabel, addSectionLabel]
         .forEach { view.addSubview($0) }
         
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(50)
+            $0.top.bottom.equalToSuperview().inset(50)
+            $0.left.right.equalToSuperview().inset(30)
         }
         
         addButton.snp.makeConstraints {
@@ -192,31 +193,27 @@ extension TimerListVC {
         sender.isSelected = !sender.isSelected
         displayButtons(sender.isSelected)
         tableView.layer.opacity = sender.isSelected ? 0.7 : 1
+        tableView.isUserInteractionEnabled = !sender.isSelected
     }
     
     @objc func addTimerButtonTapped(_ sender: UIButton) {
-        let width: CGFloat = view.bounds.width * 2 / 3
-        let heigth: CGFloat = width * 1.5
-        let x: CGFloat = view.center.x - width / 2
-        let y: CGFloat = view.center.y - heigth / 2
+        let vc = AddTimerVC()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
         
-        let addTimerView = AddTimerView(frame: CGRect(x: x, y: y, width: width, height: heigth))
-        
-        view.addSubview(addTimerView)
+        present(vc, animated: true)
     }
     
     @objc func addSectionButtonTapped(_ sender: UIButton) {
-        let width: CGFloat = view.bounds.width * 2 / 3
-        let heigth: CGFloat = width / 1.5
-        let x: CGFloat = view.center.x - width / 2
-        let y: CGFloat = view.center.y - heigth / 2
+        let vc = AddSectionVC()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
         
-        let addSectionView = AddSectionView(frame: CGRect(x: x, y: y, width: width, height: heigth))
-        
-        view.addSubview(addSectionView)
+        present(vc, animated: true)
     }
     
     @objc func reload() {
+        viewModel.load()
         self.tableView.reloadData()
     }
     

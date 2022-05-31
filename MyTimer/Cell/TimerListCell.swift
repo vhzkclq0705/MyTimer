@@ -15,7 +15,7 @@ class TimerListCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()
@@ -23,7 +23,7 @@ class TimerListCell: UITableViewCell {
     lazy var timeSetButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.black , for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .regular)
+        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
         
         return button
     }()
@@ -31,13 +31,14 @@ class TimerListCell: UITableViewCell {
     lazy var timerButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "timer"), for: .normal)
-        button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        button.layer.borderColor = Colors.color(0).cgColor
         button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
         
         var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        config.background.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 20)
+        config.baseForegroundColor = .red
+        config.background.backgroundColor = .white
+        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 15, weight: .bold)
         button.configuration = config
         
         return button
@@ -57,25 +58,27 @@ extension TimerListCell {
         [titleLabel, timeSetButton, timerButton].forEach { contentView.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-200)
+            $0.left.equalToSuperview().inset(10)
+            $0.right.equalTo(timeSetButton.snp.left).offset(-20)
             $0.centerY.equalToSuperview()
         }
         
         timeSetButton.snp.makeConstraints {
-            $0.left.equalTo(titleLabel.snp.right).offset(10)
+            $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
         
         timerButton.snp.makeConstraints {
-            $0.left.equalTo(timeSetButton.snp.right).offset(10)
-            $0.right.equalToSuperview().offset(-20)
+            $0.right.equalToSuperview().inset(10)
             $0.centerY.equalToSuperview()
+            $0.width.equalTo(timerButton.snp.height)
         }
     }
     
-    func updateUI(title: String, time: String) {
+    func updateUI(title: String, min: Int, sec: Int) {
+        let mintoStr = String(format: "%02d", min)
+        let sectoStr = String(format: "%02d", sec)
         titleLabel.text = title
-        timeSetButton.setTitle(time, for: .normal)
+        timeSetButton.setTitle("\(mintoStr):\(sectoStr)", for: .normal)
     }
 }

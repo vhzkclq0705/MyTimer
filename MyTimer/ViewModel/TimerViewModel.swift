@@ -31,7 +31,7 @@ class TimerViewModel {
     }
     
     func timerInfo(section: Int, index: Int) -> Timer {
-        return sections[section].timers[index]
+        return sections[section].timers[index - 1]
     }
     
     func deleteSection(_ section: Section) {

@@ -9,5 +9,6 @@ import Foundation
 
 struct Timer: Codable, Equatable {
     var title: String
-    var time: String
+    var min: Int
+    var sec: Int
 }
