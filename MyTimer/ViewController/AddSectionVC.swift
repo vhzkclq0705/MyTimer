@@ -7,8 +7,10 @@
 
 import UIKit
 
+// ViewController for AddSectionView
 class AddSectionVC: UIViewController {
 
+    // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -16,20 +18,24 @@ class AddSectionVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        // FIXME:
         NotificationCenter.default.removeObserver(
             self, name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
 }
 
 extension AddSectionVC {
+    // MARK: - Funcs for setup UI
     func setup() {
         view.backgroundColor = .clear
         
+        // FIXME:
         NotificationCenter.default.addObserver(
             self, selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
     
+    // MARK: - Funcs for create AddSectionView
     func addSubView() {
         let width: CGFloat = view.bounds.width * 2 / 3
         let heigth: CGFloat = width / 1.5

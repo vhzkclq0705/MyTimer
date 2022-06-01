@@ -7,6 +7,7 @@
 
 import UIKit
 
+// View for detail of Timer
 class DetailTimerView: UIView {
-
+    // TODO: About the View
 }

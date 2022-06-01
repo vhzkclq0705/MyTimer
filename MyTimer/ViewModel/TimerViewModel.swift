@@ -8,11 +8,13 @@
 import Foundation
 import UIKit
 
+// ViewModel for main view
 class TimerViewModel {
     
     let manager = TimerManager.shared
     var sections = [Section]()
     
+    // MARK: - Funcs for UI
     var numOfSections: Int {
         return sections.count
     }
@@ -34,6 +36,7 @@ class TimerViewModel {
         return sections[section].timers[index - 1]
     }
     
+    // MARK: - Funcs for delete Section and Timer
     func deleteSection(_ section: Section) {
         sections = sections.filter { $0 != section }
         save()
@@ -44,6 +47,7 @@ class TimerViewModel {
         save()
     }
     
+    // MARK: - Funcs for save and load data
     func save() {
         manager.sections = sections
         manager.save()

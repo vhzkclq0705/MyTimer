@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-// MARK: Enum for custom color
+// Enum for custom color
 enum Colors: Int {
     case main
     case first
@@ -20,7 +20,7 @@ enum Colors: Int {
     case seventh
 }
 
-// MARK: Func that return custom colors to UIColor
+// MARK: - Func that return custom colors to UIColor
 extension Colors {
     static func color(_ num: Int) -> UIColor {
         switch num {

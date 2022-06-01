@@ -7,8 +7,10 @@
 
 import UIKit
 
+// ViewController for AddTimerView
 class AddTimerVC: UIViewController {
-
+    
+    // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -22,14 +24,17 @@ class AddTimerVC: UIViewController {
 }
 
 extension AddTimerVC {
+    // MARK: - Funcs for setup UI
     func setup() {
         view.backgroundColor = .clear
         
+        // FIXME: 
         NotificationCenter.default.addObserver(
             self, selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
     
+    // MARK: - Funcs for create AddSectionView
     func addSubView() {
         view.backgroundColor = .clear
         

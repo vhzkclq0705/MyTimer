@@ -9,9 +9,10 @@ import UIKit
 import SnapKit
 import ExpyTableView
 
-// UI Setup
+// ViewController for main View
 class TimerListVC: UIViewController {
-
+    
+    // MARK: - Create UI items
     lazy var tableView: ExpyTableView = {
         let tableView = ExpyTableView(frame: .zero, style: .insetGrouped)
         tableView.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
@@ -74,6 +75,7 @@ class TimerListVC: UIViewController {
     
     let viewModel = TimerViewModel()
     
+    // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -85,54 +87,7 @@ class TimerListVC: UIViewController {
     }
 }
 
-// About how to display TableView
-extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
-    // true = Expandable, false = Non-Expandable(Same as default TableView)
-    func tableView(_ tableView: ExpyTableView, canExpandSection section: Int) -> Bool {
-        return true
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numOfSections
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numOfTimers(section) + 1
-    }
-    
-    // About Section headers
-    func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
-        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else { return UITableViewCell() }
-        
-        let title = viewModel.sectionTitle(section)
-        let color = viewModel.sectionColor(section)
-        
-        header.updateUI(text: title, color: color)
-        
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
-        
-        let timer = viewModel.timerInfo(section: indexPath.section, index: indexPath.row)
-        
-        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
-    // Check whether the Section is open or closed.
-    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
-        // This function is only a stub.
-    }
-}
-
-// Functions for UI setup
+// MARK: - Funcs for setup UI
 extension TimerListVC {
     func setup() {
         viewModel.load()
@@ -188,6 +143,54 @@ extension TimerListVC {
     }
 }
 
+// MARK: - Funcs for TableView
+extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
+    // true = Expandable, false = Non-Expandable(Same as default TableView)
+    func tableView(_ tableView: ExpyTableView, canExpandSection section: Int) -> Bool {
+        return true
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.numOfSections
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numOfTimers(section) + 1
+    }
+    
+    // About Section headers
+    func tableView(_ tableView: ExpyTableView, expandableCellForSection section: Int) -> UITableViewCell {
+        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else { return UITableViewCell() }
+        
+        let title = viewModel.sectionTitle(section)
+        let color = viewModel.sectionColor(section)
+        
+        header.updateUI(text: title, color: color)
+        
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
+        
+        let timer = viewModel.timerInfo(section: indexPath.section, index: indexPath.row)
+        
+        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    // Check whether the Section is open or closed.
+    func tableView(_ tableView: ExpyTableView, expyState state: ExpyState, changeForSection section: Int) {
+        // This function is only a stub.
+    }
+}
+
+// MARK: - Funcs for Button actions
 extension TimerListVC {
     @objc func addButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected

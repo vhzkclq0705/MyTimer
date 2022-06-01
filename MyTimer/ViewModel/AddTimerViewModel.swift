@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// ViewModel for add timer View
 class AddTimerViewModel {
     
     let manager = TimerManager.shared
@@ -18,24 +19,13 @@ class AddTimerViewModel {
     var time = [0, 0]
     let timeUnits = ["분", "초"]
     
+    // MARK: - Funcs for UI
     var numOfComponents: Int {
         return 4
     }
     
     func numOfRows(_ component: Int) -> Int {
         return component % 2 == 0 ? rows.count : 1
-    }
-    
-    func didSelectTime(row: Int, component: Int) {
-        if component == 0 {
-            time[0] = row
-        } else if component == 2 {
-            time[1] = row
-        }
-    }
-    
-    func addTimer(title: String) {
-        manager.addTimer(title: title, min: time[0], sec: time[1], section: section)
     }
     
     func componentsLabel(row: Int, component: Int) -> UIView {
@@ -53,6 +43,20 @@ class AddTimerViewModel {
         return label
     }
     
+    // MARK: - Funcs for add Timer
+    func didSelectTime(row: Int, component: Int) {
+        if component == 0 {
+            time[0] = row
+        } else if component == 2 {
+            time[1] = row
+        }
+    }
+    
+    func addTimer(title: String) {
+        manager.addTimer(title: title, min: time[0], sec: time[1], section: section)
+    }
+    
+    // MARK: - Func for load data
     func loadSections() {
         sections = manager.sections.map { $0.title }
     }

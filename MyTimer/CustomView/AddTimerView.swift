@@ -175,7 +175,7 @@ extension AddTimerView {
     }
 }
 
-// MARK: Funcs for Button actions
+// MARK: - Funcs for Button actions
 extension AddTimerView {
     @objc func okButtonTapped(_ sender: UIButton) {
         guard let section = sectionLable.text, section.isEmpty == false else { return }
@@ -199,9 +199,9 @@ extension AddTimerView {
     }
 }
 
-// MARK: Funcs for UIPickerView
+// MARK: - Funcs for PickerView
 extension AddTimerView: UIPickerViewDelegate, UIPickerViewDataSource {
-    // MARK:
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return viewModel.numOfComponents
     }
@@ -223,6 +223,7 @@ extension AddTimerView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
+// MARK: - Funcs for TextField
 extension AddTimerView: UITextFieldDelegate {
     
 }

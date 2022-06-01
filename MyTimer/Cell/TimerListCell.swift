@@ -8,10 +8,12 @@
 import UIKit
 import SnapKit
 
+// Cell for TableView
 class TimerListCell: UITableViewCell {
     
     static let id = "timerListCell"
     
+    // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -44,12 +46,14 @@ class TimerListCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Funcs for life cycle
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
     }
 }
 
+// MARK: - Funcs for setup UI
 extension TimerListCell {
     func setup() {
         self.backgroundColor = .white
@@ -75,6 +79,7 @@ extension TimerListCell {
         }
     }
     
+    // MARK: - Fuc for update UI
     func updateUI(title: String, min: Int, sec: Int) {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)

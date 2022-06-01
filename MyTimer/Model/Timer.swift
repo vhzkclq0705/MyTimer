@@ -7,6 +7,7 @@
 
 import Foundation
 
+// Model for timer
 struct Timer: Codable, Equatable {
     var title: String
     var min: Int

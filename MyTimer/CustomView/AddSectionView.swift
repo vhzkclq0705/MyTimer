@@ -8,9 +8,10 @@
 import UIKit
 import SnapKit
 
-// MARK: View for add new Section
+// View for add new Section
 class AddSectionView: UIView {
     
+    // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "섹션을 추가하세요!"
@@ -46,6 +47,7 @@ class AddSectionView: UIView {
         return button
     }()
     
+    // MARK: - Init Class
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -56,7 +58,7 @@ class AddSectionView: UIView {
     }
 }
 
-// MARK: Funcs for setup UI
+// MARK: - Funcs for setup UI
 extension AddSectionView {
     func setup() {
         self.backgroundColor = .white
@@ -91,7 +93,7 @@ extension AddSectionView {
     }
 }
 
-// MARK: Funcs for Button actions
+// MARK: - Funcs for Button actions
 extension AddSectionView {
     @objc func okButtonTapped(_ sender: UIButton) {
         guard let term = textField.text, term.isEmpty == false else { return }
@@ -109,7 +111,7 @@ extension AddSectionView {
     }
 }
 
-// MARK: Funcs for TextField
+// MARK: - Funcs for TextField
 extension AddSectionView: UITextFieldDelegate {
-    
+    // TODO: About the TextField
 }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// Model for Section
 struct Section: Codable, Equatable {
     var title: String
     var timers = [Timer]()

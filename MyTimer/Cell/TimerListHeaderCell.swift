@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import ExpyTableView
 
+// Header Cell for TableView
 class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     static let id = "timerListHeaderCell"
     
-    var color: UIColor!
-    
+    // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 25, weight: .bold)
@@ -35,6 +35,9 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         return button
     }()
     
+    var color: UIColor!
+    
+    // MARK: - Funcs for life cycle
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
@@ -42,6 +45,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
 }
 
+// MARK: - Funcs for setup UI
 extension TimerListHeaderCell {
     func setup() {
         self.selectionStyle = .none
@@ -61,6 +65,7 @@ extension TimerListHeaderCell {
         }
     }
     
+    // MARK: - Fucs for update UI
     func updateUI(text: String, color: UIColor) {
         titleLabel.text = text
         self.backgroundColor = color
@@ -81,5 +86,3 @@ extension TimerListHeaderCell {
         }
     }
 }
-
-
