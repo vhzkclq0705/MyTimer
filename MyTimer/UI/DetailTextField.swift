@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UITextField {
+    // MARK: Func for custom TextField
     func setupDetailTextField(_ title: String) {
         self.backgroundColor = .white
         self.textColor = .black
@@ -20,6 +21,7 @@ extension UITextField {
         self.layer.cornerRadius = 5
     }
     
+    // MARK: Func for left padding in TextField
     func addLeftPadding() {
       let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.frame.height))
       self.leftView = paddingView

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension UIButton {
+    // MARK: Func for custom Button
     func setupDetailButton() {
         self.backgroundColor = Colors.color(0)
         self.tintColor = .white

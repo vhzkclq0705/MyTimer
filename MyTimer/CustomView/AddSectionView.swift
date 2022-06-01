@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+// MARK: View for add new Section
 class AddSectionView: UIView {
     
     lazy var titleLabel: UILabel = {
@@ -55,6 +56,7 @@ class AddSectionView: UIView {
     }
 }
 
+// MARK: Funcs for setup UI
 extension AddSectionView {
     func setup() {
         self.backgroundColor = .white
@@ -86,28 +88,28 @@ extension AddSectionView {
             $0.left.equalToSuperview().inset(30)
             $0.right.equalTo(textField.snp.centerX).offset(-20)
         }
-        
     }
-    
+}
+
+// MARK: Funcs for Button actions
+extension AddSectionView {
     @objc func okButtonTapped(_ sender: UIButton) {
         guard let term = textField.text, term.isEmpty == false else { return }
         TimerManager.shared.addSection(term)
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil, userInfo: nil)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         self.removeFromSuperview()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         self.removeFromSuperview()
     }
 }
 
+// MARK: Funcs for TextField
 extension AddSectionView: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
+    
 }

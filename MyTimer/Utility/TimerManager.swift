@@ -8,13 +8,17 @@
 import Foundation
 import UIKit
 
+// MARK: Manager for model(Section) management
 class TimerManager {
     static let shared = TimerManager()
     
     private init() {}
     
     var sections = [Section]()
-    
+}
+
+// MARK: Funcs for add Section and Timer
+extension TimerManager {
     func addSection(_ title: String) {
         let section = Section(title: title,timers: [])
         
@@ -27,7 +31,10 @@ class TimerManager {
         sections[section].timers.append(timer)
         save()
     }
-    
+}
+
+// MARK: Funcs for save and load datas
+extension TimerManager {
     func save() {
         UserDefaults.standard.set(try? PropertyListEncoder().encode(sections), forKey: "Sections")
         

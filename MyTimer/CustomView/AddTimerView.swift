@@ -9,8 +9,10 @@ import UIKit
 import SnapKit
 import DropDown
 
+// View for add new Timer
 class AddTimerView: UIView {
     
+    // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "타이머를 추가하세요!"
@@ -19,7 +21,7 @@ class AddTimerView: UIView {
         
         return label
     }()
-    
+
     lazy var sectionLable: UITextField = {
         let textField = UITextField()
         textField.setupDetailTextField("섹션 선택")
@@ -80,9 +82,11 @@ class AddTimerView: UIView {
         return button
     }()
     
+    // MARK: - Create viewModel and dropDown
     let viewModel = AddTimerViewModel()
     let dropDown = DropDown()
     
+    // MARK: - Init Class
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -93,13 +97,14 @@ class AddTimerView: UIView {
     }
 }
 
-extension AddTimerView: UITextFieldDelegate {
+// MARK: - Funcs for setup UI
+extension AddTimerView {
     func setup() {
         self.backgroundColor = .white
         self.layer.cornerRadius = 15
         viewModel.loadSections()
         initDropDown()
-        setDropDown()
+        setupDropDown()
         
         [sectionLable, sectionButton]
             .forEach { sectionView.addSubview($0) }
@@ -155,7 +160,7 @@ extension AddTimerView: UITextFieldDelegate {
         }
     }
     
-    func setDropDown() {
+    func setupDropDown() {
         dropDown.dataSource = viewModel.sections
         dropDown.anchorView = sectionView
         dropDown.bottomOffset = CGPoint(x: 0, y: 30)
@@ -170,21 +175,21 @@ extension AddTimerView: UITextFieldDelegate {
     }
 }
 
+// MARK: Funcs for Button actions
 extension AddTimerView {
     @objc func okButtonTapped(_ sender: UIButton) {
         guard let section = sectionLable.text, section.isEmpty == false else { return }
         guard let title = textField.text, title.isEmpty == false else { return }
         viewModel.addTimer(title: title)
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil, userInfo: nil)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         self.removeFromSuperview()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         self.removeFromSuperview()
     }
     
@@ -194,8 +199,9 @@ extension AddTimerView {
     }
 }
 
+// MARK: Funcs for UIPickerView
 extension AddTimerView: UIPickerViewDelegate, UIPickerViewDataSource {
-    
+    // MARK:
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return viewModel.numOfComponents
     }
@@ -215,4 +221,8 @@ extension AddTimerView: UIPickerViewDelegate, UIPickerViewDataSource {
         
         return viewModel.componentsLabel(row: row, component: component)
     }
+}
+
+extension AddTimerView: UITextFieldDelegate {
+    
 }

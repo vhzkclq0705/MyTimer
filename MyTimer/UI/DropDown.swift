@@ -10,6 +10,7 @@ import UIKit
 import DropDown
 
 extension AddTimerView {
+    // MARK: Func for init attributes of DropDown
     func initDropDown() {
         DropDown.appearance().textColor = .darkGray
         DropDown.appearance().selectedTextColor = .black
