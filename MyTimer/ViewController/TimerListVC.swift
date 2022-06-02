@@ -181,7 +181,26 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return indexPath.row == 0 ? 50 : 80
+    }
+    
+    // TableView swipe action
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let action = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, _) in
+            if indexPath.row == 0 {
+                guard let section = self?.viewModel.sections[indexPath.section] else { return }
+                self?.viewModel.deleteSection(section)
+            } else {
+                guard let timer = self?.viewModel.timerInfo(section: indexPath.section, index: indexPath.row) else { return }
+                self?.viewModel.deleteTimer(section: indexPath.section, timer: timer)
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        action.image = UIImage(systemName: "trash.fill")
+        action.backgroundColor = viewModel.sectionColor(indexPath.section)
+        
+        return UISwipeActionsConfiguration(actions: [action])
     }
     
     // Check whether the Section is open or closed.
