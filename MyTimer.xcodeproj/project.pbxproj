@@ -14,8 +14,6 @@
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
 		76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionVC.swift */; };
 		76CC802E2844901100683831 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802D2844901100683831 /* Section.swift */; };
-		76CC80302844C54B00683831 /* AddSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802F2844C54A00683831 /* AddSectionView.swift */; };
-		76CC80322844C56200683831 /* AddTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80312844C56200683831 /* AddTimerView.swift */; };
 		76CC80342844C57100683831 /* DetailTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80332844C57100683831 /* DetailTimerView.swift */; };
 		76CC80362844C7C800683831 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80352844C7C800683831 /* Colors.swift */; };
 		76CC803A2844DE0A00683831 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80392844DE0A00683831 /* TimerManager.swift */; };
@@ -43,8 +41,6 @@
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
 		76558921284623A400DB4FC2 /* AddSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionVC.swift; sourceTree = "<group>"; };
 		76CC802D2844901100683831 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
-		76CC802F2844C54A00683831 /* AddSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionView.swift; sourceTree = "<group>"; };
-		76CC80312844C56200683831 /* AddTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerView.swift; sourceTree = "<group>"; };
 		76CC80332844C57100683831 /* DetailTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerView.swift; sourceTree = "<group>"; };
 		76CC80352844C7C800683831 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		76CC80392844DE0A00683831 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
@@ -152,8 +148,6 @@
 		76D9AE29284368D500A2F5B9 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				76CC802F2844C54A00683831 /* AddSectionView.swift */,
-				76CC80312844C56200683831 /* AddTimerView.swift */,
 				76CC80332844C57100683831 /* DetailTimerView.swift */,
 			);
 			path = CustomView;
@@ -324,8 +318,6 @@
 				76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */,
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderCell.swift in Sources */,
 				765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */,
-				76CC80302844C54B00683831 /* AddSectionView.swift in Sources */,
-				76CC80322844C56200683831 /* AddTimerView.swift in Sources */,
 				7655340828452BC800C79484 /* DetailTextField.swift in Sources */,
 				76553406284514B900C79484 /* DetailButton.swift in Sources */,
 				76D9AE382843B16400A2F5B9 /* TimerListCell.swift in Sources */,
