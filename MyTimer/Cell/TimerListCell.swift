@@ -17,7 +17,7 @@ class TimerListCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
     }()
@@ -25,7 +25,7 @@ class TimerListCell: UITableViewCell {
     lazy var timeSetButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.black , for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
+        button.titleLabel?.font = UIFont(name: "establishRoomNo703", size: 30)
         
         return button
     }()

@@ -17,7 +17,7 @@ class AddTimerVC: UIViewController {
         let label = UILabel()
         label.text = "타이머를 추가하세요!"
         label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
     }()
@@ -125,18 +125,16 @@ extension AddTimerVC {
         view.addSubview(subView)
         
         subView.snp.makeConstraints {
-            let width: CGFloat = view.bounds.width * 1 / 5
-            let heigth: CGFloat = view.bounds.height * 1 / 4
-            
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(width)
-            $0.top.bottom.equalToSuperview().inset(heigth)
+            $0.left.right.equalTo(pickerView).inset(-50)
+            $0.top.equalTo(pickerView).offset(-150)
+            $0.bottom.equalTo(pickerView).offset(100)
         }
         
         pickerView.snp.makeConstraints {
-            $0.centerY.equalTo(subView).offset(35)
-            $0.left.right.equalTo(subView).inset(10)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(200)
             $0.height.equalTo(120)
         }
         

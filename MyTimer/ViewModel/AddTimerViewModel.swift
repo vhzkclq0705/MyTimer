@@ -31,7 +31,7 @@ class AddTimerViewModel {
     func componentsLabel(row: Int, component: Int) -> UIView {
         let label = UILabel()
         label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 25)
         label.textAlignment = component % 2 == 0 ? .right : .center
         
         switch component {

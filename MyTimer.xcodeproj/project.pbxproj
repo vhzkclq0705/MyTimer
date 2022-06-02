@@ -13,6 +13,7 @@
 		7655891E2846114300DB4FC2 /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891D2846114300DB4FC2 /* DropDown.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
 		76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionVC.swift */; };
+		76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */; };
 		76CC802E2844901100683831 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802D2844901100683831 /* Section.swift */; };
 		76CC80342844C57100683831 /* DetailTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80332844C57100683831 /* DetailTimerView.swift */; };
 		76CC80362844C7C800683831 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80352844C7C800683831 /* Colors.swift */; };
@@ -40,6 +41,7 @@
 		7655891D2846114300DB4FC2 /* DropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
 		76558921284623A400DB4FC2 /* AddSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionVC.swift; sourceTree = "<group>"; };
+		76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = establishRoomNo703.ttf; sourceTree = "<group>"; };
 		76CC802D2844901100683831 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		76CC80332844C57100683831 /* DetailTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerView.swift; sourceTree = "<group>"; };
 		76CC80352844C7C800683831 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76B3DC582848EE3000342295 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		76D9AE052843637200A2F5B9 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +101,7 @@
 		76D9AE102843637200A2F5B9 /* MyTimer */ = {
 			isa = PBXGroup;
 			children = (
+				76B3DC582848EE3000342295 /* Font */,
 				76D9AE33284383EC00A2F5B9 /* UI */,
 				76D9AE2A284368DD00A2F5B9 /* Utility */,
 				76D9AE29284368D500A2F5B9 /* CustomView */,
@@ -250,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76D9AE1E2843637400A2F5B9 /* LaunchScreen.storyboard in Resources */,
+				76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */,
 				76D9AE1B2843637400A2F5B9 /* Assets.xcassets in Resources */,
 				76D9AE192843637200A2F5B9 /* Main.storyboard in Resources */,
 			);

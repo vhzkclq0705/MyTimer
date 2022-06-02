@@ -59,7 +59,7 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "섹션 추가"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
     }()
@@ -68,7 +68,7 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "타이머 추가"
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
     }()
@@ -195,7 +195,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
                 guard let timer = self?.viewModel.timerInfo(section: indexPath.section, index: indexPath.row) else { return }
                 self?.viewModel.deleteTimer(section: indexPath.section, timer: timer)
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
         }
         action.image = UIImage(systemName: "trash.fill")
         action.backgroundColor = viewModel.sectionColor(indexPath.section)

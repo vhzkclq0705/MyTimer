@@ -17,7 +17,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 25)
         
         return label
     }()

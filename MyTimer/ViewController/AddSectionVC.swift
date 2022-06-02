@@ -16,7 +16,7 @@ class AddSectionVC: UIViewController {
         let label = UILabel()
         label.text = "섹션을 추가하세요!"
         label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
     }()
@@ -79,36 +79,33 @@ extension AddSectionVC {
         view.addSubview(subView)
         
         subView.snp.makeConstraints {
-            let width: CGFloat = view.bounds.width * 1 / 4
-            let heigth: CGFloat = view.bounds.height * 2 / 5
-            
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(width)
-            $0.top.bottom.equalToSuperview().inset(heigth)
+            $0.left.right.equalTo(textField).inset(-50)
+            $0.top.bottom.equalTo(textField).inset(-70)
         }
         
         textField.snp.makeConstraints {
-            $0.centerX.equalTo(subView)
-            $0.centerY.equalTo(subView)
-            $0.left.right.equalTo(subView).inset(30)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(200)
             $0.height.equalTo(30)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(textField.snp.top).offset(-15)
-            $0.centerX.equalTo(subView)
+            $0.bottom.equalTo(textField.snp.top).offset(-20)
+            $0.centerX.equalTo(textField)
         }
         
         okButton.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(15)
-            $0.right.equalTo(subView).inset(30)
+            $0.top.equalTo(textField.snp.bottom).offset(20)
+            $0.right.equalTo(textField)
             $0.left.equalTo(textField.snp.centerX).offset(20)
         }
         
         cancleButton.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(15)
-            $0.left.equalTo(subView).inset(30)
+            $0.top.equalTo(textField.snp.bottom).offset(20)
+            $0.left.equalTo(textField)
             $0.right.equalTo(textField.snp.centerX).offset(-20)
         }
     }
