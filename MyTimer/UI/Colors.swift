@@ -18,10 +18,8 @@ enum Colors: Int {
     case fifth
     case sixth
     case seventh
-}
-
-// MARK: - Func that return custom colors to UIColor
-extension Colors {
+    
+    // MARK: - Func that return custom colors to UIColor
     static func color(_ num: Int) -> UIColor {
         switch num {
         case 0: return #colorLiteral(red: 1, green: 0.7764705882, blue: 1, alpha: 1)     // Main Color

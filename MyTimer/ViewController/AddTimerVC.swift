@@ -97,7 +97,10 @@ class AddTimerVC: UIViewController {
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        viewModel.loadSections()
+        setupDropDown()
+        setupUI()
+        initDropDown()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,12 +111,8 @@ class AddTimerVC: UIViewController {
 
 // MARK: - Funcs for setup UI
 extension AddTimerVC {
-    func setup() {
+    func setupUI() {
         view.backgroundColor = .clear
-        
-        viewModel.loadSections()
-        initDropDown()
-        setupDropDown()
         
         [sectionLable, sectionButton]
             .forEach { sectionView.addSubview($0) }
@@ -178,6 +177,17 @@ extension AddTimerVC {
         }
     }
     
+    // Func for init attributes of DropDown
+    func initDropDown() {
+        DropDown.appearance().textColor = .darkGray
+        DropDown.appearance().selectedTextColor = .black
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().selectionBackgroundColor = .lightGray
+        DropDown.appearance().setupCornerRadius(5)
+        dropDown.dismissMode = .automatic
+    }
+    
+    // Func for setup DropDown
     func setupDropDown() {
         dropDown.dataSource = viewModel.sections
         dropDown.anchorView = sectionView

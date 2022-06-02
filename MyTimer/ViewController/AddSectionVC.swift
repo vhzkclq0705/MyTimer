@@ -59,7 +59,7 @@ class AddSectionVC: UIViewController {
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        setupUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,7 +70,7 @@ class AddSectionVC: UIViewController {
 
 // MARK: - Funcs for setup UI
 extension AddSectionVC {
-    func setup() {
+    func setupUI() {
         view.backgroundColor = .clear
         
         [titleLabel, textField, okButton, cancleButton]

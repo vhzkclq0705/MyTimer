@@ -78,7 +78,8 @@ class TimerListVC: UIViewController {
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        viewModel.load()
+        setupUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,9 +90,7 @@ class TimerListVC: UIViewController {
 
 // MARK: - Funcs for setup UI
 extension TimerListVC {
-    func setup() {
-        viewModel.load()
-        
+    func setupUI() {
         [tableView, addTimerButton, addSectionButton,
          addButton, addTimerLabel, addSectionLabel]
         .forEach { view.addSubview($0) }
@@ -180,6 +179,17 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row != 0 {
+            let vc = DetailTimerVC()
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            view.layer.opacity = 0.7
+            
+            present(vc, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.row == 0 ? 50 : 80
     }
@@ -235,6 +245,7 @@ extension TimerListVC {
     }
     
     @objc func reload() {
+        view.layer.opacity = 1
         viewModel.load()
         self.tableView.reloadData()
     }
