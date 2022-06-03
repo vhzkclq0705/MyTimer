@@ -16,7 +16,6 @@ class DetailTimerVC: UIViewController {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont(name: "establishRoomNo703", size: 30)
-        label.text = titleText
         
         return label
     }()
@@ -25,7 +24,6 @@ class DetailTimerVC: UIViewController {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont(name: "establishRoomNo703", size: 80)
-        label.text = "00:00"
         
         return label
     }()
@@ -42,6 +40,7 @@ class DetailTimerVC: UIViewController {
         let button = UIButton()
         button.timerButtons(false)
         button.setImage(UIImage(systemName: "arrow.counterclockwise"), for: .normal)
+        button.addTarget(self, action: #selector(resetButtonTapped(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -51,6 +50,7 @@ class DetailTimerVC: UIViewController {
         button.timerButtons(false)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.setImage(UIImage(systemName: "pause.fill"), for: .selected)
+        button.addTarget(self, action: #selector(startButtonTapped(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -65,10 +65,14 @@ class DetailTimerVC: UIViewController {
     }()
     
     var color: UIColor!
-    var titleText: String!
+    var myTimer: MyTimer!
+    var isInited = true
+    var timer = Timer()
+    let viewModel = DetailTimerViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.loadTimer(myTimer)
         setupUI()
     }
 }
@@ -76,8 +80,9 @@ class DetailTimerVC: UIViewController {
 extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
+        titleLabel.text = viewModel.title
+        remainingTime.text = viewModel.timeFormatted()
         circleProgrssBar.createCircularPath(color)
-        circleProgrssBar.progressAnimation(10)
         
         [ titleLabel ,remainingTime, resetButton, startButton, cancleButton ]
             .forEach { subView.addSubview($0) }
@@ -116,11 +121,67 @@ extension DetailTimerVC {
         cancleButton.snp.makeConstraints {
             $0.top.right.equalTo(subView).inset(5)
         }
+    }
+}
+
+extension DetailTimerVC {
+    func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        timer.fire()
+    }
+    
+    func stopTimer() {
+        timer.invalidate()
+    }
+    
+    func resetTimer() {
+        stopTimer()
         
+        startButton.isSelected = false
+        isInited = true
+        
+        circleProgrssBar.reset()
+        viewModel.initTime()
+        remainingTime.text = viewModel.timeFormatted()
+    }
+    
+    @objc func updateCounter() {
+        viewModel.updateCounter()
+        if viewModel.remainingTime > 0 {
+            remainingTime.text = viewModel.timeFormatted()
+        } else {
+            resetTimer()
+        }
+    }
+    
+    @objc func resetButtonTapped(_ sender: Any) {
+        resetTimer()
+    }
+    
+    @objc func startButtonTapped(_ sender: UIButton) {
+        startButton.isSelected = !startButton.isSelected
+        
+        if startButton.isSelected {
+            startTimer()
+            if isInited {
+                circleProgrssBar.progressAnimation(viewModel.remainingTime)
+                isInited = false
+            }
+            circleProgrssBar.resumeAnimation()
+        } else {
+            stopTimer()
+            circleProgrssBar.pauseLayer()
+        }
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
+        timer.invalidate()
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         dismiss(animated: true)
     }
+    
+    
+    
 }

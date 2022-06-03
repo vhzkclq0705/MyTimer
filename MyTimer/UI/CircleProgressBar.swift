@@ -10,7 +10,7 @@ import UIKit
 
 class CircleProgressBar: UIView {
     
-    var timerduration: TimeInterval = 10
+    var timerduration: TimeInterval?
     var circleLayer = CAShapeLayer()
     var progressLayer = CAShapeLayer()
     var startPoint = CGFloat(-Double.pi / 2)
@@ -38,7 +38,6 @@ class CircleProgressBar: UIView {
         progressLayer.path = circularPath.cgPath
         setupLayerUI(layer: progressLayer, width: 20, end: 0, color: .lightGray)
         layer.addSublayer(progressLayer)
-        
     }
     
     func setupLayerUI(layer: CAShapeLayer, width: CGFloat, end: CGFloat, color: UIColor) {
@@ -60,5 +59,25 @@ class CircleProgressBar: UIView {
         circularProgressAnimation.isRemovedOnCompletion = false
         
         progressLayer.add(circularProgressAnimation, forKey: "progressAnimation")
+    }
+    
+    func pauseLayer(){
+        let pauseTime = progressLayer.convertTime(CACurrentMediaTime(), from: nil)
+        progressLayer.speed = 0
+        progressLayer.timeOffset = pauseTime
+    }
+    
+    func resumeAnimation(){
+        let pauseTime = progressLayer.timeOffset
+        progressLayer.beginTime = 0
+        progressLayer.speed = 1
+        
+        let timeSincePause = progressLayer.convertTime(CACurrentMediaTime(), from: nil) - pauseTime
+        
+        progressLayer.beginTime = timeSincePause
+    }
+    
+    func reset() {
+        progressLayer.removeAnimation(forKey: "progressAnimation")
     }
 }

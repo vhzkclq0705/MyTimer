@@ -289,7 +289,7 @@ extension TimerListVC {
     func popupDetailTimer(_ indexPath: IndexPath) {
         let vc = DetailTimerVC()
         vc.color = viewModel.sectionColor(indexPath.section)
-        vc.titleText = viewModel.timerInfo(indexPath).title
+        vc.myTimer = viewModel.timerInfo(indexPath)
         
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve

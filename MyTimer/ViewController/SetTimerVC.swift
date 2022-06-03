@@ -54,7 +54,7 @@ class SetTimerVC: UIViewController {
     }()
     
     let viewModel = SetTimerViewModel()
-    var timer: Timer!
+    var timer: MyTimer!
     var timerIndexPath: IndexPath!
     
     override func viewDidLoad() {

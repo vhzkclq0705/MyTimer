@@ -32,7 +32,7 @@ class TimerViewModel {
         return Colors.color(num)
     }
     
-    func timerInfo(_ indexPath: IndexPath) -> Timer {
+    func timerInfo(_ indexPath: IndexPath) -> MyTimer {
         return sections[indexPath.section].timers[indexPath.row - 1]
     }
     
@@ -42,7 +42,7 @@ class TimerViewModel {
         save()
     }
     
-    func deleteTimer(section: Int, timer: Timer) {
+    func deleteTimer(section: Int, timer: MyTimer) {
         sections[section].timers = sections[section].timers.filter { $0 != timer }
         save()
     }
