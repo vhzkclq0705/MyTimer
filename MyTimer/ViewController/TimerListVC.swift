@@ -73,6 +73,22 @@ class TimerListVC: UIViewController {
         return label
     }()
     
+    lazy var controlView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isHidden = true
+        
+        return view
+    }()
+    
+    lazy var recognizeTapGesture: UITapGestureRecognizer = {
+            let gesture = UITapGestureRecognizer()
+            gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
+            
+            return gesture
+        }()
+    
+    // MARK: - viewModel
     let viewModel = TimerViewModel()
     
     // MARK: - Funcs for life cycle
@@ -91,8 +107,13 @@ class TimerListVC: UIViewController {
 // MARK: - Funcs for setup UI
 extension TimerListVC {
     func setupUI() {
-        [tableView, addTimerButton, addSectionButton,
-         addButton, addTimerLabel, addSectionLabel]
+        [ addSectionButton, addTimerButton,
+          addTimerLabel, addSectionLabel ]
+            .forEach { controlView.addSubview($0) }
+        
+        controlView.addGestureRecognizer(recognizeTapGesture)
+
+        [ tableView, addButton, controlView ]
         .forEach { view.addSubview($0) }
         
         tableView.snp.makeConstraints {
@@ -122,6 +143,10 @@ extension TimerListVC {
         addSectionLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-180)
             $0.right.equalTo(addSectionButton.snp.left).offset(-10)
+        }
+        
+        controlView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         NotificationCenter.default.addObserver(
@@ -172,22 +197,18 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
         
-        let timer = viewModel.timerInfo(section: indexPath.section, index: indexPath.row)
-        
+        let timer = viewModel.timerInfo(indexPath)
         cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec)
         
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row != 0 {
-            let vc = DetailTimerVC()
-            vc.modalPresentationStyle = .overFullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            view.layer.opacity = 0.7
-            
-            present(vc, animated: true)
+        cell.timeSetButtonTapHandler = { [weak self] in
+            self?.popupTimeSet(indexPath)
         }
+        
+        cell.timerButtonTapHandler = { [weak self] in
+            self?.popupDetailTimer(indexPath)
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -202,7 +223,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
                 guard let section = self?.viewModel.sections[indexPath.section] else { return }
                 self?.viewModel.deleteSection(section)
             } else {
-                guard let timer = self?.viewModel.timerInfo(section: indexPath.section, index: indexPath.row) else { return }
+                guard let timer = self?.viewModel.timerInfo(indexPath) else { return }
                 self?.viewModel.deleteTimer(section: indexPath.section, timer: timer)
             }
             tableView.reloadData()
@@ -219,13 +240,16 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     }
 }
 
-// MARK: - Funcs for Button actions
+// MARK: - Funcs for actions
 extension TimerListVC {
+    @objc func recognizeTapped(_ sender: Any) {
+        addButton.isSelected = false
+        displayButtons(false)
+    }
+    
     @objc func addButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         displayButtons(sender.isSelected)
-        tableView.layer.opacity = sender.isSelected ? 0.7 : 1
-        tableView.isUserInteractionEnabled = !sender.isSelected
     }
     
     @objc func addTimerButtonTapped(_ sender: UIButton) {
@@ -250,8 +274,36 @@ extension TimerListVC {
         self.tableView.reloadData()
     }
     
+    func popupTimeSet(_ indexPath: IndexPath) {
+        let vc = SetTimerVC()
+        vc.timer = viewModel.timerInfo(indexPath)
+        vc.timerIndexPath = indexPath
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        view.layer.opacity = 0.7
+        
+        present(vc, animated: true)
+    }
+    
+    func popupDetailTimer(_ indexPath: IndexPath) {
+        let vc = DetailTimerVC()
+        vc.color = viewModel.sectionColor(indexPath.section)
+        vc.titleText = viewModel.timerInfo(indexPath).title
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        view.layer.opacity = 0.7
+        
+        present(vc, animated: true)
+    }
+    
     // AddButton tap animation
     func displayButtons(_ show: Bool) {
+        tableView.layer.opacity = show ? 0.7 : 1
+        tableView.isUserInteractionEnabled = !show
+        controlView.isHidden = !show
+        
         let angle: CGFloat = show ? Double.pi / 4 : 0
         UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.addButton.transform = CGAffineTransform(rotationAngle: angle)

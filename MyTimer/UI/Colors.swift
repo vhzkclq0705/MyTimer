@@ -22,7 +22,7 @@ enum Colors: Int {
     // MARK: - Func that return custom colors to UIColor
     static func color(_ num: Int) -> UIColor {
         switch num {
-        case 0: return #colorLiteral(red: 1, green: 0.7764705882, blue: 1, alpha: 1)     // Main Color
+        case 0: return #colorLiteral(red: 0.6288053989, green: 0.5686708689, blue: 0.9170587063, alpha: 1)     // Main Color
         case 1: return #colorLiteral(red: 1, green: 0.6784313725, blue: 0.6784313725, alpha: 1)     // ▽ Section Colors
         case 2: return #colorLiteral(red: 1, green: 0.8392156863, blue: 0.6470588235, alpha: 1)
         case 3: return #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)

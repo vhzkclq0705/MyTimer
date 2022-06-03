@@ -19,21 +19,19 @@ class CircleProgressBar: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
-        createCircularPath()
-        progressAnimation(timerduration)
     }
         
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func createCircularPath() {
+    func createCircularPath(_ color: UIColor) {
         // CircularPath for layer
         let circularPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: 150, startAngle: startPoint, endAngle: endPoint, clockwise: true)
         
         // Set circleLayer
         circleLayer.path = circularPath.cgPath
-        setupLayerUI(layer: circleLayer, width: 20, end: 1, color: .red)
+        setupLayerUI(layer: circleLayer, width: 20, end: 1, color: color)
         layer.addSublayer(circleLayer)
         
         // Set progressLayer

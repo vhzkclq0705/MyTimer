@@ -17,7 +17,7 @@ class TimerManager {
     
     var sections = [Section]()
     
-    // MARK: - Funcs for add Section and Timer
+    // MARK: - Funcs for Section and Timer
     func addSection(_ title: String) {
         let section = Section(title: title,timers: [])
         
@@ -28,6 +28,12 @@ class TimerManager {
     func addTimer(title: String, min: Int, sec: Int, section: Int) {
         let timer = Timer(title: title, min: min, sec: sec)
         sections[section].timers.append(timer)
+        save()
+    }
+    
+    func setTimer(section: Int, index: Int, min: Int, sec: Int) {
+        sections[section].timers[index].min = min
+        sections[section].timers[index].sec = sec
         save()
     }
     

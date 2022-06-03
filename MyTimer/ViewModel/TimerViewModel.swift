@@ -32,8 +32,8 @@ class TimerViewModel {
         return Colors.color(num)
     }
     
-    func timerInfo(section: Int, index: Int) -> Timer {
-        return sections[section].timers[index - 1]
+    func timerInfo(_ indexPath: IndexPath) -> Timer {
+        return sections[indexPath.section].timers[indexPath.row - 1]
     }
     
     // MARK: - Funcs for delete Section and Timer

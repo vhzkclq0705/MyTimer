@@ -26,6 +26,7 @@ class TimerListCell: UITableViewCell {
         let button = UIButton()
         button.setTitleColor(.black , for: .normal)
         button.titleLabel?.font = UIFont(name: "establishRoomNo703", size: 30)
+        button.addTarget(self, action: #selector(timeSetButtonTapped(_:)), for: .touchUpInside)
         
         return button
     }()
@@ -36,6 +37,7 @@ class TimerListCell: UITableViewCell {
         button.layer.borderColor = Colors.color(0).cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(timerButtonTapped(_:)), for: .touchUpInside)
         
         var config = UIButton.Configuration.plain()
         config.baseForegroundColor = .red
@@ -46,6 +48,10 @@ class TimerListCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Button tap handlers
+    var timeSetButtonTapHandler: (() -> Void)?
+    var timerButtonTapHandler: (() -> Void)?
+    
     // MARK: - Funcs for life cycle
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -53,8 +59,9 @@ class TimerListCell: UITableViewCell {
     }
 }
 
-// MARK: - Funcs for setup UI
+// MARK: - Funcs for UI
 extension TimerListCell {
+    // Setup UI
     func setup() {
         self.backgroundColor = .white
         self.selectionStyle = .none
@@ -79,11 +86,19 @@ extension TimerListCell {
         }
     }
     
-    // MARK: - Fuc for update UI
+    // Update UI
     func updateUI(title: String, min: Int, sec: Int) {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)
         titleLabel.text = title
         timeSetButton.setTitle("\(mintoStr):\(sectoStr)", for: .normal)
+    }
+    
+    @objc func timeSetButtonTapped(_ sender: UIButton) {
+        timeSetButtonTapHandler?()
+    }
+    
+    @objc func timerButtonTapped(_ sender: UIButton) {
+        timerButtonTapHandler?()
     }
 }

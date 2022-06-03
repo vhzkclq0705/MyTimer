@@ -12,6 +12,15 @@ class DetailTimerVC: UIViewController {
 
     lazy var circleProgrssBar = CircleProgressBar()
     
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont(name: "establishRoomNo703", size: 30)
+        label.text = titleText
+        
+        return label
+    }()
+    
     lazy var remainingTime: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -55,18 +64,22 @@ class DetailTimerVC: UIViewController {
         return button
     }()
     
+    var color: UIColor!
+    var titleText: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-
 }
 
 extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
+        circleProgrssBar.createCircularPath(color)
+        circleProgrssBar.progressAnimation(10)
         
-        [ remainingTime, resetButton, startButton, cancleButton ]
+        [ titleLabel ,remainingTime, resetButton, startButton, cancleButton ]
             .forEach { subView.addSubview($0) }
         
         [ subView, circleProgrssBar ]
@@ -82,6 +95,11 @@ extension DetailTimerVC {
             $0.bottom.equalTo(circleProgrssBar).offset(250)
             $0.left.right.equalTo(circleProgrssBar).inset(-180)
         }
+        
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(remainingTime.snp.top).offset(-10)
+        }
 
         remainingTime.snp.makeConstraints {
             $0.center.equalTo(circleProgrssBar)
@@ -89,12 +107,10 @@ extension DetailTimerVC {
 
         resetButton.snp.makeConstraints {
             $0.bottom.left.equalTo(subView).inset(20)
-            //$0.left.equalTo(subView).offset(50)
         }
         
         startButton.snp.makeConstraints {
             $0.bottom.right.equalTo(subView).inset(20)
-            //$0.left.equalTo(subView).offset(50)
         }
         
         cancleButton.snp.makeConstraints {

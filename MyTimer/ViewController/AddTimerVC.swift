@@ -61,6 +61,7 @@ class AddTimerVC: UIViewController {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
+        
         return pickerView
     }()
     
@@ -128,7 +129,7 @@ extension AddTimerVC {
             $0.centerY.equalToSuperview()
             $0.left.right.equalTo(pickerView).inset(-50)
             $0.top.equalTo(pickerView).offset(-150)
-            $0.bottom.equalTo(pickerView).offset(100)
+            $0.bottom.equalTo(pickerView).offset(70)
         }
         
         pickerView.snp.makeConstraints {
@@ -245,6 +246,8 @@ extension AddTimerVC {
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         dismiss(animated: true)
     }
     

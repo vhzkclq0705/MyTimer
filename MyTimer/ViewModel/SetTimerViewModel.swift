@@ -1,21 +1,18 @@
 //
-//  AddTimerViewModel.swift
+//  SetTimerViewModel.swift
 //  MyTimer
 //
-//  Created by 권오준 on 2022/05/31.
+//  Created by 권오준 on 2022/06/03.
 //
 
 import Foundation
 import UIKit
 
-// ViewModel for add timer View
-class AddTimerViewModel {
+class SetTimerViewModel {
     
     let timerManager = TimerManager.shared
     let pickerViewManager = PickerViewManager()
     
-    var sections = [String]()
-    var section: Int = 0
     
     // MARK: - Funcs for UI
     var numOfComponents: Int {
@@ -30,18 +27,16 @@ class AddTimerViewModel {
         pickerViewManager.componentsLabel(row: row, component: component)
     }
     
-    // MARK: - Funcs for Timer
+    // MARK: - Funcs for set Timer
     func didSelectTime(row: Int, component: Int) {
         pickerViewManager.didSelectTime(row: row, component: component)
     }
     
-    func addTimer(title: String) {
-        let time = pickerViewManager.time
-        timerManager.addTimer(title: title, min: time[0], sec: time[1], section: section)
-    }
-    
-    // MARK: - Func for load data
-    func loadSections() {
-        sections = timerManager.sections.map { $0.title }
+    func setTimer(_ indexpath: IndexPath) {
+        let min = pickerViewManager.time[0]
+        let sec = pickerViewManager.time[1]
+        timerManager.setTimer(
+            section: indexpath.section, index: indexpath.row - 1,
+            min: min, sec: sec)
     }
 }

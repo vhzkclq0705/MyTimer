@@ -127,6 +127,8 @@ extension AddSectionVC {
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        
         dismiss(animated: true)
     }
 }
