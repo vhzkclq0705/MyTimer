@@ -21,19 +21,20 @@ class DetailTimerViewModel {
         return time
     }
     
+    var min: String {
+        return String(format: "%02d:", Int(time / 60))
+    }
+    
+    var sec: String {
+        return String(format: "%02d", Int(time.truncatingRemainder(dividingBy: 60)))
+    }
+    
     func initTime(){
         time = Double(myTimer.min * 60 + myTimer.sec)
     }
     
     func updateCounter() {
         time -= 0.2
-    }
-    
-    func timeFormatted() -> String {
-        let min = time / 60
-        let sec = time.truncatingRemainder(dividingBy: 60)
-        
-        return String(format: "%02d:%02d", Int(min), Int(sec))
     }
     
     func loadTimer(_ myTimer: MyTimer) {

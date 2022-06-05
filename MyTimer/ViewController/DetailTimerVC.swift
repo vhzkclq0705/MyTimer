@@ -20,7 +20,15 @@ class DetailTimerVC: UIViewController {
         return label
     }()
     
-    lazy var remainingTime: UILabel = {
+    lazy var remainingMinTime: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = UIFont(name: "establishRoomNo703", size: 80)
+        
+        return label
+    }()
+    
+    lazy var remainingSecTime: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont(name: "establishRoomNo703", size: 80)
@@ -81,10 +89,11 @@ extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
         titleLabel.text = viewModel.title
-        remainingTime.text = viewModel.timeFormatted()
+        remainingTimeText()
         circleProgrssBar.createCircularPath(color)
         
-        [ titleLabel ,remainingTime, resetButton, startButton, cancleButton ]
+        [ titleLabel ,remainingMinTime, remainingSecTime,
+          resetButton, startButton, cancleButton ]
             .forEach { subView.addSubview($0) }
         
         [ subView, circleProgrssBar ]
@@ -103,11 +112,17 @@ extension DetailTimerVC {
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(remainingTime.snp.top).offset(-10)
+            $0.bottom.equalTo(remainingMinTime.snp.top).offset(-10)
         }
 
-        remainingTime.snp.makeConstraints {
-            $0.center.equalTo(circleProgrssBar)
+        remainingMinTime.snp.makeConstraints {
+            $0.centerY.equalTo(circleProgrssBar)
+            $0.right.equalTo(circleProgrssBar.snp.centerX).offset(14)
+        }
+        
+        remainingSecTime.snp.makeConstraints {
+            $0.centerY.equalTo(circleProgrssBar)
+            $0.left.equalTo(circleProgrssBar.snp.centerX).offset(14)
         }
 
         resetButton.snp.makeConstraints {
@@ -125,6 +140,11 @@ extension DetailTimerVC {
 }
 
 extension DetailTimerVC {
+    func remainingTimeText() {
+        remainingMinTime.text = viewModel.min
+        remainingSecTime.text = viewModel.sec
+    }
+    
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         timer.fire()
@@ -142,13 +162,13 @@ extension DetailTimerVC {
         
         circleProgrssBar.reset()
         viewModel.initTime()
-        remainingTime.text = viewModel.timeFormatted()
+        remainingTimeText()
     }
     
     @objc func updateCounter() {
         viewModel.updateCounter()
         if viewModel.remainingTime > 0 {
-            remainingTime.text = viewModel.timeFormatted()
+            remainingTimeText()
         } else {
             resetTimer()
         }
