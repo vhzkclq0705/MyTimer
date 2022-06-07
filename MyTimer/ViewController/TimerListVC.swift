@@ -82,11 +82,11 @@ class TimerListVC: UIViewController {
     }()
     
     lazy var recognizeTapGesture: UITapGestureRecognizer = {
-            let gesture = UITapGestureRecognizer()
-            gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
-            
-            return gesture
-        }()
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
+        
+        return gesture
+    }()
     
     // MARK: - viewModel
     let viewModel = TimerViewModel()

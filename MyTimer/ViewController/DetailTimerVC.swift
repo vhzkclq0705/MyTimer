@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import AVFoundation
 
 class DetailTimerVC: UIViewController {
 
@@ -81,6 +82,30 @@ class DetailTimerVC: UIViewController {
         return button
     }()
     
+    lazy var alertView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        view.isHidden = true
+        
+        return view
+    }()
+    
+    lazy var alertLabel: UILabel = {
+        let label = UILabel()
+        label.text = "화면을 터치하세요!!"
+        label.font = UIFont(name: "establishRoomNo703", size: 40)
+        
+        return label
+    }()
+    
+    lazy var recognizeTapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
+        
+        return gesture
+    }()
+    
+    var soundEffect = AVAudioPlayer()
     var color: UIColor!
     var myTimer: MyTimer!
     var isInited = true
@@ -101,16 +126,28 @@ extension DetailTimerVC {
         remainingTimeText()
         circleProgrssBar.createCircularPath(color)
         
+        alertView.addGestureRecognizer(recognizeTapGesture)
+        alertView.addSubview(alertLabel)
+        
         [ titleLabel ,remainingMinTime, remainingSecTime, colon,
           resetButton, startButton, cancleButton ]
             .forEach { subView.addSubview($0) }
         
-        [ subView, circleProgrssBar ]
+        [ subView, circleProgrssBar, alertView ]
             .forEach { view.addSubview($0) }
         
         circleProgrssBar.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview().offset(-30)
+        }
+        
+        alertView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        alertLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(subView.snp.bottom).offset(30)
         }
         
         subView.snp.makeConstraints {
@@ -178,18 +215,55 @@ extension DetailTimerVC {
         remainingTimeText()
     }
     
+    func playAudio() {
+        guard let url = Bundle.main.url(forResource: "chickenAlarm", withExtension: "MP3") else { return }
+        do {
+            soundEffect = try AVAudioPlayer(contentsOf: url)
+            let sound = soundEffect
+            
+            sound.numberOfLoops = -1
+            sound.prepareToPlay()
+            sound.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func tremorsAnimation() {
+        let angle = Double.pi / 24
+        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: { [weak self] in
+            self?.colon.transform = CGAffineTransform(rotationAngle: angle)
+            self?.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
+            self?.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
+        })
+    }
+    
     @objc func updateCounter() {
         viewModel.updateCounter()
         if viewModel.remainingTime > 0 {
             remainingTimeText()
         } else {
-            let angle = Double.pi / 24
-            UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: { [weak self] in
-                self?.colon.transform = CGAffineTransform(rotationAngle: angle)
-                self?.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
-                self?.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
-            })
+            alertView.isHidden = false
+            stopTimer()
+            playAudio()
+            tremorsAnimation()
         }
+    }
+}
+
+extension DetailTimerVC {
+    @objc func recognizeTapped(_ sender: Any) {
+        alertView.isHidden = true
+        resetTimer()
+        soundEffect.stop()
+        
+        colon.layer.removeAllAnimations()
+        remainingMinTime.layer.removeAllAnimations()
+        remainingSecTime.layer.removeAllAnimations()
+        
+        colon.transform = CGAffineTransform(rotationAngle: 0)
+        remainingMinTime.transform = CGAffineTransform(rotationAngle: 0)
+        remainingSecTime.transform = CGAffineTransform(rotationAngle: 0)
     }
     
     @objc func resetButtonTapped(_ sender: Any) {
@@ -219,7 +293,4 @@ extension DetailTimerVC {
         
         dismiss(animated: true)
     }
-    
-    
-    
 }

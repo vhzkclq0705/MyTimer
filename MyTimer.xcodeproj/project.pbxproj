@@ -16,6 +16,7 @@
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
 		76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionVC.swift */; };
+		769B5202284F8B7E00C3E5A3 /* chickenAlarm.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */; };
 		76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */; };
 		76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC592849062800342295 /* DetailTimerVC.swift */; };
 		76B3DC5E2849278100342295 /* TimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC5D2849278100342295 /* TimerButton.swift */; };
@@ -49,6 +50,7 @@
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
 		76558921284623A400DB4FC2 /* AddSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionVC.swift; sourceTree = "<group>"; };
+		769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chickenAlarm.MP3; sourceTree = "<group>"; };
 		76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = establishRoomNo703.ttf; sourceTree = "<group>"; };
 		76B3DC592849062800342295 /* DetailTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerVC.swift; sourceTree = "<group>"; };
 		76B3DC5D2849278100342295 /* TimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButton.swift; sourceTree = "<group>"; };
@@ -82,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		769B5200284F8B7400C3E5A3 /* AlarmSound */ = {
+			isa = PBXGroup;
+			children = (
+				769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */,
+			);
+			path = AlarmSound;
+			sourceTree = "<group>";
+		};
 		76B3DC582848EE3000342295 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +121,7 @@
 		76D9AE102843637200A2F5B9 /* MyTimer */ = {
 			isa = PBXGroup;
 			children = (
+				769B5200284F8B7400C3E5A3 /* AlarmSound */,
 				76B3DC582848EE3000342295 /* Font */,
 				76D9AE33284383EC00A2F5B9 /* UI */,
 				76D9AE2A284368DD00A2F5B9 /* Utility */,
@@ -270,6 +281,7 @@
 				76D9AE1E2843637400A2F5B9 /* LaunchScreen.storyboard in Resources */,
 				76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */,
 				76D9AE1B2843637400A2F5B9 /* Assets.xcassets in Resources */,
+				769B5202284F8B7E00C3E5A3 /* chickenAlarm.MP3 in Resources */,
 				76D9AE192843637200A2F5B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
