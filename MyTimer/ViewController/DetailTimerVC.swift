@@ -20,11 +20,20 @@ class DetailTimerVC: UIViewController {
         return label
     }()
     
+    lazy var colon: UILabel = {
+        let label = UILabel()
+        label.text = ":"
+        label.textColor = .black
+        label.font = UIFont(name: "establishRoomNo703", size: 80)
+
+        return label
+    }()
+    
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.font = UIFont(name: "establishRoomNo703", size: 80)
-        
+
         return label
     }()
     
@@ -92,7 +101,7 @@ extension DetailTimerVC {
         remainingTimeText()
         circleProgrssBar.createCircularPath(color)
         
-        [ titleLabel ,remainingMinTime, remainingSecTime,
+        [ titleLabel ,remainingMinTime, remainingSecTime, colon,
           resetButton, startButton, cancleButton ]
             .forEach { subView.addSubview($0) }
         
@@ -115,14 +124,18 @@ extension DetailTimerVC {
             $0.bottom.equalTo(remainingMinTime.snp.top).offset(-10)
         }
 
+        colon.snp.makeConstraints {
+            $0.center.equalTo(circleProgrssBar)
+        }
+        
         remainingMinTime.snp.makeConstraints {
             $0.centerY.equalTo(circleProgrssBar)
-            $0.right.equalTo(circleProgrssBar.snp.centerX).offset(14)
+            $0.right.equalTo(colon.snp.left)
         }
         
         remainingSecTime.snp.makeConstraints {
             $0.centerY.equalTo(circleProgrssBar)
-            $0.left.equalTo(circleProgrssBar.snp.centerX).offset(14)
+            $0.left.equalTo(colon.snp.right)
         }
 
         resetButton.snp.makeConstraints {
@@ -170,7 +183,12 @@ extension DetailTimerVC {
         if viewModel.remainingTime > 0 {
             remainingTimeText()
         } else {
-            resetTimer()
+            let angle = Double.pi / 24
+            UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: { [weak self] in
+                self?.colon.transform = CGAffineTransform(rotationAngle: angle)
+                self?.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
+                self?.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
+            })
         }
     }
     

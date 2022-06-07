@@ -22,7 +22,7 @@ class DetailTimerViewModel {
     }
     
     var min: String {
-        return String(format: "%02d:", Int(time / 60))
+        return String(format: "%02d", Int(time / 60))
     }
     
     var sec: String {
