@@ -55,6 +55,16 @@ class TimerListVC: UIViewController {
         return button
     }()
     
+    lazy var settingsButton: UIButton = {
+        let button = UIButton()
+        button.alpha = 0
+        button.setImage(UIImage(systemName: "gear"), for: .normal)
+        button.configuration = buttonConfig(false)
+        button.addTarget(self, action: #selector(settingsButtonTapped(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
     lazy var addSectionLabel: UILabel = {
         let label = UILabel()
         label.alpha = 0
@@ -68,6 +78,15 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "타이머 추가"
+        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        
+        return label
+    }()
+    
+    lazy var settingsLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 0
+        label.text = "설정"
         label.font = UIFont(name: "establishRoomNo703", size: 20)
         
         return label
@@ -94,6 +113,7 @@ class TimerListVC: UIViewController {
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadAlarmSound()
         viewModel.load()
         setupUI()
     }
@@ -107,8 +127,8 @@ class TimerListVC: UIViewController {
 // MARK: - Funcs for setup UI
 extension TimerListVC {
     func setupUI() {
-        [ addSectionButton, addTimerButton,
-          addTimerLabel, addSectionLabel ]
+        [ addSectionButton, addTimerButton, settingsButton,
+          addTimerLabel, addSectionLabel, settingsLabel ]
             .forEach { controlView.addSubview($0) }
         
         controlView.addGestureRecognizer(recognizeTapGesture)
@@ -135,6 +155,11 @@ extension TimerListVC {
             $0.centerX.equalTo(addButton)
         }
         
+        settingsButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-230)
+            $0.centerX.equalTo(addButton)
+        }
+        
         addTimerLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-120)
             $0.right.equalTo(addTimerButton.snp.left).offset(-10)
@@ -142,6 +167,11 @@ extension TimerListVC {
         
         addSectionLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-180)
+            $0.right.equalTo(addSectionButton.snp.left).offset(-10)
+        }
+        
+        settingsLabel.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-240)
             $0.right.equalTo(addSectionButton.snp.left).offset(-10)
         }
         
@@ -268,6 +298,14 @@ extension TimerListVC {
         present(vc, animated: true)
     }
     
+    @objc func settingsButtonTapped(_ sender: UIButton) {
+        let vc = SettingsVC()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        
+        present(vc, animated: true)
+    }
+    
     @objc func reload() {
         view.layer.opacity = 1
         viewModel.load()
@@ -300,17 +338,17 @@ extension TimerListVC {
     
     // AddButton tap animation
     func displayButtons(_ show: Bool) {
-        tableView.layer.opacity = show ? 0.7 : 1
         tableView.isUserInteractionEnabled = !show
+        tableView.layer.opacity = show ? 0.7 : 1
         controlView.isHidden = !show
         
         let angle: CGFloat = show ? Double.pi / 4 : 0
         UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
             self?.addButton.transform = CGAffineTransform(rotationAngle: angle)
             if show {
-                self?.addTimerButton.alpha = 1; self?.addTimerLabel.alpha = 1
+                self?.addTimerButton.alpha = 1; self?.addTimerLabel.alpha = 1;
             } else {
-                self?.addSectionButton.alpha = 0; self?.addSectionLabel.alpha = 0
+                self?.settingsButton.alpha = 0; self?.settingsLabel.alpha = 0
             }
         }, completion: { _ in
             UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
@@ -319,6 +357,14 @@ extension TimerListVC {
                 } else {
                     self?.addTimerButton.alpha = 0; self?.addTimerLabel.alpha = 0
                 }
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
+                    if show {
+                        self?.settingsButton.alpha = 1; self?.settingsLabel.alpha = 1
+                    } else {
+                        self?.addSectionButton.alpha = 0; self?.addSectionLabel.alpha = 0
+                    }
+                })
             })
         })
     }

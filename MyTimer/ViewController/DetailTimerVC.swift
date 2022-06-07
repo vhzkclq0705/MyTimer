@@ -105,7 +105,6 @@ class DetailTimerVC: UIViewController {
         return gesture
     }()
     
-    var soundEffect = AVAudioPlayer()
     var color: UIColor!
     var myTimer: MyTimer!
     var isInited = true
@@ -215,20 +214,6 @@ extension DetailTimerVC {
         remainingTimeText()
     }
     
-    func playAudio() {
-        guard let url = Bundle.main.url(forResource: "chickenAlarm", withExtension: "MP3") else { return }
-        do {
-            soundEffect = try AVAudioPlayer(contentsOf: url)
-            let sound = soundEffect
-            
-            sound.numberOfLoops = -1
-            sound.prepareToPlay()
-            sound.play()
-        } catch let error {
-            print(error.localizedDescription)
-        }
-    }
-    
     func tremorsAnimation() {
         let angle = Double.pi / 24
         UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: { [weak self] in
@@ -245,7 +230,7 @@ extension DetailTimerVC {
         } else {
             alertView.isHidden = false
             stopTimer()
-            playAudio()
+            playAudio(true)
             tremorsAnimation()
         }
     }
@@ -255,7 +240,7 @@ extension DetailTimerVC {
     @objc func recognizeTapped(_ sender: Any) {
         alertView.isHidden = true
         resetTimer()
-        soundEffect.stop()
+        stopAudio()
         
         colon.layer.removeAllAnimations()
         remainingMinTime.layer.removeAllAnimations()

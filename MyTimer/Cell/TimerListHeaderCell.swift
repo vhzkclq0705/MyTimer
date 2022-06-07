@@ -45,14 +45,13 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
 }
 
-// MARK: - Funcs for setup UI
 extension TimerListHeaderCell {
+    // MARK: - Funcs for setup UI
     func setup() {
         self.selectionStyle = .none
         
         [titleLabel, detailButton].forEach { contentView.addSubview($0) }
 
-        
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().inset(20)

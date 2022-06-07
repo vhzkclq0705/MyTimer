@@ -16,7 +16,22 @@
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
 		76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionVC.swift */; };
-		769B5202284F8B7E00C3E5A3 /* chickenAlarm.MP3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */; };
+		769B5202284F8B7E00C3E5A3 /* chicken.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5201284F8B7E00C3E5A3 /* chicken.mp3 */; };
+		769B520E284F9A2700C3E5A3 /* School Bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5203284F9A2600C3E5A3 /* School Bell.mp3 */; };
+		769B520F284F9A2700C3E5A3 /* Beep5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5204284F9A2600C3E5A3 /* Beep5.mp3 */; };
+		769B5210284F9A2700C3E5A3 /* Beep3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5205284F9A2600C3E5A3 /* Beep3.mp3 */; };
+		769B5211284F9A2700C3E5A3 /* Beep1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5206284F9A2600C3E5A3 /* Beep1.mp3 */; };
+		769B5212284F9A2700C3E5A3 /* Beep6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5207284F9A2600C3E5A3 /* Beep6.mp3 */; };
+		769B5213284F9A2700C3E5A3 /* Beep4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5208284F9A2700C3E5A3 /* Beep4.mp3 */; };
+		769B5214284F9A2700C3E5A3 /* Telephon Ring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5209284F9A2700C3E5A3 /* Telephon Ring.mp3 */; };
+		769B5215284F9A2700C3E5A3 /* Beep8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B520A284F9A2700C3E5A3 /* Beep8.mp3 */; };
+		769B5216284F9A2700C3E5A3 /* Siren.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B520B284F9A2700C3E5A3 /* Siren.mp3 */; };
+		769B5217284F9A2700C3E5A3 /* Beep2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B520C284F9A2700C3E5A3 /* Beep2.mp3 */; };
+		769B5218284F9A2700C3E5A3 /* Beep7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B520D284F9A2700C3E5A3 /* Beep7.mp3 */; };
+		769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */; };
+		769B521C284F9E6600C3E5A3 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521B284F9E6600C3E5A3 /* SettingsVC.swift */; };
+		769B521E284F9F4F00C3E5A3 /* AlarmSoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521D284F9F4F00C3E5A3 /* AlarmSoundCell.swift */; };
+		769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */; };
 		76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */; };
 		76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC592849062800342295 /* DetailTimerVC.swift */; };
 		76B3DC5E2849278100342295 /* TimerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC5D2849278100342295 /* TimerButton.swift */; };
@@ -50,7 +65,22 @@
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
 		76558921284623A400DB4FC2 /* AddSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionVC.swift; sourceTree = "<group>"; };
-		769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chickenAlarm.MP3; sourceTree = "<group>"; };
+		769B5201284F8B7E00C3E5A3 /* chicken.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chicken.mp3; sourceTree = "<group>"; };
+		769B5203284F9A2600C3E5A3 /* School Bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "School Bell.mp3"; sourceTree = "<group>"; };
+		769B5204284F9A2600C3E5A3 /* Beep5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep5.mp3; sourceTree = "<group>"; };
+		769B5205284F9A2600C3E5A3 /* Beep3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep3.mp3; sourceTree = "<group>"; };
+		769B5206284F9A2600C3E5A3 /* Beep1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep1.mp3; sourceTree = "<group>"; };
+		769B5207284F9A2600C3E5A3 /* Beep6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep6.mp3; sourceTree = "<group>"; };
+		769B5208284F9A2700C3E5A3 /* Beep4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep4.mp3; sourceTree = "<group>"; };
+		769B5209284F9A2700C3E5A3 /* Telephon Ring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Telephon Ring.mp3"; sourceTree = "<group>"; };
+		769B520A284F9A2700C3E5A3 /* Beep8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep8.mp3; sourceTree = "<group>"; };
+		769B520B284F9A2700C3E5A3 /* Siren.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Siren.mp3; sourceTree = "<group>"; };
+		769B520C284F9A2700C3E5A3 /* Beep2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep2.mp3; sourceTree = "<group>"; };
+		769B520D284F9A2700C3E5A3 /* Beep7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Beep7.mp3; sourceTree = "<group>"; };
+		769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSound.swift; sourceTree = "<group>"; };
+		769B521B284F9E6600C3E5A3 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		769B521D284F9F4F00C3E5A3 /* AlarmSoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundCell.swift; sourceTree = "<group>"; };
+		769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = establishRoomNo703.ttf; sourceTree = "<group>"; };
 		76B3DC592849062800342295 /* DetailTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerVC.swift; sourceTree = "<group>"; };
 		76B3DC5D2849278100342295 /* TimerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerButton.swift; sourceTree = "<group>"; };
@@ -84,12 +114,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		769B5200284F8B7400C3E5A3 /* AlarmSound */ = {
+		769B5200284F8B7400C3E5A3 /* AlarmSounds */ = {
 			isa = PBXGroup;
 			children = (
-				769B5201284F8B7E00C3E5A3 /* chickenAlarm.MP3 */,
+				769B5206284F9A2600C3E5A3 /* Beep1.mp3 */,
+				769B520C284F9A2700C3E5A3 /* Beep2.mp3 */,
+				769B5205284F9A2600C3E5A3 /* Beep3.mp3 */,
+				769B5208284F9A2700C3E5A3 /* Beep4.mp3 */,
+				769B5204284F9A2600C3E5A3 /* Beep5.mp3 */,
+				769B5207284F9A2600C3E5A3 /* Beep6.mp3 */,
+				769B520D284F9A2700C3E5A3 /* Beep7.mp3 */,
+				769B520A284F9A2700C3E5A3 /* Beep8.mp3 */,
+				769B5203284F9A2600C3E5A3 /* School Bell.mp3 */,
+				769B520B284F9A2700C3E5A3 /* Siren.mp3 */,
+				769B5209284F9A2700C3E5A3 /* Telephon Ring.mp3 */,
+				769B5201284F8B7E00C3E5A3 /* chicken.mp3 */,
 			);
-			path = AlarmSound;
+			path = AlarmSounds;
 			sourceTree = "<group>";
 		};
 		76B3DC582848EE3000342295 /* Font */ = {
@@ -121,7 +162,7 @@
 		76D9AE102843637200A2F5B9 /* MyTimer */ = {
 			isa = PBXGroup;
 			children = (
-				769B5200284F8B7400C3E5A3 /* AlarmSound */,
+				769B5200284F8B7400C3E5A3 /* AlarmSounds */,
 				76B3DC582848EE3000342295 /* Font */,
 				76D9AE33284383EC00A2F5B9 /* UI */,
 				76D9AE2A284368DD00A2F5B9 /* Utility */,
@@ -147,6 +188,7 @@
 				76558921284623A400DB4FC2 /* AddSectionVC.swift */,
 				7655891F2846239800DB4FC2 /* AddTimerVC.swift */,
 				7603B5372849D51B0016B66C /* SetTimerVC.swift */,
+				769B521B284F9E6600C3E5A3 /* SettingsVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -156,6 +198,7 @@
 			children = (
 				76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */,
 				76D9AE362843B16400A2F5B9 /* TimerListCell.swift */,
+				769B521D284F9F4F00C3E5A3 /* AlarmSoundCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -176,6 +219,7 @@
 				7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */,
 				7603B53B2849EA170016B66C /* SetTimerViewModel.swift */,
 				7603B53D284A22830016B66C /* DetailTimerViewModel.swift */,
+				769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -185,6 +229,7 @@
 			children = (
 				76CC80392844DE0A00683831 /* TimerManager.swift */,
 				7603B5392849E74F0016B66C /* PickerViewManager.swift */,
+				769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -278,10 +323,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				769B5215284F9A2700C3E5A3 /* Beep8.mp3 in Resources */,
 				76D9AE1E2843637400A2F5B9 /* LaunchScreen.storyboard in Resources */,
 				76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */,
+				769B520F284F9A2700C3E5A3 /* Beep5.mp3 in Resources */,
+				769B5212284F9A2700C3E5A3 /* Beep6.mp3 in Resources */,
+				769B520E284F9A2700C3E5A3 /* School Bell.mp3 in Resources */,
 				76D9AE1B2843637400A2F5B9 /* Assets.xcassets in Resources */,
-				769B5202284F8B7E00C3E5A3 /* chickenAlarm.MP3 in Resources */,
+				769B5202284F8B7E00C3E5A3 /* chicken.mp3 in Resources */,
+				769B5216284F9A2700C3E5A3 /* Siren.mp3 in Resources */,
+				769B5210284F9A2700C3E5A3 /* Beep3.mp3 in Resources */,
+				769B5218284F9A2700C3E5A3 /* Beep7.mp3 in Resources */,
+				769B5217284F9A2700C3E5A3 /* Beep2.mp3 in Resources */,
+				769B5211284F9A2700C3E5A3 /* Beep1.mp3 in Resources */,
+				769B5213284F9A2700C3E5A3 /* Beep4.mp3 in Resources */,
+				769B5214284F9A2700C3E5A3 /* Telephon Ring.mp3 in Resources */,
 				76D9AE192843637200A2F5B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,9 +396,11 @@
 				76CC80362844C7C800683831 /* Colors.swift in Sources */,
 				76CC802E2844901100683831 /* Section.swift in Sources */,
 				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
+				769B521C284F9E6600C3E5A3 /* SettingsVC.swift in Sources */,
 				7603B53E284A22830016B66C /* DetailTimerViewModel.swift in Sources */,
 				76D9AE162843637200A2F5B9 /* TimerListVC.swift in Sources */,
 				76B3DC60284928CC00342295 /* CircleProgressBar.swift in Sources */,
+				769B521E284F9F4F00C3E5A3 /* AlarmSoundCell.swift in Sources */,
 				7603B5382849D51B0016B66C /* SetTimerVC.swift in Sources */,
 				76CC803A2844DE0A00683831 /* TimerManager.swift in Sources */,
 				76B3DC5E2849278100342295 /* TimerButton.swift in Sources */,
@@ -352,7 +410,9 @@
 				76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */,
 				7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */,
 				7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */,
+				769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */,
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderCell.swift in Sources */,
+				769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */,
 				765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */,
 				7655340828452BC800C79484 /* DetailTextField.swift in Sources */,
 				76553406284514B900C79484 /* DetailButton.swift in Sources */,

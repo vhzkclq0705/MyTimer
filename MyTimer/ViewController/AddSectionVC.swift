@@ -79,15 +79,13 @@ extension AddSectionVC {
         view.addSubview(subView)
         
         subView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.left.right.equalTo(textField).inset(-50)
             $0.top.bottom.equalTo(textField).inset(-70)
         }
         
         textField.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.width.equalTo(200)
             $0.height.equalTo(30)
         }

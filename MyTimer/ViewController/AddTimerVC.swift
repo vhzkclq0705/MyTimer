@@ -22,7 +22,7 @@ class AddTimerVC: UIViewController {
         return label
     }()
 
-    lazy var sectionLable: UITextField = {
+    lazy var sectionLabel: UITextField = {
         let textField = UITextField()
         textField.setupDetailTextField("섹션 선택")
         textField.isUserInteractionEnabled = false
@@ -115,7 +115,7 @@ extension AddTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
         
-        [sectionLable, sectionButton]
+        [sectionLabel, sectionButton]
             .forEach { sectionView.addSubview($0) }
         
         [titleLabel, sectionView, textField,
@@ -149,7 +149,7 @@ extension AddTimerVC {
             $0.height.equalTo(30)
         }
         
-        sectionLable.snp.makeConstraints {
+        sectionLabel.snp.makeConstraints {
             $0.top.left.bottom.equalTo(sectionView)
             $0.right.equalTo(sectionButton.snp.left)
         }
@@ -195,7 +195,7 @@ extension AddTimerVC {
         dropDown.bottomOffset = CGPoint(x: 0, y: 30)
         dropDown.selectionAction = { [weak self] (index, item) in
             self?.viewModel.section = index
-            self?.sectionLable.text = item
+            self?.sectionLabel.text = item
             self?.sectionButton.isSelected = false
         }
         dropDown.cancelAction = { [weak self] in
@@ -236,7 +236,7 @@ extension AddTimerVC: UITextFieldDelegate {
 // MARK: - Funcs for Button actions
 extension AddTimerVC {
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let section = sectionLable.text, section.isEmpty == false else { return }
+        guard let section = sectionLabel.text, section.isEmpty == false else { return }
         guard let title = textField.text, title.isEmpty == false else { return }
         viewModel.addTimer(title: title)
         
