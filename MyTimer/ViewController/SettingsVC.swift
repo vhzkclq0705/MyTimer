@@ -49,6 +49,7 @@ class SettingsVC: UIViewController {
     }()
     
     let viewModel = SettingsViewModel()
+    var defaultAlarmIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +89,7 @@ extension SettingsVC {
             $0.centerX.equalTo(tableView)
             $0.width.equalTo(tableView)
         }
+        
     }
 }
 
@@ -101,28 +103,35 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.updateUI(viewModel.sounds[indexPath.row])
         
+        if cell.soundLabel.text == alarmSound {
+            defaultAlarmIndex = indexPath
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AlarmSoundCell else { return }
+        cell.checkButton.isSelected = true
         
         stopAudio()
         viewModel.changeAlarmSound(indexPath.row)
         playAudio(false)
         
-        cell.checkButton.isSelected = true
+        if let index = defaultAlarmIndex {
+            tableView.reloadRows(at: [index], with: .none)
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? AlarmSoundCell else { return }
-        
         cell.checkButton.isSelected = false
     }
 }
 
 extension SettingsVC {
     @objc func okButtonTapped(_ sender: UIButton) {
+        stopAudio()
         dismiss(animated: true)
     }
 }

@@ -242,7 +242,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 50 : 80
+        return indexPath.row == 0 ? 50 : 100
     }
     
     // TableView swipe action
