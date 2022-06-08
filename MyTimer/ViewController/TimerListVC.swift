@@ -19,7 +19,7 @@ class TimerListVC: UIViewController {
         tableView.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
         tableView.expandingAnimation = .fade
         tableView.collapsingAnimation = .fade
-        tableView.separatorStyle = .none
+        tableView.separatorColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -228,7 +228,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else { return UITableViewCell() }
         
         let timer = viewModel.timerInfo(indexPath)
-        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec)
+        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec,
+                      color: viewModel.sectionColor(indexPath.section))
         
         cell.timeSetButtonTapHandler = { [weak self] in
             self?.popupTimeSet(indexPath)
@@ -242,7 +243,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 50 : 100
+        return indexPath.row == 0 ? 50 : 80
     }
     
     // TableView swipe action

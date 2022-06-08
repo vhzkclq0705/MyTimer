@@ -6,6 +6,7 @@
       "size" : "20x20"
     },
     {
+      "filename" : "MyTimerIcon(iPhoneNoti).png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
@@ -16,6 +17,7 @@
       "size" : "29x29"
     },
     {
+      "filename" : "MyTimerIcon(iPhoneSet).png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
@@ -26,6 +28,7 @@
       "size" : "40x40"
     },
     {
+      "filename" : "MyTimerIcon(iPhone2).png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
@@ -36,6 +39,7 @@
       "size" : "60x60"
     },
     {
+      "filename" : "MyTimerIcon(iPhone1).png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
@@ -46,6 +50,7 @@
       "size" : "20x20"
     },
     {
+      "filename" : "MyTimerIcon(iPadNoti).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
@@ -56,6 +61,7 @@
       "size" : "29x29"
     },
     {
+      "filename" : "MyTimerIcon(iPadSet).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
@@ -66,6 +72,7 @@
       "size" : "40x40"
     },
     {
+      "filename" : "MyTimerIcon(iPadSpot).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
@@ -76,16 +83,19 @@
       "size" : "76x76"
     },
     {
+      "filename" : "MyTimerIcon(iPad).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "MyTimerIcon(iPadPro).png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "MyTimerIcon(AppStore).png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"

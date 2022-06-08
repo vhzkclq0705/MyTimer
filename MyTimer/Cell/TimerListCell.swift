@@ -33,16 +33,14 @@ class TimerListCell: UITableViewCell {
     
     lazy var timerButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "timer"), for: .normal)
-        button.layer.borderColor = Colors.color(0).cgColor
-        button.layer.borderWidth = 1
+        button.setImage(UIImage(systemName: "play.circle"), for: .normal)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(timerButtonTapped(_:)), for: .touchUpInside)
         
         var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = .red
+        //config.baseForegroundColor = .black
         config.background.backgroundColor = .white
-        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 15, weight: .bold)
+        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 25, weight: .bold)
         button.configuration = config
         
         return button
@@ -69,14 +67,13 @@ extension TimerListCell {
         [titleLabel, timeSetButton, timerButton].forEach { contentView.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalTo(timeSetButton.snp.left).offset(-20)
-            $0.centerY.equalToSuperview()
+            $0.left.top.equalToSuperview().inset(10)
         }
         
         timeSetButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().inset(10)
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.bottom.equalToSuperview().inset(10)
         }
         
         timerButton.snp.makeConstraints {
@@ -87,11 +84,12 @@ extension TimerListCell {
     }
     
     // Update UI
-    func updateUI(title: String, min: Int, sec: Int) {
+    func updateUI(title: String, min: Int, sec: Int, color: UIColor) {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)
         titleLabel.text = title
         timeSetButton.setTitle("\(mintoStr):\(sectoStr)", for: .normal)
+        timerButton.tintColor = color
     }
     
     @objc func timeSetButtonTapped(_ sender: UIButton) {

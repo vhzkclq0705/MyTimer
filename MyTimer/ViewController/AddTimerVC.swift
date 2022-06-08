@@ -108,6 +108,10 @@ class AddTimerVC: UIViewController {
         NotificationCenter.default.removeObserver(
             self, name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 }
 
 // MARK: - Funcs for setup UI
@@ -230,7 +234,13 @@ extension AddTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
 
 // MARK: - Funcs for TextField
 extension AddTimerVC: UITextFieldDelegate {
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        
+        return updatedText.count <= 15
+    }
 }
 
 // MARK: - Funcs for Button actions
