@@ -16,7 +16,7 @@ class AddSectionVC: UIViewController {
         let label = UILabel()
         label.text = "섹션을 추가하세요!"
         label.textColor = Colors.color(8)
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()

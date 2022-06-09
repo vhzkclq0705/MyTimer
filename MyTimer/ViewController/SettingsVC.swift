@@ -15,7 +15,7 @@ class SettingsVC: UIViewController {
         let label = UILabel()
         label.text = "알람 소리를 설정하세요!"
         label.textColor = Colors.color(8)
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()

@@ -69,7 +69,7 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "섹션 추가"
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()
@@ -78,7 +78,7 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "타이머 추가"
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()
@@ -87,7 +87,7 @@ class TimerListVC: UIViewController {
         let label = UILabel()
         label.alpha = 0
         label.text = "설정"
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()

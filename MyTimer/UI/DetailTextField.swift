@@ -15,7 +15,7 @@ extension UITextField {
         self.textColor = .black
         self.addLeftPadding()
         self.attributedPlaceholder = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
-        self.font = UIFont(name: "establishRoomNo703", size: 18)
+        self.font = .systemFont(ofSize: 20, weight: .bold)
         self.layer.borderColor = Colors.color(0).cgColor
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 5

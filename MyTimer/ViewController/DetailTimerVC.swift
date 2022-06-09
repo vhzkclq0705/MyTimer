@@ -16,7 +16,7 @@ class DetailTimerVC: UIViewController {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 30)
+        label.font = .systemFont(ofSize: 30, weight: .bold)
         
         return label
     }()
@@ -25,7 +25,7 @@ class DetailTimerVC: UIViewController {
         let label = UILabel()
         label.text = ":"
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 80)
+        label.font = .systemFont(ofSize: 80, weight: .bold)
 
         return label
     }()
@@ -33,7 +33,7 @@ class DetailTimerVC: UIViewController {
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 80)
+        label.font = .systemFont(ofSize: 80, weight: .bold)
 
         return label
     }()
@@ -41,7 +41,7 @@ class DetailTimerVC: UIViewController {
     lazy var remainingSecTime: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 80)
+        label.font = .systemFont(ofSize: 80, weight: .bold)
         
         return label
     }()
@@ -93,7 +93,8 @@ class DetailTimerVC: UIViewController {
     lazy var alertLabel: UILabel = {
         let label = UILabel()
         label.text = "화면을 터치하세요!!"
-        label.font = UIFont(name: "establishRoomNo703", size: 40)
+        //label.font = UIFont(name: "establishRoomNo703", size: 40)
+        label.font = .systemFont(ofSize: 40)
         
         return label
     }()

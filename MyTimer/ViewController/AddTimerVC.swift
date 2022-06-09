@@ -17,7 +17,7 @@ class AddTimerVC: UIViewController {
         let label = UILabel()
         label.text = "타이머를 추가하세요!"
         label.textColor = Colors.color(8)
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()

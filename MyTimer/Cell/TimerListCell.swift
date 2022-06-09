@@ -17,7 +17,7 @@ class TimerListCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()
@@ -25,7 +25,7 @@ class TimerListCell: UITableViewCell {
     lazy var timeSetButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.black , for: .normal)
-        button.titleLabel?.font = UIFont(name: "establishRoomNo703", size: 30)
+        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
         button.addTarget(self, action: #selector(timeSetButtonTapped(_:)), for: .touchUpInside)
         
         return button
@@ -38,7 +38,6 @@ class TimerListCell: UITableViewCell {
         button.addTarget(self, action: #selector(timerButtonTapped(_:)), for: .touchUpInside)
         
         var config = UIButton.Configuration.plain()
-        //config.baseForegroundColor = .black
         config.background.backgroundColor = .white
         config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 25, weight: .bold)
         button.configuration = config

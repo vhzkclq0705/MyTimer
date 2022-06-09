@@ -16,7 +16,7 @@ class AlarmSoundCell: UITableViewCell {
     lazy var soundLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()

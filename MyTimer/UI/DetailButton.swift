@@ -17,6 +17,6 @@ extension UIButton {
         self.layer.shadowColor = UIColor.gray.cgColor
         self.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         self.layer.shadowOpacity = 1.0
-        self.titleLabel?.font = UIFont(name: "establishRoomNo703", size: 15)
+        self.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
     }
 }

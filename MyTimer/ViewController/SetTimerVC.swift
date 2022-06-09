@@ -14,7 +14,7 @@ class SetTimerVC: UIViewController {
         let label = UILabel()
         label.text = "시간을 재설정하세요!"
         label.textColor = Colors.color(8)
-        label.font = UIFont(name: "establishRoomNo703", size: 20)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         
         return label
     }()
