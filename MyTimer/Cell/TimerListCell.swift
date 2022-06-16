@@ -22,13 +22,12 @@ class TimerListCell: UITableViewCell {
         return label
     }()
     
-    lazy var timeSetButton: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(.black , for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
-        button.addTarget(self, action: #selector(timeSetButtonTapped(_:)), for: .touchUpInside)
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 30, weight: .bold)
         
-        return button
+        return label
     }()
     
     lazy var timerButton: UIButton = {
@@ -63,13 +62,13 @@ extension TimerListCell {
         self.backgroundColor = .white
         self.selectionStyle = .none
         
-        [titleLabel, timeSetButton, timerButton].forEach { contentView.addSubview($0) }
+        [titleLabel, timeLabel, timerButton].forEach { contentView.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
             $0.left.top.equalToSuperview().inset(10)
         }
         
-        timeSetButton.snp.makeConstraints {
+        timeLabel.snp.makeConstraints {
             $0.left.equalToSuperview().inset(10)
             $0.top.equalTo(titleLabel.snp.bottom)
             $0.bottom.equalToSuperview().inset(10)
@@ -87,12 +86,8 @@ extension TimerListCell {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)
         titleLabel.text = title
-        timeSetButton.setTitle("\(mintoStr):\(sectoStr)", for: .normal)
+        timeLabel.text = "\(mintoStr):\(sectoStr)"
         timerButton.tintColor = color
-    }
-    
-    @objc func timeSetButtonTapped(_ sender: UIButton) {
-        timeSetButtonTapHandler?()
     }
     
     @objc func timerButtonTapped(_ sender: UIButton) {

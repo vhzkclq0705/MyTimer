@@ -231,8 +231,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec,
                       color: viewModel.sectionColor(indexPath.section))
         
-        cell.timeSetButtonTapHandler = { [weak self] in
-            self?.popupTimeSet(indexPath)
+        cell.timeSetButtonTapHandler = {
+            self.popupTimeSet(indexPath)
         }
         
         cell.timerButtonTapHandler = { [weak self] in
@@ -248,21 +248,24 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
     
     // TableView swipe action
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let action = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, _) in
-            if indexPath.row == 0 {
-                guard let section = self?.viewModel.sections[indexPath.section] else { return }
-                self?.viewModel.deleteSection(section)
-            } else {
-                guard let timer = self?.viewModel.timerInfo(indexPath) else { return }
-                self?.viewModel.deleteTimer(section: indexPath.section, timer: timer)
-            }
-            tableView.reloadData()
+        let setCellAction = UIContextualAction(style: .normal, title: "") { _, _, _ in
+            self.swipeSetButtonTapped(indexPath)
         }
-        action.image = UIImage(systemName: "trash.fill")
-        action.backgroundColor = viewModel.sectionColor(indexPath.section)
+        setCellAction.image = UIImage(systemName: "gear")
+        setCellAction.backgroundColor = viewModel.sectionColor(indexPath.section)
         
-        return UISwipeActionsConfiguration(actions: [action])
+        let deleteCellAction = UIContextualAction(style: .normal, title: "") { _, _, _ in
+            self.swipeDeleteButtonAlert(indexPath)
+        }
+        deleteCellAction.image = UIImage(systemName: "trash.fill")
+        deleteCellAction.backgroundColor = .lightGray
+        
+        if indexPath.row == 0 {
+            return UISwipeActionsConfiguration(actions: [deleteCellAction])
+        } else {
+            return UISwipeActionsConfiguration(actions: [deleteCellAction, setCellAction])
+        }
+        
     }
     
     // Check whether the Section is open or closed.
@@ -337,6 +340,53 @@ extension TimerListVC {
         present(vc, animated: true)
     }
     
+    func swipeDeleteButtonAlert(_ indexPath: IndexPath) {
+        var selectType: String
+        var title: String
+        
+        if indexPath.row == 0 {
+            selectType = "섹션을"
+            title = viewModel.sections[indexPath.section].title
+        } else {
+            selectType = "타이머를"
+            title = viewModel.timerInfo(indexPath).title
+        }
+        self.openAlert(title: "\(title)",
+                              message: "해당 \(selectType) 삭제하시겠습니까?",
+                              alertStyle: .alert,
+                              actionTitles: ["확인", "취소"],
+                              actionStyles: [.default, .cancel],
+                              actions: [
+                                  {_ in
+                                      self.swipeDeleteButtonTapped(indexPath)
+                                       print("okay click")
+                                  }, {_ in }
+                             ])
+    }
+    
+    func swipeDeleteButtonTapped(_ indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let section = viewModel.sections[indexPath.section]
+            viewModel.deleteSection(section)
+        } else {
+            let timer = viewModel.timerInfo(indexPath)
+            viewModel.deleteTimer(section: indexPath.section, timer: timer)
+        }
+        tableView.reloadData()
+    }
+    
+    func swipeSetButtonTapped(_ indexPath: IndexPath) {
+        let vc = SetTimerVC()
+        vc.timer = viewModel.timerInfo(indexPath)
+        vc.timerIndexPath = indexPath
+        
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        view.layer.opacity = 0.7
+        
+        present(vc, animated: true)
+    }
+    
     // AddButton tap animation
     func displayButtons(_ show: Bool) {
         tableView.isUserInteractionEnabled = !show
@@ -344,26 +394,26 @@ extension TimerListVC {
         controlView.isHidden = !show
         
         let angle: CGFloat = show ? Double.pi / 4 : 0
-        UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.addButton.transform = CGAffineTransform(rotationAngle: angle)
+        UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: {
+            self.addButton.transform = CGAffineTransform(rotationAngle: angle)
             if show {
-                self?.addTimerButton.alpha = 1; self?.addTimerLabel.alpha = 1;
+                self.addTimerButton.alpha = 1; self.addTimerLabel.alpha = 1;
             } else {
-                self?.settingsButton.alpha = 0; self?.settingsLabel.alpha = 0
+                self.settingsButton.alpha = 0; self.settingsLabel.alpha = 0
             }
         }, completion: { _ in
-            UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: {
                 if show {
-                    self?.addSectionButton.alpha = 1; self?.addSectionLabel.alpha = 1
+                    self.addSectionButton.alpha = 1; self.addSectionLabel.alpha = 1
                 } else {
-                    self?.addTimerButton.alpha = 0; self?.addTimerLabel.alpha = 0
+                    self.addTimerButton.alpha = 0; self.addTimerLabel.alpha = 0
                 }
             }, completion: { _ in
-                UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: { [weak self] in
+                UIView.animate(withDuration: 0.1, delay: 0, options: .transitionCrossDissolve, animations: {
                     if show {
-                        self?.settingsButton.alpha = 1; self?.settingsLabel.alpha = 1
+                        self.settingsButton.alpha = 1; self.settingsLabel.alpha = 1
                     } else {
-                        self?.addSectionButton.alpha = 0; self?.addSectionLabel.alpha = 0
+                        self.addSectionButton.alpha = 0; self.addSectionLabel.alpha = 0
                     }
                 })
             })
