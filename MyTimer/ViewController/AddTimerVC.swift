@@ -21,10 +21,19 @@ class AddTimerVC: UIViewController {
         
         return label
     }()
-
-    lazy var sectionLabel: UITextField = {
+    
+    lazy var sectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "섹션"
+        label.textColor = Colors.color(8)
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        
+        return label
+    }()
+    
+    lazy var sectionTextField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("섹션 선택")
+        textField.setupDetailTextField("")
         textField.isUserInteractionEnabled = false
         
         return textField
@@ -49,9 +58,18 @@ class AddTimerVC: UIViewController {
         return view
     }()
     
-    lazy var textField: UITextField = {
+    lazy var timerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "타이머"
+        label.textColor = Colors.color(8)
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        
+        return label
+    }()
+    
+    lazy var timerTextField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("타이머 이름")
+        textField.setupDetailTextField("푸시업")
         textField.delegate = self
 
         return textField
@@ -119,11 +137,11 @@ extension AddTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
         
-        [sectionLabel, sectionButton]
+        [sectionTextField, sectionButton]
             .forEach { sectionView.addSubview($0) }
         
-        [titleLabel, sectionView, textField,
-         pickerView, okButton, cancleButton]
+        [titleLabel, sectionLabel, sectionView, timerTextField,
+         timerLabel, pickerView, okButton, cancleButton]
             .forEach { subView.addSubview($0) }
         
         view.addSubview(subView)
@@ -132,7 +150,7 @@ extension AddTimerVC {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
             $0.left.right.equalTo(pickerView).inset(-50)
-            $0.top.equalTo(pickerView).offset(-150)
+            $0.top.equalTo(pickerView).offset(-190)
             $0.bottom.equalTo(pickerView).offset(70)
         }
         
@@ -143,17 +161,22 @@ extension AddTimerVC {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(sectionView.snp.top).offset(-15)
+            $0.bottom.equalTo(sectionLabel.snp.top).offset(-10)
             $0.centerX.equalToSuperview()
         }
         
+        sectionLabel.snp.makeConstraints {
+            $0.left.equalTo(sectionTextField)
+            $0.bottom.equalTo(sectionTextField.snp.top).offset(-5)
+        }
+        
         sectionView.snp.makeConstraints {
-            $0.bottom.equalTo(textField.snp.top).offset(-15)
+            $0.bottom.equalTo(timerLabel.snp.top).offset(-15)
             $0.left.right.equalToSuperview().inset(30)
             $0.height.equalTo(30)
         }
         
-        sectionLabel.snp.makeConstraints {
+        sectionTextField.snp.makeConstraints {
             $0.top.left.bottom.equalTo(sectionView)
             $0.right.equalTo(sectionButton.snp.left)
         }
@@ -163,7 +186,12 @@ extension AddTimerVC {
             $0.height.equalTo(sectionButton.snp.width)
         }
         
-        textField.snp.makeConstraints {
+        timerLabel.snp.makeConstraints {
+            $0.left.equalTo(timerTextField)
+            $0.bottom.equalTo(timerTextField.snp.top).offset(-5)
+        }
+        
+        timerTextField.snp.makeConstraints {
             $0.bottom.equalTo(pickerView.snp.top).offset(-15)
             $0.left.right.equalToSuperview().inset(30)
             $0.height.equalTo(30)
@@ -172,13 +200,13 @@ extension AddTimerVC {
         okButton.snp.makeConstraints {
             $0.top.equalTo(pickerView.snp.bottom).offset(15)
             $0.right.equalToSuperview().inset(30)
-            $0.left.equalTo(textField.snp.centerX).offset(20)
+            $0.left.equalTo(timerTextField.snp.centerX).offset(20)
         }
         
         cancleButton.snp.makeConstraints {
             $0.top.equalTo(pickerView.snp.bottom).offset(15)
             $0.left.equalToSuperview().inset(30)
-            $0.right.equalTo(textField.snp.centerX).offset(-20)
+            $0.right.equalTo(timerTextField.snp.centerX).offset(-20)
         }
     }
     
@@ -199,7 +227,7 @@ extension AddTimerVC {
         dropDown.bottomOffset = CGPoint(x: 0, y: 30)
         dropDown.selectionAction = { [weak self] (index, item) in
             self?.viewModel.section = index
-            self?.sectionLabel.text = item
+            self?.sectionTextField.text = item
             self?.sectionButton.isSelected = false
         }
         dropDown.cancelAction = { [weak self] in
@@ -246,8 +274,8 @@ extension AddTimerVC: UITextFieldDelegate {
 // MARK: - Funcs for Button actions
 extension AddTimerVC {
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let section = sectionLabel.text, section.isEmpty == false else { return }
-        guard let title = textField.text, title.isEmpty == false else { return }
+        guard let section = sectionTextField.text, section.isEmpty == false else { return }
+        guard let title = timerTextField.text, title.isEmpty == false else { return }
         viewModel.addTimer(title: title)
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)

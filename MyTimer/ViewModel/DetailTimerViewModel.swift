@@ -34,12 +34,18 @@ class DetailTimerViewModel {
     }
     
     func updateCounter() {
-        time -= 0.2
+        time -= 0.1
+    }
+    
+    func timeIntervalInBackground(_ interval: Double) {
+        time -= (interval * 100).rounded() / 100
+        if time < 0 {
+            time = 0
+        }
     }
     
     func loadTimer(_ myTimer: MyTimer) {
         self.myTimer = myTimer
         initTime()
     }
-    
 }

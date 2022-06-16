@@ -23,10 +23,19 @@ class AddSectionVC: UIViewController {
     
     lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("섹션 제목")
+        textField.setupDetailTextField("운동")
         textField.delegate = self
 
         return textField
+    }()
+    
+    lazy var sectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "섹션"
+        label.textColor = Colors.color(8)
+        label.font = .systemFont(ofSize: 15, weight: .bold)
+        
+        return label
     }()
     
     lazy var okButton: UIButton = {
@@ -77,7 +86,8 @@ extension AddSectionVC {
     func setupUI() {
         view.backgroundColor = .clear
         
-        [titleLabel, textField, okButton, cancleButton]
+        [titleLabel, textField, sectionLabel,
+         okButton, cancleButton]
             .forEach { subView.addSubview($0) }
         
         view.addSubview(subView)
@@ -94,8 +104,13 @@ extension AddSectionVC {
             $0.height.equalTo(30)
         }
         
+        sectionLabel.snp.makeConstraints {
+            $0.left.equalTo(textField)
+            $0.bottom.equalTo(textField.snp.top).offset(-5)
+        }
+        
         titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(textField.snp.top).offset(-20)
+            $0.bottom.equalTo(sectionLabel.snp.top).offset(-10)
             $0.centerX.equalTo(textField)
         }
         

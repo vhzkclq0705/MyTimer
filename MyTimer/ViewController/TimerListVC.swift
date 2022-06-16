@@ -19,6 +19,7 @@ class TimerListVC: UIViewController {
         tableView.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
         tableView.expandingAnimation = .fade
         tableView.collapsingAnimation = .fade
+        tableView.backgroundColor = #colorLiteral(red: 0.09275915474, green: 0.09275915474, blue: 0.09275915474, alpha: 1)
         tableView.separatorColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
@@ -127,6 +128,8 @@ class TimerListVC: UIViewController {
 // MARK: - Funcs for setup UI
 extension TimerListVC {
     func setupUI() {
+        view.backgroundColor = #colorLiteral(red: 0.09411764706, green: 0.09411764706, blue: 0.09411764706, alpha: 1)
+        
         [ addSectionButton, addTimerButton, settingsButton,
           addTimerLabel, addSectionLabel, settingsLabel ]
             .forEach { controlView.addSubview($0) }
@@ -230,6 +233,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         let timer = viewModel.timerInfo(indexPath)
         cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec,
                       color: viewModel.sectionColor(indexPath.section))
+//        cell.updateUI(title: timer.title, min: timer.min, sec: timer.sec,
+//                      color: Colors.color(7))
         
         cell.timeSetButtonTapHandler = {
             self.popupTimeSet(indexPath)

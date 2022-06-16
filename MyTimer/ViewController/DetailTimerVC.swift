@@ -93,7 +93,6 @@ class DetailTimerVC: UIViewController {
     lazy var alertLabel: UILabel = {
         let label = UILabel()
         label.text = "화면을 터치하세요!!"
-        //label.font = UIFont(name: "establishRoomNo703", size: 40)
         label.font = .systemFont(ofSize: 40)
         
         return label
@@ -110,12 +109,15 @@ class DetailTimerVC: UIViewController {
     var myTimer: MyTimer!
     var isInited = true
     var timer = Timer()
+    var timerisOn = false
+    var timeInBackground: Date?
     let viewModel = DetailTimerViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.loadTimer(myTimer)
         setupUI()
+        timerNotification()
     }
 }
 
@@ -187,6 +189,14 @@ extension DetailTimerVC {
             $0.top.right.equalTo(subView).inset(5)
         }
     }
+    
+    func timerNotification() {
+        let notificationCenter = NotificationCenter.default
+        // Notification when moving to background state.
+        notificationCenter.addObserver(self, selector: #selector(movedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        // Notification when moving to foreground state.
+        notificationCenter.addObserver(self, selector: #selector(movedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
 }
 
 extension DetailTimerVC {
@@ -196,12 +206,16 @@ extension DetailTimerVC {
     }
     
     func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         timer.fire()
+        timerisOn = true
+        print("start")
     }
     
     func stopTimer() {
         timer.invalidate()
+        timerisOn = false
+        print("stop")
     }
     
     func resetTimer() {
@@ -217,10 +231,10 @@ extension DetailTimerVC {
     
     func tremorsAnimation() {
         let angle = Double.pi / 24
-        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: { [weak self] in
-            self?.colon.transform = CGAffineTransform(rotationAngle: angle)
-            self?.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
-            self?.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
+        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: {
+            self.colon.transform = CGAffineTransform(rotationAngle: angle)
+            self.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
+            self.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
         })
     }
     
@@ -270,6 +284,24 @@ extension DetailTimerVC {
             stopTimer()
             circleProgrssBar.pauseLayer()
         }
+    }
+    
+    @objc func movedToBackground() {
+        if timerisOn {
+            stopTimer()
+            timeInBackground = Date()
+            print(viewModel.remainingTime)
+        }
+    }
+    
+    @objc func movedToForeground() {
+        guard let time = timeInBackground else { return }
+        DispatchQueue.main.async { [weak self] in
+            let interval = Date().timeIntervalSince(time)
+            self?.viewModel.timeIntervalInBackground(interval)
+            self?.startTimer()
+        }
+        
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {

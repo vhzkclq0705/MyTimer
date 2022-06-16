@@ -28,7 +28,7 @@ class TimerViewModel {
     }
     
     func sectionColor(_ section: Int) -> UIColor {
-        let num = section % 7 + 1
+        let num = section % Colors.allCases.count + 1
         return Colors.color(num)
     }
     
