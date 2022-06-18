@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603438C285DDAEF0075F9E7 /* NotiPermission.swift */; };
 		7603B5382849D51B0016B66C /* SetTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603B5372849D51B0016B66C /* SetTimerVC.swift */; };
 		7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603B5392849E74F0016B66C /* PickerViewManager.swift */; };
 		7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603B53B2849EA170016B66C /* SetTimerViewModel.swift */; };
@@ -57,6 +58,7 @@
 		0B6F2167A43B1BD151D1DC4A /* Pods-MyTimer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTimer.release.xcconfig"; path = "Target Support Files/Pods-MyTimer/Pods-MyTimer.release.xcconfig"; sourceTree = "<group>"; };
 		440F088CC7FA7E29B462743C /* Pods_MyTimer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyTimer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62188C104FED3EA5DDEA309C /* Pods-MyTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTimer.debug.xcconfig"; path = "Target Support Files/Pods-MyTimer/Pods-MyTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		7603438C285DDAEF0075F9E7 /* NotiPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiPermission.swift; sourceTree = "<group>"; };
 		7603B5372849D51B0016B66C /* SetTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimerVC.swift; sourceTree = "<group>"; };
 		7603B5392849E74F0016B66C /* PickerViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewManager.swift; sourceTree = "<group>"; };
 		7603B53B2849EA170016B66C /* SetTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimerViewModel.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				7603B5392849E74F0016B66C /* PickerViewManager.swift */,
 				769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */,
 				769F650A285B393900E68D19 /* GlobalAlert.swift */,
+				7603438C285DDAEF0075F9E7 /* NotiPermission.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			files = (
 				76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */,
 				76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */,
+				7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */,
 				76CC80362844C7C800683831 /* Colors.swift in Sources */,
 				76CC802E2844901100683831 /* Section.swift in Sources */,
 				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
@@ -576,6 +580,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -605,6 +610,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

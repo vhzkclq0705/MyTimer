@@ -117,6 +117,7 @@ class TimerListVC: UIViewController {
         loadAlarmSound()
         viewModel.load()
         setupUI()
+        requestAuthNoti()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -364,7 +365,6 @@ extension TimerListVC {
                               actions: [
                                   {_ in
                                       self.swipeDeleteButtonTapped(indexPath)
-                                       print("okay click")
                                   }, {_ in }
                              ])
     }

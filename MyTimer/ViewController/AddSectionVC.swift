@@ -157,6 +157,6 @@ extension AddSectionVC: UITextFieldDelegate {
         guard let stringRange = Range(range, in: currentText) else { return false }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         
-        return updatedText.count <= 10
+        return updatedText.count <= 8
     }
 }

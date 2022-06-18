@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        application.registerForRemoteNotifications()
         return true
     }
 
@@ -29,7 +30,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         
     }
-
-
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // Background push
+    private func userNotificationCenter(_ center: UNUserNotificationCenter,
+                        didReceive response: UNNotificationResponse,
+                        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.sound, .banner])
+    }
+    
+    // Foreground push
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent noti: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .sound, .badge, .banner])
+    }
+}

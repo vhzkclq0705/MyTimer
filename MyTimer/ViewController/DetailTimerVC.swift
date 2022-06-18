@@ -121,6 +121,7 @@ class DetailTimerVC: UIViewController {
     }
 }
 
+// About setup ViewController
 extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
@@ -160,7 +161,7 @@ extension DetailTimerVC {
         
         titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(remainingMinTime.snp.top).offset(-10)
+            $0.bottom.equalTo(remainingMinTime.snp.top)
         }
 
         colon.snp.makeConstraints {
@@ -199,6 +200,7 @@ extension DetailTimerVC {
     }
 }
 
+// About timer
 extension DetailTimerVC {
     func remainingTimeText() {
         remainingMinTime.text = viewModel.min
@@ -229,6 +231,13 @@ extension DetailTimerVC {
         remainingTimeText()
     }
     
+    func timerIsFinished() {
+        alertView.isHidden = false
+        stopTimer()
+        playAudio(true)
+        tremorsAnimation()
+    }
+    
     func tremorsAnimation() {
         let angle = Double.pi / 24
         UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: {
@@ -243,14 +252,61 @@ extension DetailTimerVC {
         if viewModel.remainingTime > 0 {
             remainingTimeText()
         } else {
-            alertView.isHidden = false
-            stopTimer()
-            playAudio(true)
-            tremorsAnimation()
+            timerIsFinished()
         }
     }
 }
 
+// About push notification
+extension DetailTimerVC {
+    func pushNotification() {
+        let notiContent = UNMutableNotificationContent()
+        notiContent.title = viewModel.title
+        notiContent.body = "시간이 되었습니다!!"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: viewModel.remainingTime, repeats: false)
+        
+        let request = UNNotificationRequest(
+            identifier: "timerDone",
+            content: notiContent,
+            trigger: trigger
+        )
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print(error)
+            }
+        }
+    }
+}
+
+// About app state
+extension DetailTimerVC {
+    @objc func movedToBackground() {
+        if timerisOn {
+            stopTimer()
+            timeInBackground = Date()
+            pushNotification()
+        }
+    }
+    
+    @objc func movedToForeground() {
+        guard let time = timeInBackground else { return }
+        let interval = Date().timeIntervalSince(time)
+        if viewModel.remainingTime < interval {
+            viewModel.finish()
+            remainingTimeText()
+            timerIsFinished()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.viewModel.timeIntervalInBackground(interval)
+                self?.startTimer()
+            }
+        }
+    }
+}
+
+// About Button Actions
 extension DetailTimerVC {
     @objc func recognizeTapped(_ sender: Any) {
         alertView.isHidden = true
@@ -284,24 +340,6 @@ extension DetailTimerVC {
             stopTimer()
             circleProgrssBar.pauseLayer()
         }
-    }
-    
-    @objc func movedToBackground() {
-        if timerisOn {
-            stopTimer()
-            timeInBackground = Date()
-            print(viewModel.remainingTime)
-        }
-    }
-    
-    @objc func movedToForeground() {
-        guard let time = timeInBackground else { return }
-        DispatchQueue.main.async { [weak self] in
-            let interval = Date().timeIntervalSince(time)
-            self?.viewModel.timeIntervalInBackground(interval)
-            self?.startTimer()
-        }
-        
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {

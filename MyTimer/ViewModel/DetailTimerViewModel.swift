@@ -37,6 +37,10 @@ class DetailTimerViewModel {
         time -= 0.1
     }
     
+    func finish() {
+        time = 0
+    }
+    
     func timeIntervalInBackground(_ interval: Double) {
         time -= (interval * 100).rounded() / 100
         if time < 0 {
