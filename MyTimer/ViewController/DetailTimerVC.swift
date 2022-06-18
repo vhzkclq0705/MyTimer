@@ -263,6 +263,7 @@ extension DetailTimerVC {
         let notiContent = UNMutableNotificationContent()
         notiContent.title = viewModel.title
         notiContent.body = "시간이 되었습니다!!"
+        notiContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(alarmSound).mp3"))
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: viewModel.remainingTime, repeats: false)
         
