@@ -13,7 +13,12 @@ var soundEffect = AVAudioPlayer()
 var alarmSound = ""
 
 func playAudio(_ isDetail: Bool) {
-    guard let url = Bundle.main.url(forResource: alarmSound, withExtension: "mp3") else { return }
+    guard let url = Bundle.main.url(
+        forResource: alarmSound,
+        withExtension: "mp3") else {
+        return
+    }
+    
     do {
         soundEffect = try AVAudioPlayer(contentsOf: url)
         let sound = soundEffect

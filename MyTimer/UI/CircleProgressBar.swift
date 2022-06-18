@@ -10,6 +10,7 @@ import UIKit
 
 class CircleProgressBar: UIView {
     
+    // MARK: - Property
     var timerduration: TimeInterval?
     var circleLayer = CAShapeLayer()
     var progressLayer = CAShapeLayer()
@@ -20,14 +21,20 @@ class CircleProgressBar: UIView {
         super.init(frame: frame)
         self.backgroundColor = .clear
     }
-        
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
+    // MARK: - Setup CircleProgressBar
     func createCircularPath(_ color: UIColor) {
         // CircularPath for layer
-        let circularPath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: 150, startAngle: startPoint, endAngle: endPoint, clockwise: true)
+        let circularPath = UIBezierPath(
+            arcCenter: CGPoint(x: 0, y: 0),
+            radius: 150,
+            startAngle: startPoint,
+            endAngle: endPoint,
+            clockwise: true)
         
         // Set circleLayer
         circleLayer.path = circularPath.cgPath
@@ -58,9 +65,11 @@ class CircleProgressBar: UIView {
         circularProgressAnimation.fillMode = .forwards
         circularProgressAnimation.isRemovedOnCompletion = false
         
+        // Add animation to Layer
         progressLayer.add(circularProgressAnimation, forKey: "progressAnimation")
     }
     
+    // MARK: - Funcs for when layer is in progress
     func pauseLayer(){
         let pauseTime = progressLayer.convertTime(CACurrentMediaTime(), from: nil)
         progressLayer.speed = 0
@@ -72,7 +81,9 @@ class CircleProgressBar: UIView {
         progressLayer.beginTime = 0
         progressLayer.speed = 1
         
-        let timeSincePause = progressLayer.convertTime(CACurrentMediaTime(), from: nil) - pauseTime
+        let timeSincePause = progressLayer.convertTime(
+            CACurrentMediaTime(),
+            from: nil) - pauseTime
         
         progressLayer.beginTime = timeSincePause
     }

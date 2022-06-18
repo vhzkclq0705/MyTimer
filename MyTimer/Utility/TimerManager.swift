@@ -11,11 +11,11 @@ import UIKit
 // Class for model(Section) management
 class TimerManager {
     
+    // MARK: - Property
     static let shared = TimerManager()
+    var sections = [Section]()
     
     private init() {}
-    
-    var sections = [Section]()
     
     // MARK: - Funcs for Section and Timer
     func addSection(_ title: String) {
@@ -39,14 +39,19 @@ class TimerManager {
     
     // MARK: - Funcs for save and load data
     func save() {
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(sections), forKey: "Sections")
+        UserDefaults.standard.set(
+            try? PropertyListEncoder().encode(sections),
+            forKey: "Sections")
         
         print("Save Success!")
     }
     
     func load() {
-        guard let data = UserDefaults.standard.data(forKey: "Sections") else { return }
-        sections = (try? PropertyListDecoder().decode([Section].self, from: data)) ?? []
+        guard let data = UserDefaults.standard.data(forKey: "Sections") else { return
+        }
+        sections = (try? PropertyListDecoder().decode(
+            [Section].self,
+            from: data)) ?? []
         
         print("Load Success!")
     }

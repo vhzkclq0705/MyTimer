@@ -9,75 +9,82 @@ import UIKit
 import SnapKit
 import AVFoundation
 
+// ViewController for timer
 class DetailTimerVC: UIViewController {
-
+    
+    // MARK: - Create UI items
     lazy var circleProgrssBar = CircleProgressBar()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.changeLabelStyle(text: "", size: 30, color: .black)
         
         return label
     }()
     
     lazy var colon: UILabel = {
         let label = UILabel()
-        label.text = ":"
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 80, weight: .bold)
-
+        label.changeLabelStyle(text: ":", size: 80, color: .black)
+        
         return label
     }()
     
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 80, weight: .bold)
-
+        label.changeLabelStyle(text: "", size: 80, color: .black)
+        
         return label
     }()
     
     lazy var remainingSecTime: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 80, weight: .bold)
+        label.changeLabelStyle(text: "", size: 80, color: .black)
         
         return label
     }()
     
     lazy var subView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 15
+        view.setupSubView()
         
         return view
     }()
     
     lazy var resetButton: UIButton = {
         let button = UIButton()
-        button.timerButtons(false)
-        button.setImage(UIImage(systemName: "arrow.counterclockwise"), for: .normal)
-        button.addTarget(self, action: #selector(resetButtonTapped(_:)), for: .touchUpInside)
+        button.setupButtonImage(size: 40, color: .black)
+        button.setImage(
+            UIImage(systemName: "arrow.counterclockwise"),
+            for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(resetButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var startButton: UIButton = {
         let button = UIButton()
-        button.timerButtons(false)
+        button.setupButtonImage(size: 40, color: .black)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.setImage(UIImage(systemName: "pause.fill"), for: .selected)
-        button.addTarget(self, action: #selector(startButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(
+            self,
+            action: #selector(startButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.timerButtons(true)
+        button.setupButtonImage(size: 20, color: .black)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.addTarget(self, action: #selector(cancleButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
@@ -92,8 +99,11 @@ class DetailTimerVC: UIViewController {
     
     lazy var alertLabel: UILabel = {
         let label = UILabel()
-        label.text = "화면을 터치하세요!!"
-        label.font = .systemFont(ofSize: 40)
+        label.changeLabelStyle(
+            text: "화면을 터치하세요!!",
+            size: 40,
+            color: .white
+        )
         
         return label
     }()
@@ -105,6 +115,7 @@ class DetailTimerVC: UIViewController {
         return gesture
     }()
     
+    // MARK: - Property
     var color: UIColor!
     var myTimer: MyTimer!
     var isInited = true
@@ -113,6 +124,7 @@ class DetailTimerVC: UIViewController {
     var timeInBackground: Date?
     let viewModel = DetailTimerViewModel()
     
+    // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.loadTimer(myTimer)
@@ -121,7 +133,7 @@ class DetailTimerVC: UIViewController {
     }
 }
 
-// About setup ViewController
+// MARK: - Setup UI
 extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
@@ -132,11 +144,22 @@ extension DetailTimerVC {
         alertView.addGestureRecognizer(recognizeTapGesture)
         alertView.addSubview(alertLabel)
         
-        [ titleLabel ,remainingMinTime, remainingSecTime, colon,
-          resetButton, startButton, cancleButton ]
+        [
+            titleLabel ,
+            remainingMinTime,
+            remainingSecTime,
+            colon,
+            resetButton,
+            startButton,
+            cancleButton,
+        ]
             .forEach { subView.addSubview($0) }
         
-        [ subView, circleProgrssBar, alertView ]
+        [
+            subView,
+            circleProgrssBar,
+            alertView
+        ]
             .forEach { view.addSubview($0) }
         
         circleProgrssBar.snp.makeConstraints {
@@ -163,7 +186,7 @@ extension DetailTimerVC {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(remainingMinTime.snp.top)
         }
-
+        
         colon.snp.makeConstraints {
             $0.center.equalTo(circleProgrssBar)
         }
@@ -177,7 +200,7 @@ extension DetailTimerVC {
             $0.centerY.equalTo(circleProgrssBar)
             $0.left.equalTo(colon.snp.right)
         }
-
+        
         resetButton.snp.makeConstraints {
             $0.bottom.left.equalTo(subView).inset(20)
         }
@@ -190,17 +213,9 @@ extension DetailTimerVC {
             $0.top.right.equalTo(subView).inset(5)
         }
     }
-    
-    func timerNotification() {
-        let notificationCenter = NotificationCenter.default
-        // Notification when moving to background state.
-        notificationCenter.addObserver(self, selector: #selector(movedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
-        // Notification when moving to foreground state.
-        notificationCenter.addObserver(self, selector: #selector(movedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
 }
 
-// About timer
+// MARK: - Timer actions
 extension DetailTimerVC {
     func remainingTimeText() {
         remainingMinTime.text = viewModel.min
@@ -208,7 +223,13 @@ extension DetailTimerVC {
     }
     
     func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(updateCounter),
+            userInfo: nil,
+            repeats: true)
+        
         timer.fire()
         timerisOn = true
         print("start")
@@ -240,11 +261,17 @@ extension DetailTimerVC {
     
     func tremorsAnimation() {
         let angle = Double.pi / 24
-        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse],  animations: {
-            self.colon.transform = CGAffineTransform(rotationAngle: angle)
-            self.remainingMinTime.transform = CGAffineTransform(rotationAngle: angle)
-            self.remainingSecTime.transform = CGAffineTransform(rotationAngle: angle)
-        })
+        UIView.animate(
+            withDuration: 0.01,
+            delay: 0,
+            options: [.repeat, .autoreverse],
+            animations: {
+                self.colon.transform = CGAffineTransform(rotationAngle: angle)
+                self.remainingMinTime.transform = CGAffineTransform(
+                    rotationAngle: angle)
+                self.remainingSecTime.transform = CGAffineTransform(
+                    rotationAngle: angle)
+            })
     }
     
     @objc func updateCounter() {
@@ -257,21 +284,31 @@ extension DetailTimerVC {
     }
 }
 
-// About push notification
+// MARK: - Push notification
 extension DetailTimerVC {
+    func timerNotification() {
+        let notificationCenter = NotificationCenter.default
+        // Notification when moving to background state.
+        notificationCenter.addObserver(self, selector: #selector(movedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        // Notification when moving to foreground state.
+        notificationCenter.addObserver(self, selector: #selector(movedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
     func pushNotification() {
         let notiContent = UNMutableNotificationContent()
         notiContent.title = viewModel.title
         notiContent.body = "시간이 되었습니다!!"
-        notiContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(alarmSound).mp3"))
+        notiContent.sound = UNNotificationSound(
+            named: UNNotificationSoundName(rawValue: "\(alarmSound).mp3"))
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: viewModel.remainingTime, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: viewModel.remainingTime,
+            repeats: false)
         
         let request = UNNotificationRequest(
             identifier: "timerDone",
             content: notiContent,
-            trigger: trigger
-        )
+            trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
@@ -281,7 +318,7 @@ extension DetailTimerVC {
     }
 }
 
-// About app state
+// MARK: - Detect app state
 extension DetailTimerVC {
     @objc func movedToBackground() {
         if timerisOn {
@@ -307,7 +344,7 @@ extension DetailTimerVC {
     }
 }
 
-// About Button Actions
+// MARK: - Button actions
 extension DetailTimerVC {
     @objc func recognizeTapped(_ sender: Any) {
         alertView.isHidden = true
@@ -346,7 +383,10 @@ extension DetailTimerVC {
     @objc func cancleButtonTapped(_ sender: UIButton) {
         timer.invalidate()
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }

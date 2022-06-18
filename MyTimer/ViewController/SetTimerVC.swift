@@ -8,13 +8,16 @@
 import UIKit
 import SnapKit
 
+// ViewController for SetTimer
 class SetTimerVC: UIViewController {
-
+    
+    // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "시간을 재설정하세요!"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.changeLabelStyle(
+            text: "시간을 재설정 하세요!",
+            size: 20,
+            color: Colors.color(8))
         
         return label
     }()
@@ -29,41 +32,47 @@ class SetTimerVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("확인", for: .normal)
-        button.addTarget(self, action: #selector(okButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("확인")
+        button.addTarget(
+            self,
+            action: #selector(okButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("취소", for: .normal)
-        button.addTarget(self, action: #selector(cancleButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("취소")
+        button.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var subView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 15
+        view.setupSubView()
         
         return view
     }()
     
+    // MARK: - Property
     let viewModel = SetTimerViewModel()
     var timer: MyTimer!
     var timerIndexPath: IndexPath!
     
+    // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-
+    
 }
 
+// MARK: - Setup UI
 extension SetTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
@@ -71,7 +80,12 @@ extension SetTimerVC {
         pickerView.selectRow(timer.min, inComponent: 0, animated: true)
         pickerView.selectRow(timer.sec, inComponent: 2, animated: true)
         
-        [ titleLabel, pickerView, okButton, cancleButton]
+        [
+            titleLabel,
+            pickerView,
+            okButton,
+            cancleButton,
+        ]
             .forEach { subView.addSubview($0) }
         
         view.addSubview(subView)
@@ -110,21 +124,32 @@ extension SetTimerVC {
     }
 }
 
-// MARK: - Funcs for UIPickerView(Same as AddTimerVC)
+// MARK: - PickerView
 extension SetTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return viewModel.numOfComponents
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int)
+    -> Int {
         return viewModel.numOfRows(component)
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        viewModel.didSelectTime(row: row, component: component)
-    }
+    func pickerView(
+        _ pickerView: UIPickerView,
+        didSelectRow row: Int,
+        inComponent component: Int) {
+            viewModel.didSelectTime(row: row, component: component)
+        }
     
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        viewForRow row: Int,
+        forComponent component: Int,
+        reusing view: UIView?)
+    -> UIView {
         pickerView.subviews.forEach {
             $0.backgroundColor = .clear
         }
@@ -133,17 +158,24 @@ extension SetTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
+// MARK: - Button actions
 extension SetTimerVC {
     @objc func okButtonTapped(_ sender: UIButton) {
         viewModel.setTimer(timerIndexPath)
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }

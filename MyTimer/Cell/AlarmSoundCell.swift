@@ -15,8 +15,7 @@ class AlarmSoundCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var soundLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.changeLabelStyle(text: "", size: 20, color: .black)
         
         return label
     }()
@@ -29,7 +28,7 @@ class AlarmSoundCell: UITableViewCell {
         return button
     }()
     
-    // MARK: - Funcs for life cycle
+    // MARK: - Cell init
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
@@ -38,11 +37,15 @@ class AlarmSoundCell: UITableViewCell {
 }
 
 extension AlarmSoundCell {
-    // MARK: - Funcs for setup UI
+    // MARK: - Setup UI
     func setup() {
         contentView.backgroundColor = .white
         
-        [soundLabel, checkButton].forEach { contentView.addSubview($0) }
+        [
+            soundLabel,
+            checkButton
+        ]
+            .forEach { contentView.addSubview($0) }
         
         checkButton.snp.makeConstraints {
             $0.left.equalToSuperview().inset(10)
@@ -56,7 +59,7 @@ extension AlarmSoundCell {
         }
     }
     
-    // MARK: - Fucs for update UI
+    // MARK: - Update UI
     func updateUI(_ text: String) {
         soundLabel.text = text
         checkButton.isSelected = alarmSound == text ? true : false

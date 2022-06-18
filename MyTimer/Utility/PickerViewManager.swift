@@ -10,6 +10,7 @@ import UIKit
 
 class PickerViewManager {
     
+    // MARK: - Property
     var rows = [Int](0...59)
     var time = [0, 0]
     let timeUnits = ["분", "초"]

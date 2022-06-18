@@ -16,16 +16,14 @@ class TimerListCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.changeLabelStyle(text: "", size: 20, color: .black)
         
         return label
     }()
     
     lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.changeLabelStyle(text: "", size: 30, color: .black)
         
         return label
     }()
@@ -33,36 +31,37 @@ class TimerListCell: UITableViewCell {
     lazy var timerButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "play.circle"), for: .normal)
-        button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(timerButtonTapped(_:)), for: .touchUpInside)
-        
-        var config = UIButton.Configuration.plain()
-        config.background.backgroundColor = .white
-        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 25, weight: .bold)
-        button.configuration = config
+        button.setupButtonImage(size: 25, color: nil)
+        button.addTarget(
+            self,
+            action: #selector(timerButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
-    // MARK: - Button tap handlers
-    var timeSetButtonTapHandler: (() -> Void)?
+    // MARK: - Button tap handler
     var timerButtonTapHandler: (() -> Void)?
     
-    // MARK: - Funcs for life cycle
+    // MARK: - Cell init
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
     }
 }
 
-// MARK: - Funcs for UI
 extension TimerListCell {
-    // Setup UI
+    // MARK: - Setup UI
     func setup() {
         self.backgroundColor = .white
         self.selectionStyle = .none
         
-        [titleLabel, timeLabel, timerButton].forEach { contentView.addSubview($0) }
+        [
+            titleLabel,
+            timeLabel,
+            timerButton,
+        ]
+            .forEach { contentView.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
             $0.left.top.equalToSuperview().inset(10)
@@ -81,7 +80,7 @@ extension TimerListCell {
         }
     }
     
-    // Update UI
+    // MARK: - Update UI
     func updateUI(title: String, min: Int, sec: Int, color: UIColor) {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)
@@ -90,6 +89,7 @@ extension TimerListCell {
         timerButton.tintColor = color
     }
     
+    // MARK: - Button action
     @objc func timerButtonTapped(_ sender: UIButton) {
         timerButtonTapHandler?()
     }

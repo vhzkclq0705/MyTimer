@@ -8,16 +8,16 @@
 import Foundation
 import UIKit
 
-// ViewModel for add timer View
+// ViewModel for AddTimerVC
 class AddTimerViewModel {
     
+    // MARK: - Property
     let timerManager = TimerManager.shared
     let pickerViewManager = PickerViewManager()
-    
     var sections = [String]()
     var section: Int = 0
     
-    // MARK: - Funcs for UI
+    // MARK: - UI
     var numOfComponents: Int {
         pickerViewManager.numOfComponents
     }
@@ -37,7 +37,11 @@ class AddTimerViewModel {
     
     func addTimer(title: String) {
         let time = pickerViewManager.time
-        timerManager.addTimer(title: title, min: time[0], sec: time[1], section: section)
+        timerManager.addTimer(
+            title: title,
+            min: time[0],
+            sec: time[1],
+            section: section)
     }
     
     // MARK: - Func for load data

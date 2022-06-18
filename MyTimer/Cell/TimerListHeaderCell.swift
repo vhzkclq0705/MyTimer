@@ -17,7 +17,6 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.tintColor = .black
         label.font = .systemFont(ofSize: 25, weight: .bold)
         
         return label
@@ -27,32 +26,33 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         let button = UIButton()
         button.tintColor = .white
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        button.setupButtonImage(size: 20, color: .white)
         button.isUserInteractionEnabled = false
-        
-        var config = UIButton.Configuration.plain()
-        config.preferredSymbolConfigurationForImage =  UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
-        button.configuration = config
         
         return button
     }()
     
+    // MARK: - Property
     var color: UIColor!
     
-    // MARK: - Funcs for life cycle
+    // MARK: - Cell init
     override func layoutSubviews() {
         super.layoutSubviews()
         setup()
     }
-    
 }
 
 extension TimerListHeaderCell {
-    // MARK: - Funcs for setup UI
+    // MARK: - Setup UI
     func setup() {
         self.selectionStyle = .none
         
-        [titleLabel, detailButton].forEach { contentView.addSubview($0) }
-
+        [
+            titleLabel,
+            detailButton,
+        ]
+            .forEach { contentView.addSubview($0) }
+        
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview().inset(10)
@@ -65,7 +65,7 @@ extension TimerListHeaderCell {
         }
     }
     
-    // MARK: - Fucs for update UI
+    // MARK: - Update UI
     func updateUI(text: String, color: UIColor) {
         titleLabel.text = text
         self.backgroundColor = color

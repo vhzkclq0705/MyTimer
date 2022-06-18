@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 
-// ViewModel for main view
+// ViewModel for TimerListVC
 class TimerViewModel {
     
+    // MARK: - Property
     let manager = TimerManager.shared
     var sections = [Section]()
     
-    // MARK: - Funcs for UI
+    // MARK: - UI
     var numOfSections: Int {
         return sections.count
     }

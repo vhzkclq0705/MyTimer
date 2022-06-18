@@ -8,15 +8,16 @@
 import UIKit
 import SnapKit
 
-// ViewController for AddSectionView
+// ViewController for add section
 class AddSectionVC: UIViewController {
     
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "섹션을 추가하세요!"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.changeLabelStyle(
+            text: "섹션을 추가하세요!",
+            size: 20,
+            color: Colors.color(8))
         
         return label
     }()
@@ -25,41 +26,45 @@ class AddSectionVC: UIViewController {
         let textField = UITextField()
         textField.setupDetailTextField("운동")
         textField.delegate = self
-
+        
         return textField
     }()
     
     lazy var sectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "섹션"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.changeLabelStyle(
+            text: "섹션",
+            size: 15,
+            color: Colors.color(8))
         
         return label
     }()
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("확인", for: .normal)
-        button.addTarget(self, action: #selector(okButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("확인")
+        button.addTarget(
+            self,
+            action: #selector(okButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("취소", for: .normal)
-        button.addTarget(self, action: #selector(cancleButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("취소")
+        button.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var subView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 15
+        view.setupSubView()
         
         return view
     }()
@@ -73,21 +78,29 @@ class AddSectionVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(
-            self, name: NSNotification.Name(rawValue: "reload"), object: nil)
+            self,
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil)
     }
     
+    // MARK: - Keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
 }
 
-// MARK: - Funcs for setup UI
+// MARK: - Setup UI
 extension AddSectionVC {
     func setupUI() {
         view.backgroundColor = .clear
         
-        [titleLabel, textField, sectionLabel,
-         okButton, cancleButton]
+        [
+            titleLabel,
+            textField,
+            sectionLabel,
+            okButton,
+            cancleButton,
+        ]
             .forEach { subView.addSubview($0) }
         
         view.addSubview(subView)
@@ -128,35 +141,52 @@ extension AddSectionVC {
     }
 }
 
-// MARK: - Funcs for Button actions
+// MARK: TextField
+extension AddSectionVC: UITextFieldDelegate {
+    // Limit TextField range
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String)
+    -> Bool {
+        guard let text = textField.text,
+              let stringRange = Range(range, in: text) else {
+            return false
+        }
+        let updatedText = text.replacingCharacters(
+            in: stringRange,
+            with: string)
+        
+        return updatedText.count <= 8
+    }
+}
+
+// MARK: - Button actions
 extension AddSectionVC {
     @objc func reload() {
         dismiss(animated: true)
     }
     
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let term = textField.text, term.isEmpty == false else { return }
+        guard let term = textField.text, term.isEmpty == false else {
+            return
+        }
         TimerManager.shared.addSection(term)
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
-    }
-}
-
-// MARK: - Funcs for TextField
-extension AddSectionVC: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-        
-        return updatedText.count <= 8
     }
 }

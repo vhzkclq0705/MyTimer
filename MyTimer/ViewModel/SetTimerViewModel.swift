@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 
+// ViewModel for SetTimerVC
 class SetTimerViewModel {
     
+    // MARK: - Property
     let timerManager = TimerManager.shared
     let pickerViewManager = PickerViewManager()
     
-    
-    // MARK: - Funcs for UI
+    // MARK: - UI
     var numOfComponents: Int {
         pickerViewManager.numOfComponents
     }
@@ -36,7 +37,9 @@ class SetTimerViewModel {
         let min = pickerViewManager.time[0]
         let sec = pickerViewManager.time[1]
         timerManager.setTimer(
-            section: indexpath.section, index: indexpath.row - 1,
-            min: min, sec: sec)
+            section: indexpath.section,
+            index: indexpath.row - 1,
+            min: min,
+            sec: sec)
     }
 }

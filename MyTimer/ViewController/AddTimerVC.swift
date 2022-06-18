@@ -9,24 +9,26 @@ import UIKit
 import SnapKit
 import DropDown
 
-// ViewController for AddTimerView
+// ViewController for add timer
 class AddTimerVC: UIViewController {
     
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "타이머를 추가하세요!"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.changeLabelStyle(
+            text: "타이머를 추가하세요!",
+            size: 20,
+            color: Colors.color(8))
         
         return label
     }()
     
     lazy var sectionLabel: UILabel = {
         let label = UILabel()
-        label.text = "섹션"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.changeLabelStyle(
+            text: "섹션",
+            size: 15,
+            color: Colors.color(8))
         
         return label
     }()
@@ -42,11 +44,18 @@ class AddTimerVC: UIViewController {
     lazy var sectionButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Colors.color(0)
-        button.setImage(UIImage(systemName: "arrowtriangle.down.fill"), for: .normal)
-        button.setImage(UIImage(systemName: "arrowtriangle.up.fill"), for: .selected)
+        button.setImage(
+            UIImage(systemName: "arrowtriangle.down.fill"),
+            for: .normal)
+        button.setImage(
+            UIImage(systemName: "arrowtriangle.up.fill"),
+            for: .selected)
         button.tintColor = .white
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(dropDownTapped(_:)), for: .touchUpInside)
+        button.addTarget(
+            self,
+            action: #selector(dropDownTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
@@ -60,9 +69,10 @@ class AddTimerVC: UIViewController {
     
     lazy var timerLabel: UILabel = {
         let label = UILabel()
-        label.text = "타이머"
-        label.textColor = Colors.color(8)
-        label.font = .systemFont(ofSize: 15, weight: .bold)
+        label.changeLabelStyle(
+            text: "타이머",
+            size: 15,
+            color: Colors.color(8))
         
         return label
     }()
@@ -71,7 +81,7 @@ class AddTimerVC: UIViewController {
         let textField = UITextField()
         textField.setupDetailTextField("푸시업")
         textField.delegate = self
-
+        
         return textField
     }()
     
@@ -85,31 +95,34 @@ class AddTimerVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("확인", for: .normal)
-        button.addTarget(self, action: #selector(okButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("확인")
+        button.addTarget(
+            self,
+            action: #selector(okButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton()
-        button.setTitle("취소", for: .normal)
-        button.addTarget(self, action: #selector(cancleButtonTapped(_:)), for: .touchUpInside)
+        button.setupDetailButton("취소")
+        button.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()
     
     lazy var subView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 15
+        view.setupSubView()
         
         return view
     }()
     
-    // MARK: - Create viewModel and dropDown
+    // MARK: - Property
     let viewModel = AddTimerViewModel()
     let dropDown = DropDown()
     
@@ -127,21 +140,33 @@ class AddTimerVC: UIViewController {
             self, name: NSNotification.Name(rawValue: "reload"), object: nil)
     }
     
+    // MARK: - Keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
 }
 
-// MARK: - Funcs for setup UI
+// MARK: - Setup UI
 extension AddTimerVC {
     func setupUI() {
         view.backgroundColor = .clear
         
-        [sectionTextField, sectionButton]
+        [
+            sectionTextField,
+            sectionButton,
+        ]
             .forEach { sectionView.addSubview($0) }
         
-        [titleLabel, sectionLabel, sectionView, timerTextField,
-         timerLabel, pickerView, okButton, cancleButton]
+        [
+            titleLabel,
+            sectionLabel,
+            sectionView,
+            timerTextField,
+            timerLabel,
+            pickerView,
+            okButton,
+            cancleButton,
+        ]
             .forEach { subView.addSubview($0) }
         
         view.addSubview(subView)
@@ -210,7 +235,7 @@ extension AddTimerVC {
         }
     }
     
-    // Func for init attributes of DropDown
+    // Init attributes of DropDown
     func initDropDown() {
         DropDown.appearance().textColor = .darkGray
         DropDown.appearance().selectedTextColor = .black
@@ -220,38 +245,49 @@ extension AddTimerVC {
         dropDown.dismissMode = .automatic
     }
     
-    // Func for setup DropDown
+    //  Setup DropDown
     func setupDropDown() {
         dropDown.dataSource = viewModel.sections
         dropDown.anchorView = sectionView
         dropDown.bottomOffset = CGPoint(x: 0, y: 30)
-        dropDown.selectionAction = { [weak self] (index, item) in
-            self?.viewModel.section = index
-            self?.sectionTextField.text = item
-            self?.sectionButton.isSelected = false
+        dropDown.selectionAction = { index, item in
+            self.viewModel.section = index
+            self.sectionTextField.text = item
+            self.sectionButton.isSelected = false
         }
-        dropDown.cancelAction = { [weak self] in
-            self?.sectionButton.isSelected = false
+        dropDown.cancelAction = {
+            self.sectionButton.isSelected = false
         }
     }
 }
 
-// MARK: - Funcs for PickerView
+// MARK: - PickerView
 extension AddTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return viewModel.numOfComponents
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int)
+    -> Int {
         return viewModel.numOfRows(component)
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        viewModel.didSelectTime(row: row, component: component)
-    }
+    func pickerView(
+        _ pickerView: UIPickerView,
+        didSelectRow row: Int,
+        inComponent component: Int) {
+            viewModel.didSelectTime(row: row, component: component)
+        }
     
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+    // PickerView item UI
+    func pickerView(
+        _ pickerView: UIPickerView,
+        viewForRow row: Int,
+        forComponent component: Int,
+        reusing view: UIView?)
+    -> UIView {
         pickerView.subviews.forEach {
             $0.backgroundColor = .clear
         }
@@ -260,31 +296,52 @@ extension AddTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
-// MARK: - Funcs for TextField
+// MARK: - TextField
 extension AddTimerVC: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        guard let stringRange = Range(range, in: currentText) else { return false }
-        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+    // Limit TextField range
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String)
+    -> Bool {
+        guard let text = textField.text,
+              let stringRange = Range(range, in: text) else {
+            return false
+        }
+        let updatedText = text.replacingCharacters(
+            in: stringRange,
+            with: string)
         
         return updatedText.count <= 8
     }
 }
 
-// MARK: - Funcs for Button actions
+// MARK: - Button actions
 extension AddTimerVC {
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let section = sectionTextField.text, section.isEmpty == false else { return }
-        guard let title = timerTextField.text, title.isEmpty == false else { return }
+        guard let section = sectionTextField.text,
+              section.isEmpty == false else {
+            return
+        }
+        guard let title = timerTextField.text,
+              title.isEmpty == false else {
+            return
+        }
         viewModel.addTimer(title: title)
         
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reload"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(rawValue: "reload"),
+            object: nil,
+            userInfo: nil)
         
         dismiss(animated: true)
     }

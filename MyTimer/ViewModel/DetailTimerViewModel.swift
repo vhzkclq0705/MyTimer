@@ -8,11 +8,14 @@
 import Foundation
 import UIKit
 
+// ViewModel for DetailTimerVC
 class DetailTimerViewModel {
     
+    // MARK: - Property
     var time: Double!
     var myTimer: MyTimer!
     
+    // MARK: - UI
     var title: String {
         return myTimer.title
     }
@@ -26,9 +29,12 @@ class DetailTimerViewModel {
     }
     
     var sec: String {
-        return String(format: "%02d", Int(time.truncatingRemainder(dividingBy: 60)))
+        return String(
+            format: "%02d",
+            Int(time.truncatingRemainder(dividingBy: 60)))
     }
     
+    // MARK: - Funcs for Timer
     func initTime(){
         time = Double(myTimer.min * 60 + myTimer.sec)
     }
