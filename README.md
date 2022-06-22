@@ -70,7 +70,7 @@ The code style applied https://github.com/airbnb/swift.
 </details>
 
 <details>
-  <summary> Timer Playback </summary>
+  <summary> Background Push </summary>
   <div markdown="5">
 
  | Background Push |
