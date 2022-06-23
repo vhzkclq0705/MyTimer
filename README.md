@@ -1,8 +1,8 @@
 # MyTimer
 
 It's a timer app created by adding various visual elements.   
-The goal is to launch in the App Store.   
-It was written only code.   
+The goal of this project is to launch in the App Store.   
+It was written code only.   
 The code style applied https://github.com/airbnb/swift.
 
 ## Preview
@@ -118,22 +118,22 @@ The code style applied https://github.com/airbnb/swift.
 ## Skills
 
 - UIBezierPath()
-  > Used to visually show the progress of the timer.   
+  > Visually show the progress of the timer.   
   > The circular progress bar changes over time using `CABasicAnimation()`
 
 - UIView.animate()
-  > Used to UI animation.   
+  > To show UI animation used it.   
   > When a button is tapped, the button is rotated or displayed one after another.
 
 - UserDefaults
-  > Used to store data inside the client.   
+  > Store data inside the client.   
 
 - UNUserNotificationCenter
-  > When the app is in the background and the timer is done, it is used to push notifications.   
+  > It is used for push notifications when the app is progressing in the background and the timer is done.    
   > Request permission from the device.
 
 - UISwipeActionsConfiguration
-  > Used to swipe cells in TableView.   
+  > Swipe cells in TableView.   
   > Two UIContextualActions were used to set and delete timers.
 
 <br>
@@ -141,15 +141,15 @@ The code style applied https://github.com/airbnb/swift.
 ## Library
 
 - AVFoundation
-  > Used to sound the alarm.   
+  > Used for sound the alarm.   
   > There are a total of 12 alarm sounds.   
   > The set alarm sound is stored through UserDefaults.
 
 - ExpyTableView
-  > Used to implement foldable TableView easily.
+  > Used for implement foldable TableView easily.
 
 - DropDown
-  > Used to show a selection list of sections.
+  > Used for show a selection list of sections.
 
 - SnapKit
 
