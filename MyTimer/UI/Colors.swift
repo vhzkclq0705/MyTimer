@@ -26,8 +26,8 @@ enum Colors: Int, CaseIterable {
         case 4: return #colorLiteral(red: 0.8016375899, green: 0.8839026093, blue: 0.9350808263, alpha: 1)      // △ Section colors
         case 5: return #colorLiteral(red: 0.09411764706, green: 0.09411764706, blue: 0.09411764706, alpha: 1)      // Main View background color
         case 6: return #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)      // TableView separator color
-            // Main text Color
-        default: return #colorLiteral(red: 0.7019607843, green: 0.4745098039, blue: 0.7019607843, alpha: 1)
+        case 7: return #colorLiteral(red: 0.7019607843, green: 0.4745098039, blue: 0.7019607843, alpha: 1)      // Main text Color
+        default: return .clear
         }
     }
 }

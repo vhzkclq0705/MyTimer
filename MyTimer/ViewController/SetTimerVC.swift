@@ -17,7 +17,7 @@ class SetTimerVC: UIViewController {
         label.changeLabelStyle(
             text: "시간을 재설정 하세요!",
             size: 20,
-            color: Colors.color(8))
+            color: Colors.color(7))
         
         return label
     }()

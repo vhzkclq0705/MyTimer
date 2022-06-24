@@ -17,7 +17,7 @@ class SettingsVC: UIViewController {
         label.changeLabelStyle(
             text: "알람 소리를 설정하세요!",
             size: 20,
-            color: Colors.color(8))
+            color: Colors.color(7))
         
         return label
     }()

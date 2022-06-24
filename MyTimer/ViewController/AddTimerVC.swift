@@ -18,7 +18,7 @@ class AddTimerVC: UIViewController {
         label.changeLabelStyle(
             text: "타이머를 추가하세요!",
             size: 20,
-            color: Colors.color(8))
+            color: Colors.color(7))
         
         return label
     }()
@@ -28,7 +28,7 @@ class AddTimerVC: UIViewController {
         label.changeLabelStyle(
             text: "섹션",
             size: 15,
-            color: Colors.color(8))
+            color: Colors.color(7))
         
         return label
     }()
@@ -72,7 +72,7 @@ class AddTimerVC: UIViewController {
         label.changeLabelStyle(
             text: "타이머",
             size: 15,
-            color: Colors.color(8))
+            color: Colors.color(7))
         
         return label
     }()

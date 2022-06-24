@@ -291,14 +291,16 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
     -> UISwipeActionsConfiguration? {
         // Set a cell
-        let setCellAction = UIContextualAction(style: .normal, title: "") { _, _, _ in
+        let setCellAction = UIContextualAction(style: .normal, title: "") {
+            _, _, _ in
             self.swipeSetButtonTapped(indexPath)
         }
         setCellAction.image = UIImage(systemName: "gear")
         setCellAction.backgroundColor = viewModel.sectionColor(indexPath.section)
         
         // Delete a cell
-        let deleteCellAction = UIContextualAction(style: .normal, title: "") { _, _, _ in
+        let deleteCellAction = UIContextualAction(style: .normal, title: "") {
+            _, _, _ in
             self.swipeDeleteButtonAlert(indexPath)
         }
         deleteCellAction.image = UIImage(systemName: "trash.fill")
@@ -399,16 +401,17 @@ extension TimerListVC {
             selectType = "타이머를"
             title = viewModel.timerInfo(indexPath).title
         }
-        self.openAlert(title: "\(title)",
-                       message: "해당 \(selectType) 삭제하시겠습니까?",
-                       alertStyle: .alert,
-                       actionTitles: ["확인", "취소"],
-                       actionStyles: [.default, .cancel],
-                       actions: [
-                        {_ in
-                            self.swipeDeleteButtonTapped(indexPath)
-                        }, {_ in }
-                       ])
+        self.openAlert(
+            title: "\(title)",
+            message: "해당 \(selectType) 삭제하시겠습니까?",
+            alertStyle: .alert,
+            actionTitles: ["확인", "취소"],
+            actionStyles: [.default, .cancel],
+            actions: [
+                {_ in
+                    self.swipeDeleteButtonTapped(indexPath)
+                }, {_ in }
+            ])
     }
     
     func swipeDeleteButtonTapped(_ indexPath: IndexPath) {
