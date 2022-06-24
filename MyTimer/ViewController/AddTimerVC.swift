@@ -348,6 +348,6 @@ extension AddTimerVC {
     
     @objc func dropDownTapped(_ sender: UIButton) {
         dropDown.show()
-        sectionButton.isSelected = true
+        sectionButton.isSelected = !sectionButton.isSelected
     }
 }
