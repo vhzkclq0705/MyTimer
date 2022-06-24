@@ -2,7 +2,7 @@
 
 It's a timer app created by adding various visual elements.   
 The goal of this project is to launch in the App Store.   
-It was written code only.   
+It was written by code only.   
 The code style applied https://github.com/airbnb/swift.
 
 ## Preview
