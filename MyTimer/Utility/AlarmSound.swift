@@ -37,7 +37,7 @@ func stopAudio() {
 
 func loadAlarmSound() {
     guard let sound = UserDefaults.standard.string(forKey: "alarmSound") else {
-        alarmSound = "chicken"
+        alarmSound = "알람1"
         return
     }
     

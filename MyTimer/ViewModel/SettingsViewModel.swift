@@ -13,18 +13,18 @@ class SettingsViewModel {
     
     // MARK: - Property
     let sounds = [
-        "Beep1",
-        "Beep2",
-        "Beep3",
-        "Beep4",
-        "Beep5",
-        "Beep6",
-        "Beep7",
-        "Beep8",
-        "School Bell",
-        "Siren",
-        "Telephon Ring",
-        "chicken",
+        "알람1",
+        "알람2",
+        "알람3",
+        "알람4",
+        "알람5",
+        "알람6",
+        "알람7",
+        "알람8",
+        "학교 종소리",
+        "사이렌",
+        "전화 벨소리",
+        "닭소리",
     ]
     
     // MARK: - UI
