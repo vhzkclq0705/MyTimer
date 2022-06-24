@@ -37,7 +37,6 @@
 		769B521E284F9F4F00C3E5A3 /* AlarmSoundCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521D284F9F4F00C3E5A3 /* AlarmSoundCell.swift */; };
 		769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */; };
 		769F650B285B393900E68D19 /* GlobalAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769F650A285B393900E68D19 /* GlobalAlert.swift */; };
-		76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */; };
 		76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC592849062800342295 /* DetailTimerVC.swift */; };
 		76B3DC60284928CC00342295 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC5F284928CC00342295 /* CircleProgressBar.swift */; };
 		76CC802E2844901100683831 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802D2844901100683831 /* Section.swift */; };
@@ -90,7 +89,6 @@
 		769B521D284F9F4F00C3E5A3 /* AlarmSoundCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSoundCell.swift; sourceTree = "<group>"; };
 		769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		769F650A285B393900E68D19 /* GlobalAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAlert.swift; sourceTree = "<group>"; };
-		76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = establishRoomNo703.ttf; sourceTree = "<group>"; };
 		76B3DC592849062800342295 /* DetailTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerVC.swift; sourceTree = "<group>"; };
 		76B3DC5F284928CC00342295 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		76CC802D2844901100683831 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
@@ -141,14 +139,6 @@
 			path = AlarmSounds;
 			sourceTree = "<group>";
 		};
-		76B3DC582848EE3000342295 /* Font */ = {
-			isa = PBXGroup;
-			children = (
-				76B3DC542848EC4D00342295 /* establishRoomNo703.ttf */,
-			);
-			path = Font;
-			sourceTree = "<group>";
-		};
 		76D9AE052843637200A2F5B9 = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				769B5200284F8B7400C3E5A3 /* AlarmSounds */,
-				76B3DC582848EE3000342295 /* Font */,
 				76D9AE33284383EC00A2F5B9 /* UI */,
 				76D9AE2A284368DD00A2F5B9 /* Utility */,
 				76D9AE28284368CF00A2F5B9 /* ViewModel */,
@@ -337,7 +326,6 @@
 			files = (
 				769B5215284F9A2700C3E5A3 /* Beep8.mp3 in Resources */,
 				76D9AE1E2843637400A2F5B9 /* LaunchScreen.storyboard in Resources */,
-				76B3DC552848EC4D00342295 /* establishRoomNo703.ttf in Resources */,
 				769B520F284F9A2700C3E5A3 /* Beep5.mp3 in Resources */,
 				769B5212284F9A2700C3E5A3 /* Beep6.mp3 in Resources */,
 				769B520E284F9A2700C3E5A3 /* School Bell.mp3 in Resources */,
