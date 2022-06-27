@@ -159,6 +159,9 @@ The code style applied https://github.com/airbnb/swift.
 
 - COMING SOON!
 
+### Privacy Policy
+
+<a href=https://sites.google.com/view/ojunmytimer/%ED%99%88> site </a>
 
 
 
