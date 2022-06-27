@@ -157,7 +157,7 @@ The code style applied https://github.com/airbnb/swift.
 
 ## App Store
 
-- COMING SOON!
+https://apps.apple.com/kr/app/%EB%A7%88%EC%9D%B4%ED%83%80%EC%9D%B4%EB%A8%B8/id1631776048
 
 ### Privacy Policy
 
