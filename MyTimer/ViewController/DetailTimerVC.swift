@@ -17,28 +17,28 @@ class DetailTimerVC: UIViewController {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 30)
+        //label.changeLabelStyle(text: "", size: 30)
         
         return label
     }()
     
     lazy var colon: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: ":", size: 80)
+        //label.changeLabelStyle(text: ":", size: 80)
         
         return label
     }()
     
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 80)
+        //label.changeLabelStyle(text: "", size: 80)
         
         return label
     }()
     
     lazy var remainingSecTime: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 80)
+        //label.changeLabelStyle(text: "", size: 80)
         
         return label
     }()
@@ -96,9 +96,9 @@ class DetailTimerVC: UIViewController {
     
     lazy var alertLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(
-            text: "화면을 터치하세요!!",
-            size: 40)
+//        label.changeLabelStyle(
+//            text: "화면을 터치하세요!!",
+//            size: 40)
         
         return label
     }()

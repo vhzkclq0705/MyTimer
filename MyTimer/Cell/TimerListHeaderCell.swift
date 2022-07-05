@@ -15,9 +15,9 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     static let id = "timerListHeaderCell"
     
     // MARK: - Create UI items
-    lazy var titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.setLabelStyle(text: "", font: .semibold, size: 17)
         
         return label
     }()
@@ -25,9 +25,12 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     lazy var detailButton: UIButton = {
         let button = UIButton()
         button.tintColor = .white
-        button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        //button.setupButtonImage(size: 20, color: .white)
-        button.isUserInteractionEnabled = false
+        button.setImage(
+            UIImage(named: "arrowDown"),
+            for: .normal)
+        button.setImage(
+            UIImage(named: "arrowUp"),
+            for: .selected)
         
         return button
     }()
@@ -45,6 +48,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
 extension TimerListHeaderCell {
     // MARK: - Setup UI
     func setup() {
+        self.backgroundColor = .clear
         self.selectionStyle = .none
         
         [
@@ -55,13 +59,12 @@ extension TimerListHeaderCell {
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().inset(10)
-            $0.right.equalToSuperview().inset(50)
+            $0.left.equalToSuperview().inset(17)
         }
         
         detailButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(10)
+            $0.left.equalTo(titleLabel.snp.right).offset(5)
         }
     }
     
@@ -72,16 +75,9 @@ extension TimerListHeaderCell {
     
     func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
         switch state {
-        case .willExpand: changeDetailButton(true)
-        case .willCollapse: changeDetailButton(false)
+        case .willExpand, .willCollapse:
+            detailButton.isSelected = !detailButton.isSelected
         default: break
-        }
-    }
-    
-    func changeDetailButton(_ isChanged: Bool) {
-        let angle: CGFloat = isChanged ? Double.pi : 0
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.detailButton.transform = CGAffineTransform(rotationAngle: angle)
         }
     }
 }

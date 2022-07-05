@@ -14,9 +14,9 @@ class SettingsVC: UIViewController {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(
-            text: "알람 소리를 설정하세요!",
-            size: 20)
+//        label.changeLabelStyle(
+//            text: "알람 소리를 설정하세요!",
+//            size: 20)
         
         return label
     }()

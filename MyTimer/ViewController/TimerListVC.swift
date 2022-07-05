@@ -37,7 +37,8 @@ class TimerListVC: UIViewController {
     
     lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(UIImage(named: "add")?
+            .withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(
             self,
             action: #selector(addButtonTapped(_:)),
@@ -80,31 +81,28 @@ class TimerListVC: UIViewController {
         return button
     }()
     
-    lazy var addSectionLabel: UILabel = {
+    let addSectionLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "섹션 추가", size: 20)
-        label.alpha = 0
+        label.setAddButtonLabel("섹션 추가")
         
         return label
     }()
     
-    lazy var addTimerLabel: UILabel = {
+    let addTimerLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "타이머 추가", size: 20)
-        label.alpha = 0
+        label.setAddButtonLabel("타이머 추가")
         
         return label
     }()
     
-    lazy var settingsLabel: UILabel = {
+    let settingsLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "설정", size: 20)
-        label.alpha = 0
+        label.setAddButtonLabel("설정")
         
         return label
     }()
     
-    lazy var controlView: UIView = {
+    let controlView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         view.isHidden = true
@@ -171,41 +169,42 @@ extension TimerListVC {
         
         tableView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(50)
-            $0.left.right.equalToSuperview().inset(30)
+            $0.left.right.equalToSuperview().inset(17)
         }
         
         addButton.snp.makeConstraints {
-            $0.bottom.right.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-35)
+            $0.right.equalToSuperview().offset(-26)
         }
         
         addTimerButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-110)
+            $0.bottom.equalTo(addButton.snp.top).offset(-10)
             $0.centerX.equalTo(addButton)
         }
         
         addSectionButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-170)
+            $0.bottom.equalTo(addTimerButton.snp.top).offset(-10)
             $0.centerX.equalTo(addButton)
         }
         
         settingsButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-230)
+            $0.bottom.equalTo(addSectionButton.snp.top).offset(-10)
             $0.centerX.equalTo(addButton)
         }
         
         addTimerLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-120)
-            $0.right.equalTo(addTimerButton.snp.left).offset(-10)
+            $0.centerY.equalTo(addTimerButton)
+            $0.right.equalTo(addTimerButton.snp.left).offset(-9)
         }
         
         addSectionLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-180)
-            $0.right.equalTo(addSectionButton.snp.left).offset(-10)
+            $0.centerY.equalTo(addSectionButton)
+            $0.right.equalTo(addTimerLabel)
         }
         
         settingsLabel.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-240)
-            $0.right.equalTo(addSectionButton.snp.left).offset(-10)
+            $0.centerY.equalTo(settingsButton)
+            $0.right.equalTo(addTimerLabel)
         }
         
         controlView.snp.makeConstraints {
@@ -276,36 +275,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath)
     -> CGFloat {
-        return indexPath.row == 0 ? 50 : 80
-    }
-    
-    // TableView swipe action
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
-    -> UISwipeActionsConfiguration? {
-        // Set a cell
-        let setCellAction = UIContextualAction(style: .normal, title: "") {
-            _, _, _ in
-            self.swipeSetButtonTapped(indexPath)
-        }
-        setCellAction.image = UIImage(systemName: "gear")
-        
-        // Delete a cell
-        let deleteCellAction = UIContextualAction(style: .normal, title: "") {
-            _, _, _ in
-            self.swipeDeleteButtonAlert(indexPath)
-        }
-        deleteCellAction.image = UIImage(systemName: "trash.fill")
-        deleteCellAction.backgroundColor = .lightGray
-        
-        if indexPath.row == 0 {
-            return UISwipeActionsConfiguration(actions: [deleteCellAction])
-        } else {
-            return UISwipeActionsConfiguration(
-                actions: [deleteCellAction, setCellAction])
-        }
-        
+        return indexPath.row == 0 ? 20 : 66
     }
     
     // Check whether the Section is open or closed.
@@ -380,30 +350,6 @@ extension TimerListVC {
         view.layer.opacity = 0.7
         
         present(vc, animated: true)
-    }
-    
-    func swipeDeleteButtonAlert(_ indexPath: IndexPath) {
-        var selectType: String
-        var title: String
-        
-        if indexPath.row == 0 {
-            selectType = "섹션을"
-            title = viewModel.sections[indexPath.section].title
-        } else {
-            selectType = "타이머를"
-            title = viewModel.timerInfo(indexPath).title
-        }
-        self.openAlert(
-            title: "\(title)",
-            message: "해당 \(selectType) 삭제하시겠습니까?",
-            alertStyle: .alert,
-            actionTitles: ["확인", "취소"],
-            actionStyles: [.default, .cancel],
-            actions: [
-                {_ in
-                    self.swipeDeleteButtonTapped(indexPath)
-                }, {_ in }
-            ])
     }
     
     func swipeDeleteButtonTapped(_ indexPath: IndexPath) {

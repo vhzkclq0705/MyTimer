@@ -14,9 +14,9 @@ class AddSectionVC: UIViewController {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(
-            text: "섹션을 추가하세요!",
-            size: 20)
+//        label.changeLabelStyle(
+//            text: "섹션을 추가하세요!",
+//            size: 20)
         
         return label
     }()
@@ -30,9 +30,9 @@ class AddSectionVC: UIViewController {
     
     lazy var sectionLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(
-            text: "섹션",
-            size: 15)
+//        label.changeLabelStyle(
+//            text: "섹션",
+//            size: 15)
         
         return label
     }()

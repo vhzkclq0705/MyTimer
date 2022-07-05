@@ -15,7 +15,7 @@ class AlarmSoundCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var soundLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 20)
+        //label.changeLabelStyle(text: "", size: 20)
         
         return label
     }()

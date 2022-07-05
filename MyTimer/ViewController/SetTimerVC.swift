@@ -14,9 +14,9 @@ class SetTimerVC: UIViewController {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(
-            text: "시간을 재설정 하세요!",
-            size: 20)
+//        label.changeLabelStyle(
+//            text: "시간을 재설정 하세요!",
+//            size: 20)
         
         return label
     }()

@@ -16,25 +16,29 @@ class TimerListCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 20)
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 18)
         
         return label
     }()
     
     lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 30)
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 20)
         
         return label
     }()
     
     lazy var timerButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "play.circle"), for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(timerButtonTapped(_:)),
-            for: .touchUpInside)
+        button.setImage(
+            UIImage(named: "playCircle"),
+            for: .normal)
         
         return button
     }()
@@ -52,8 +56,11 @@ class TimerListCell: UITableViewCell {
 extension TimerListCell {
     // MARK: - Setup UI
     func setup() {
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
         self.selectionStyle = .none
+        self.layer.cornerRadius = 5
+        self.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
+        self.layer.borderWidth = 1.5
         
         [
             titleLabel,
@@ -63,19 +70,18 @@ extension TimerListCell {
             .forEach { contentView.addSubview($0) }
         
         titleLabel.snp.makeConstraints {
-            $0.left.top.equalToSuperview().inset(10)
+            $0.centerY.equalToSuperview()
+            $0.left.equalToSuperview().inset(15)
         }
         
         timeLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(10)
-            $0.top.equalTo(titleLabel.snp.bottom)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.centerY.equalToSuperview()
+            $0.right.equalTo(timerButton.snp.left).offset(-9)
         }
         
         timerButton.snp.makeConstraints {
-            $0.right.equalToSuperview().inset(10)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(timerButton.snp.height)
+            $0.right.equalToSuperview().inset(20)
         }
     }
     
