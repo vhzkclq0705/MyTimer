@@ -9,6 +9,15 @@ import Foundation
 import UIKit
 
 extension UIButton {
+    func setMainButtons(_ name: String) {
+        var config = UIButton.Configuration.filled()
+        config.cornerStyle = .capsule
+        config.baseBackgroundColor = UIColor.CustomColor(.purple2)
+        
+        self.configuration = config
+        self.setImage(UIImage(named: name), for: .normal)
+        self.alpha = 0
+    }
 //    // Custom main view buttons
 //    func setupMainViewButtons(_ isMain: Bool) {
 //        var config = UIButton.Configuration.plain()

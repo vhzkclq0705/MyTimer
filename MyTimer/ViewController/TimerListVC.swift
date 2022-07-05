@@ -49,7 +49,7 @@ class TimerListVC: UIViewController {
     
     lazy var addTimerButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "timer"), for: .normal)
+        button.setMainButtons("timer")
         button.addTarget(
             self,
             action: #selector(addTimerButtonTapped(_:)),
@@ -60,7 +60,7 @@ class TimerListVC: UIViewController {
     
     lazy var addSectionButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.setMainButtons("section")
         button.addTarget(
             self,
             action: #selector(addSectionButtonTapped(_:)),
@@ -71,7 +71,7 @@ class TimerListVC: UIViewController {
     
     lazy var settingsButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "gear"), for: .normal)
+        button.setMainButtons("settings")
         button.addTarget(
             self,
             action: #selector(settingsButtonTapped(_:)),
