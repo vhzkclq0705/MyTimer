@@ -26,7 +26,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         let button = UIButton()
         button.tintColor = .white
         button.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-        button.setupButtonImage(size: 20, color: .white)
+        //button.setupButtonImage(size: 20, color: .white)
         button.isUserInteractionEnabled = false
         
         return button
@@ -66,9 +66,8 @@ extension TimerListHeaderCell {
     }
     
     // MARK: - Update UI
-    func updateUI(text: String, color: UIColor) {
+    func updateUI(text: String) {
         titleLabel.text = text
-        self.backgroundColor = color
     }
     
     func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {

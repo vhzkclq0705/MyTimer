@@ -17,8 +17,7 @@ class AddTimerVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "타이머를 추가하세요!",
-            size: 20,
-            color: Colors.color(7))
+            size: 20)
         
         return label
     }()
@@ -27,15 +26,13 @@ class AddTimerVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "섹션",
-            size: 15,
-            color: Colors.color(7))
+            size: 15)
         
         return label
     }()
     
     lazy var sectionTextField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("")
         textField.isUserInteractionEnabled = false
         
         return textField
@@ -43,7 +40,6 @@ class AddTimerVC: UIViewController {
     
     lazy var sectionButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Colors.color(0)
         button.setImage(
             UIImage(systemName: "arrowtriangle.down.fill"),
             for: .normal)
@@ -71,15 +67,13 @@ class AddTimerVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "타이머",
-            size: 15,
-            color: Colors.color(7))
+            size: 15)
         
         return label
     }()
     
     lazy var timerTextField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("푸시업")
         textField.delegate = self
         
         return textField
@@ -95,7 +89,6 @@ class AddTimerVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("확인")
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),
@@ -106,7 +99,6 @@ class AddTimerVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("취소")
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),

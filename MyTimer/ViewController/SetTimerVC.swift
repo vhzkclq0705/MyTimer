@@ -16,8 +16,7 @@ class SetTimerVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "시간을 재설정 하세요!",
-            size: 20,
-            color: Colors.color(7))
+            size: 20)
         
         return label
     }()
@@ -32,7 +31,6 @@ class SetTimerVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("확인")
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),
@@ -43,7 +41,6 @@ class SetTimerVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("취소")
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),

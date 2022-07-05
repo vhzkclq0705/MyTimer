@@ -15,14 +15,13 @@ class AlarmSoundCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var soundLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 20, color: .black)
+        label.changeLabelStyle(text: "", size: 20)
         
         return label
     }()
     
     lazy var checkButton: UIButton = {
         let button = UIButton()
-        button.tintColor = Colors.color(0)
         button.setImage(UIImage(systemName: "checkmark"), for: .selected)
         
         return button

@@ -16,14 +16,14 @@ class TimerListCell: UITableViewCell {
     // MARK: - Create UI items
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 20, color: .black)
+        label.changeLabelStyle(text: "", size: 20)
         
         return label
     }()
     
     lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 30, color: .black)
+        label.changeLabelStyle(text: "", size: 30)
         
         return label
     }()
@@ -31,7 +31,6 @@ class TimerListCell: UITableViewCell {
     lazy var timerButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "play.circle"), for: .normal)
-        button.setupButtonImage(size: 25, color: nil)
         button.addTarget(
             self,
             action: #selector(timerButtonTapped(_:)),
@@ -81,12 +80,11 @@ extension TimerListCell {
     }
     
     // MARK: - Update UI
-    func updateUI(title: String, min: Int, sec: Int, color: UIColor) {
+    func updateUI(title: String, min: Int, sec: Int) {
         let mintoStr = String(format: "%02d", min)
         let sectoStr = String(format: "%02d", sec)
         titleLabel.text = title
         timeLabel.text = "\(mintoStr):\(sectoStr)"
-        timerButton.tintColor = color
     }
     
     // MARK: - Button action

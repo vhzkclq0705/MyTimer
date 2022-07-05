@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 
 extension UILabel {
-    func changeLabelStyle(text: String, size: CGFloat, color: UIColor) {
+    func changeLabelStyle(text: String, size: CGFloat) {
         self.text = text
         self.font = .systemFont(ofSize: size, weight: .bold)
-        self.textColor = color
     }
     
 }

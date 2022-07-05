@@ -28,11 +28,6 @@ class TimerViewModel {
         return sections[section].title
     }
     
-    func sectionColor(_ section: Int) -> UIColor {
-        let num = section % Colors.allCases.count + 1
-        return Colors.color(num)
-    }
-    
     func timerInfo(_ indexPath: IndexPath) -> MyTimer {
         return sections[indexPath.section].timers[indexPath.row - 1]
     }

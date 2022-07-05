@@ -27,8 +27,8 @@ class TimerListVC: UIViewController {
         
         tableView.expandingAnimation = .fade
         tableView.collapsingAnimation = .fade
-        tableView.backgroundColor = Colors.color(5)
-        tableView.separatorColor = Colors.color(6)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -37,8 +37,7 @@ class TimerListVC: UIViewController {
     
     lazy var addButton: UIButton = {
         let button = UIButton()
-        button.setupMainViewButtons(true)
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(
             self,
             action: #selector(addButtonTapped(_:)),
@@ -50,8 +49,7 @@ class TimerListVC: UIViewController {
     
     lazy var addTimerButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "timer"), for: .normal)
-        button.setupMainViewButtons(false)
+        button.setImage(UIImage(named: "timer"), for: .normal)
         button.addTarget(
             self,
             action: #selector(addTimerButtonTapped(_:)),
@@ -63,7 +61,6 @@ class TimerListVC: UIViewController {
     lazy var addSectionButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
-        button.setupMainViewButtons(false)
         button.addTarget(
             self,
             action: #selector(addSectionButtonTapped(_:)),
@@ -75,7 +72,6 @@ class TimerListVC: UIViewController {
     lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "gear"), for: .normal)
-        button.setupMainViewButtons(false)
         button.addTarget(
             self,
             action: #selector(settingsButtonTapped(_:)),
@@ -86,7 +82,7 @@ class TimerListVC: UIViewController {
     
     lazy var addSectionLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "섹션 추가", size: 20, color: .white)
+        label.changeLabelStyle(text: "섹션 추가", size: 20)
         label.alpha = 0
         
         return label
@@ -94,7 +90,7 @@ class TimerListVC: UIViewController {
     
     lazy var addTimerLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "타이머 추가", size: 20, color: .white)
+        label.changeLabelStyle(text: "타이머 추가", size: 20)
         label.alpha = 0
         
         return label
@@ -102,7 +98,7 @@ class TimerListVC: UIViewController {
     
     lazy var settingsLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "설정", size: 20, color: .white)
+        label.changeLabelStyle(text: "설정", size: 20)
         label.alpha = 0
         
         return label
@@ -152,7 +148,7 @@ class TimerListVC: UIViewController {
 // MARK: - Setup UI
 extension TimerListVC {
     func setupUI() {
-        view.backgroundColor = Colors.color(5)
+        view.backgroundColor = .white
         
         [
             addSectionButton,
@@ -249,9 +245,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         }
         
         let title = viewModel.sectionTitle(section)
-        let color = viewModel.sectionColor(section)
         
-        header.updateUI(text: title, color: color)
+        header.updateUI(text: title)
         
         return header
     }
@@ -268,8 +263,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         cell.updateUI(
             title: timer.title,
             min: timer.min,
-            sec: timer.sec,
-            color: viewModel.sectionColor(indexPath.section))
+            sec: timer.sec)
         
         cell.timerButtonTapHandler = { [weak self] in
             self?.popupDetailTimer(indexPath)
@@ -296,7 +290,6 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
             self.swipeSetButtonTapped(indexPath)
         }
         setCellAction.image = UIImage(systemName: "gear")
-        setCellAction.backgroundColor = viewModel.sectionColor(indexPath.section)
         
         // Delete a cell
         let deleteCellAction = UIContextualAction(style: .normal, title: "") {
@@ -380,7 +373,6 @@ extension TimerListVC {
     
     func popupDetailTimer(_ indexPath: IndexPath) {
         let vc = DetailTimerVC()
-        vc.color = viewModel.sectionColor(indexPath.section)
         vc.myTimer = viewModel.timerInfo(indexPath)
         
         vc.modalPresentationStyle = .overFullScreen

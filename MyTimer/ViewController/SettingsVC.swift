@@ -16,8 +16,7 @@ class SettingsVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "알람 소리를 설정하세요!",
-            size: 20,
-            color: Colors.color(7))
+            size: 20)
         
         return label
     }()
@@ -39,7 +38,6 @@ class SettingsVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("확인")
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),

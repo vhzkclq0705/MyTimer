@@ -8,6 +8,7 @@
 import UIKit
 
 enum Colors {
+    case splash
     case purple1
     case purple2
     case purple3
@@ -22,6 +23,7 @@ enum Colors {
 extension UIColor {
     static func CustomColor(_ color: Colors) -> UIColor {
         switch color {
+        case .splash: return #colorLiteral(red: 0.7431474328, green: 0.6976851821, blue: 0.9993389249, alpha: 1)
         case .purple1: return #colorLiteral(red: 0.7821971774, green: 0.7565466762, blue: 0.969376266, alpha: 1)
         case .purple2: return #colorLiteral(red: 0.6156862745, green: 0.568627451, blue: 0.8941176471, alpha: 1)
         case .purple3: return #colorLiteral(red: 0.4823529412, green: 0.4117647059, blue: 0.9019607843, alpha: 1)

@@ -17,28 +17,28 @@ class DetailTimerVC: UIViewController {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 30, color: .black)
+        label.changeLabelStyle(text: "", size: 30)
         
         return label
     }()
     
     lazy var colon: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: ":", size: 80, color: .black)
+        label.changeLabelStyle(text: ":", size: 80)
         
         return label
     }()
     
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 80, color: .black)
+        label.changeLabelStyle(text: "", size: 80)
         
         return label
     }()
     
     lazy var remainingSecTime: UILabel = {
         let label = UILabel()
-        label.changeLabelStyle(text: "", size: 80, color: .black)
+        label.changeLabelStyle(text: "", size: 80)
         
         return label
     }()
@@ -52,7 +52,6 @@ class DetailTimerVC: UIViewController {
     
     lazy var resetButton: UIButton = {
         let button = UIButton()
-        button.setupButtonImage(size: 40, color: .black)
         button.setImage(
             UIImage(systemName: "arrow.counterclockwise"),
             for: .normal)
@@ -66,7 +65,6 @@ class DetailTimerVC: UIViewController {
     
     lazy var startButton: UIButton = {
         let button = UIButton()
-        button.setupButtonImage(size: 40, color: .black)
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.setImage(UIImage(systemName: "pause.fill"), for: .selected)
         button.addTarget(
@@ -79,7 +77,6 @@ class DetailTimerVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupButtonImage(size: 20, color: .black)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.addTarget(
             self,
@@ -101,9 +98,7 @@ class DetailTimerVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "화면을 터치하세요!!",
-            size: 40,
-            color: .white
-        )
+            size: 40)
         
         return label
     }()

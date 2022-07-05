@@ -16,15 +16,13 @@ class AddSectionVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "섹션을 추가하세요!",
-            size: 20,
-            color: Colors.color(7))
+            size: 20)
         
         return label
     }()
     
     lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.setupDetailTextField("운동")
         textField.delegate = self
         
         return textField
@@ -34,15 +32,13 @@ class AddSectionVC: UIViewController {
         let label = UILabel()
         label.changeLabelStyle(
             text: "섹션",
-            size: 15,
-            color: Colors.color(7))
+            size: 15)
         
         return label
     }()
     
     lazy var okButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("확인")
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),
@@ -53,7 +49,6 @@ class AddSectionVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setupDetailButton("취소")
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),
