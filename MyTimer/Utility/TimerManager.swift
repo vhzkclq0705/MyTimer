@@ -14,7 +14,6 @@ class TimerManager {
     // MARK: - Property
     static let shared = TimerManager()
     var sections = [Section]()
-    var goal = "자신의 각오 한 마디를 입력해주세요!"
     
     private init() {}
     
@@ -50,10 +49,6 @@ class TimerManager {
     func load() {
         guard let data = UserDefaults.standard.data(forKey: "Sections") else { return
         }
-        if let goal = UserDefaults.standard.data(forKey: "goal") {
-            self.goal = (try? PropertyListDecoder().decode(String.self, from: goal)) ?? "자신의 각오 한 마디를 입력해주세요!"
-        }
-        print(goal)
         
         sections = (try? PropertyListDecoder().decode(
             [Section].self,

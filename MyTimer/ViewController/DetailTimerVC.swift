@@ -17,43 +17,53 @@ class DetailTimerVC: UIViewController {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        //label.changeLabelStyle(text: "", size: 30)
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 20,
+            color: .black)
+        label.textAlignment = .center
         
         return label
     }()
     
     lazy var colon: UILabel = {
         let label = UILabel()
-        //label.changeLabelStyle(text: ":", size: 80)
+        label.setLabelStyle(
+            text: " : ",
+            font: .bold,
+            size: 60,
+            color: .black)
         
         return label
     }()
     
     lazy var remainingMinTime: UILabel = {
         let label = UILabel()
-        //label.changeLabelStyle(text: "", size: 80)
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 60,
+            color: .black)
         
         return label
     }()
     
     lazy var remainingSecTime: UILabel = {
         let label = UILabel()
-        //label.changeLabelStyle(text: "", size: 80)
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 60,
+            color: .black)
         
         return label
-    }()
-    
-    lazy var subView: UIView = {
-        let view = UIView()
-        view.setupSubView()
-        
-        return view
     }()
     
     lazy var resetButton: UIButton = {
         let button = UIButton()
         button.setImage(
-            UIImage(systemName: "arrow.counterclockwise"),
+            UIImage(named: "reset"),
             for: .normal)
         button.addTarget(
             self,
@@ -65,8 +75,8 @@ class DetailTimerVC: UIViewController {
     
     lazy var startButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        button.setImage(UIImage(systemName: "pause.fill"), for: .selected)
+        button.setImage(UIImage(named: "play"), for: .normal)
+        button.setImage(UIImage(named: "pause"), for: .selected)
         button.addTarget(
             self,
             action: #selector(startButtonTapped(_:)),
@@ -77,7 +87,7 @@ class DetailTimerVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.setImage(UIImage(named: "arrowBack"), for: .normal)
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),
@@ -96,12 +106,16 @@ class DetailTimerVC: UIViewController {
     
     lazy var alertLabel: UILabel = {
         let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "화면을 터치하세요!!",
-//            size: 40)
+        label.setLabelStyle(
+            text: "화면을 터치하세요!!",
+            font: .bold,
+            size: 40,
+            color: .white)
         
         return label
     }()
+    
+    
     
     lazy var recognizeTapGesture: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer()
@@ -131,7 +145,7 @@ class DetailTimerVC: UIViewController {
 // MARK: - Setup UI
 extension DetailTimerVC {
     func setupUI() {
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         titleLabel.text = viewModel.title
         remainingTimeText()
         circleProgrssBar.createCircularPath(color)

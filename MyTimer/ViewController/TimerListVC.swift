@@ -35,7 +35,7 @@ class TimerListVC: UIViewController {
         return tableView
     }()
     
-    let goalLabel: UILabel = {
+    var goalLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "자신의 각오 한마디를 입력해주세요!",
@@ -168,6 +168,7 @@ class TimerListVC: UIViewController {
         viewModel.load()
         checkTimerCount()
         setupUI()
+        setGoal()
         requestAuthNoti()
         
         // TableView reload notification
@@ -175,10 +176,6 @@ class TimerListVC: UIViewController {
             self, selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"),
             object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        print(TimerManager.shared.goal)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -386,9 +383,19 @@ extension TimerListVC {
     }
     
     @objc func reload() {
-        view.layer.opacity = 1
         viewModel.load()
+        setGoal()
         self.tableView.reloadData()
+    }
+    
+    func setGoal() {
+        if let goal = UserDefaults.standard.string(forKey: "goal") {
+            goalLabel.text = goal
+            goalLabel.textColor = UIColor.CustomColor(.purple5)
+        } else {
+            goalLabel.text = "자신의 각오 한 마디를 입력해주세요"
+            goalLabel.textColor = UIColor.CustomColor(.gray1)
+        }
     }
     
     func popupTimeSet(_ indexPath: IndexPath) {
@@ -398,7 +405,6 @@ extension TimerListVC {
         
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-        view.layer.opacity = 0.7
         
         present(vc, animated: true)
     }
@@ -409,7 +415,6 @@ extension TimerListVC {
         
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-        view.layer.opacity = 0.7
         
         present(vc, animated: true)
     }
@@ -432,7 +437,6 @@ extension TimerListVC {
         
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-        view.layer.opacity = 0.7
         
         present(vc, animated: true)
     }
