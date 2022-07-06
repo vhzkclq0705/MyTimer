@@ -26,17 +26,11 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         return label
     }()
     
-    lazy var detailButton: UIButton = {
-        let button = UIButton()
-        button.tintColor = .white
-        button.setImage(
-            UIImage(named: "arrowDown"),
-            for: .normal)
-        button.setImage(
-            UIImage(named: "arrowUp"),
-            for: .selected)
+    lazy var detailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "arrowDown")
         
-        return button
+        return imageView
     }()
     
     // MARK: - Property
@@ -57,7 +51,7 @@ extension TimerListHeaderCell {
         
         [
             titleLabel,
-            detailButton,
+            detailImageView,
         ]
             .forEach { contentView.addSubview($0) }
         
@@ -66,7 +60,7 @@ extension TimerListHeaderCell {
             $0.left.equalToSuperview()
         }
         
-        detailButton.snp.makeConstraints {
+        detailImageView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(titleLabel.snp.right).offset(5)
         }
@@ -79,8 +73,8 @@ extension TimerListHeaderCell {
     
     func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
         switch state {
-        case .willExpand, .willCollapse:
-            detailButton.isSelected = !detailButton.isSelected
+        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
+        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
         default: break
         }
     }

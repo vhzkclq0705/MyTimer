@@ -51,6 +51,10 @@ class TimerListCell: UITableViewCell {
         button.setImage(
             UIImage(named: "playCircle"),
             for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(timerButtonTapped(_:)),
+            for: .touchUpInside)
         
         return button
     }()

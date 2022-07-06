@@ -15,7 +15,7 @@ class DetailTimerVC: UIViewController {
     // MARK: - Create UI items
     lazy var circleProgrssBar = CircleProgressBar()
     
-    lazy var titleLabel: UILabel = {
+    lazy var sectionLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "",
@@ -60,6 +60,17 @@ class DetailTimerVC: UIViewController {
         return label
     }()
     
+    lazy var timerLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 25,
+            color: .black)
+        
+        return label
+    }()
+    
     lazy var resetButton: UIButton = {
         let button = UIButton()
         button.setImage(
@@ -85,7 +96,7 @@ class DetailTimerVC: UIViewController {
         return button
     }()
     
-    lazy var cancleButton: UIButton = {
+    lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "arrowBack"), for: .normal)
         button.addTarget(
@@ -115,7 +126,27 @@ class DetailTimerVC: UIViewController {
         return label
     }()
     
+    lazy var settingButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "settingFill"), for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(didTapSettingsButton(_:)),
+            for: .touchUpInside)
+        
+        return button
+    }()
     
+    lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "delete"), for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(didTapDeleteButton(_:)),
+            for: .touchUpInside)
+        
+        return button
+    }()
     
     lazy var recognizeTapGesture: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer()
@@ -125,7 +156,7 @@ class DetailTimerVC: UIViewController {
     }()
     
     // MARK: - Property
-    var color: UIColor!
+    var sectionTitle: String!
     var myTimer: MyTimer!
     var isInited = true
     var timer = Timer()
@@ -146,34 +177,33 @@ class DetailTimerVC: UIViewController {
 extension DetailTimerVC {
     func setupUI() {
         view.backgroundColor = .white
-        titleLabel.text = viewModel.title
+        sectionLabel.text = sectionTitle
+        timerLabel.text = viewModel.title
         remainingTimeText()
-        circleProgrssBar.createCircularPath(color)
+        circleProgrssBar.createCircularPath()
         
         alertView.addGestureRecognizer(recognizeTapGesture)
         alertView.addSubview(alertLabel)
         
         [
-            titleLabel ,
+            sectionLabel,
+            timerLabel,
             remainingMinTime,
             remainingSecTime,
             colon,
             resetButton,
             startButton,
-            cancleButton,
-        ]
-            .forEach { subView.addSubview($0) }
-        
-        [
-            subView,
+            backButton,
             circleProgrssBar,
-            alertView
+            alertView,
+            settingButton,
+            deleteButton,
         ]
             .forEach { view.addSubview($0) }
         
         circleProgrssBar.snp.makeConstraints {
+            $0.centerY.equalToSuperview().offset(-50)
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-30)
         }
         
         alertView.snp.makeConstraints {
@@ -182,18 +212,17 @@ extension DetailTimerVC {
         
         alertLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(subView.snp.bottom).offset(30)
+            $0.bottom.equalToSuperview().offset(-250)
         }
         
-        subView.snp.makeConstraints {
-            $0.top.equalTo(circleProgrssBar).offset(-200)
-            $0.bottom.equalTo(circleProgrssBar).offset(250)
-            $0.left.right.equalTo(circleProgrssBar).inset(-180)
-        }
-        
-        titleLabel.snp.makeConstraints {
+        sectionLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(15)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(remainingMinTime.snp.top)
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.centerY.equalTo(sectionLabel)
+            $0.left.equalToSuperview().offset(16)
         }
         
         colon.snp.makeConstraints {
@@ -201,25 +230,33 @@ extension DetailTimerVC {
         }
         
         remainingMinTime.snp.makeConstraints {
-            $0.centerY.equalTo(circleProgrssBar)
+            $0.centerY.equalTo(colon)
             $0.right.equalTo(colon.snp.left)
         }
         
         remainingSecTime.snp.makeConstraints {
-            $0.centerY.equalTo(circleProgrssBar)
+            $0.centerY.equalTo(colon)
             $0.left.equalTo(colon.snp.right)
         }
         
         resetButton.snp.makeConstraints {
-            $0.bottom.left.equalTo(subView).inset(20)
+            $0.bottom.equalToSuperview().offset(-148)
+            $0.left.equalToSuperview().offset(35)
         }
         
         startButton.snp.makeConstraints {
-            $0.bottom.right.equalTo(subView).inset(20)
+            $0.centerY.equalTo(resetButton)
+            $0.right.equalToSuperview().offset(-35)
         }
         
-        cancleButton.snp.makeConstraints {
-            $0.top.right.equalTo(subView).inset(5)
+        settingButton.snp.makeConstraints{
+            $0.centerY.equalTo(sectionLabel)
+            $0.right.equalToSuperview().offset(-19)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.top.equalTo(settingButton.snp.bottom).offset(15)
+            $0.right.equalTo(settingButton)
         }
     }
 }
@@ -292,6 +329,7 @@ extension DetailTimerVC {
         }
     }
 }
+
 
 // MARK: - Push notification
 extension DetailTimerVC {
@@ -398,5 +436,13 @@ extension DetailTimerVC {
             userInfo: nil)
         
         dismiss(animated: true)
+    }
+    
+    @objc func didTapSettingsButton(_ sender: UIButton) {
+        
+    }
+    
+    @objc func didTapDeleteButton(_ sender: UIButton) {
+        
     }
 }

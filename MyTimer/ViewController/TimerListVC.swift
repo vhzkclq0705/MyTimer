@@ -323,8 +323,8 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
             min: timer.min,
             sec: timer.sec)
         
-        cell.timerButtonTapHandler = { [weak self] in
-            self?.popupDetailTimer(indexPath)
+        cell.timerButtonTapHandler = {
+            self.popupDetailTimer(indexPath)
         }
         
         return cell
@@ -411,6 +411,7 @@ extension TimerListVC {
     
     func popupDetailTimer(_ indexPath: IndexPath) {
         let vc = DetailTimerVC()
+        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
         vc.myTimer = viewModel.timerInfo(indexPath)
         
         vc.modalPresentationStyle = .overFullScreen

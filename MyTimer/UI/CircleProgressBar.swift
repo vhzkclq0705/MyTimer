@@ -27,7 +27,7 @@ class CircleProgressBar: UIView {
     }
     
     // MARK: - Setup CircleProgressBar
-    func createCircularPath(_ color: UIColor) {
+    func createCircularPath() {
         // CircularPath for layer
         let circularPath = UIBezierPath(
             arcCenter: CGPoint(x: 0, y: 0),
@@ -38,21 +38,22 @@ class CircleProgressBar: UIView {
         
         // Set circleLayer
         circleLayer.path = circularPath.cgPath
-        setupLayerUI(layer: circleLayer, width: 20, end: 1, color: color)
+        circleLayer.strokeColor = UIColor.CustomColor(.gray1).cgColor
+        setupLayerUI(layer: circleLayer, width: 20, end: 1)
         layer.addSublayer(circleLayer)
         
         // Set progressLayer
         progressLayer.path = circularPath.cgPath
-        setupLayerUI(layer: progressLayer, width: 20, end: 0, color: .lightGray)
+        progressLayer.strokeColor = UIColor.CustomColor(.purple5).cgColor
+        setupLayerUI(layer: progressLayer, width: 20, end: 0)
         layer.addSublayer(progressLayer)
     }
     
-    func setupLayerUI(layer: CAShapeLayer, width: CGFloat, end: CGFloat, color: UIColor) {
+    func setupLayerUI(layer: CAShapeLayer, width: CGFloat, end: CGFloat) {
         layer.fillColor = UIColor.clear.cgColor
         layer.lineCap = .round
         layer.lineWidth = width
         layer.strokeEnd = end
-        layer.strokeColor = color.cgColor
     }
     
     func progressAnimation(_ duration: TimeInterval) {

@@ -157,6 +157,7 @@ class AddTimerVC: UIViewController {
     // MARK: - Property
     let viewModel = AddTimerViewModel()
     let dropDown = DropDown()
+    var isSetting = false
     
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
@@ -181,6 +182,9 @@ class AddTimerVC: UIViewController {
 // MARK: - Setup UI
 extension AddTimerVC {
     func setupUI() {
+        if isSetting {
+            
+        }
         
         [
             sectionTextField,
