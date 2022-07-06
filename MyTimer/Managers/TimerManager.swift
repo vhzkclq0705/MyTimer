@@ -5,7 +5,6 @@
 //  Created by 권오준 on 2022/05/30.
 //
 
-import Foundation
 import UIKit
 
 // Class for model(Section) management
@@ -17,7 +16,7 @@ class TimerManager {
     
     private init() {}
     
-    // MARK: - Funcs for Section and Timer
+    // MARK: - Sections and Timers
     func addSection(_ title: String) {
         let section = Section(title: title,timers: [])
         
@@ -25,19 +24,30 @@ class TimerManager {
         save()
     }
     
-    func addTimer(title: String, min: Int, sec: Int, section: Int) {
+    func addTimer(section: Int, title: String, min: Int, sec: Int) {
         let timer = MyTimer(title: title, min: min, sec: sec)
         sections[section].timers.append(timer)
         save()
     }
     
-    func setTimer(section: Int, index: Int, min: Int, sec: Int) {
+    func setTimer(section: Int, index: Int, title: String, min: Int, sec: Int) {
+        sections[section].timers[index].title = title
         sections[section].timers[index].min = min
         sections[section].timers[index].sec = sec
         save()
     }
     
-    // MARK: - Funcs for save and load data
+    func deleteSection(_ section: Int) {
+        sections.remove(at: section)
+        save()
+    }
+    
+    func deleteTimer(section: Int, timer: Int) {
+        sections[section].timers.remove(at: timer)
+        save()
+    }
+    
+    // MARK: - Save and load data
     func save() {
         UserDefaults.standard.set(
             try? PropertyListEncoder().encode(sections),

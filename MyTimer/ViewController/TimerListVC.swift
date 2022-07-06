@@ -113,7 +113,7 @@ class TimerListVC: UIViewController {
             text: "섹션 추가",
             font: .semibold,
             size: 14,
-            color: .black)
+            color: .white)
         label.alpha = 0
         
         return label
@@ -125,7 +125,7 @@ class TimerListVC: UIViewController {
             text: "타이머 추가",
             font: .semibold,
             size: 14,
-            color: .black)
+            color: .white)
         label.alpha = 0
         
         return label
@@ -137,10 +137,18 @@ class TimerListVC: UIViewController {
             text: "설정",
             font: .semibold,
             size: 14,
-            color: .black)
+            color: .white)
         label.alpha = 0
         
         return label
+    }()
+    
+    let backgroundView: UIView = {
+        let view = UIView()
+        //view.setBackgroundView()
+        view.isHidden = true
+        
+        return view
     }()
     
     let controlView: UIView = {
@@ -161,7 +169,7 @@ class TimerListVC: UIViewController {
     // MARK: - Property
     let viewModel = TimerViewModel()
     
-    // MARK: - Funcs for life cycle
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         loadAlarmSound()
@@ -171,16 +179,8 @@ class TimerListVC: UIViewController {
         setGoal()
         requestAuthNoti()
         
-        // TableView reload notification
         NotificationCenter.default.addObserver(
             self, selector: #selector(reload),
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(
-            self,
             name: NSNotification.Name(rawValue: "reload"),
             object: nil)
     }
@@ -204,6 +204,7 @@ extension TimerListVC {
         controlView.addGestureRecognizer(recognizeTapGesture)
         
         [
+            backgroundView,
             tableView,
             addButton,
             goalLabel,
@@ -211,6 +212,10 @@ extension TimerListVC {
             controlView,
         ]
             .forEach { view.addSubview($0) }
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(goalLabel.snp.bottom)
@@ -398,43 +403,10 @@ extension TimerListVC {
         }
     }
     
-    func popupTimeSet(_ indexPath: IndexPath) {
-        let vc = SetTimerVC()
-        vc.timer = viewModel.timerInfo(indexPath)
-        vc.timerIndexPath = indexPath
-        
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
-    
     func popupDetailTimer(_ indexPath: IndexPath) {
         let vc = DetailTimerVC()
         vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
         vc.myTimer = viewModel.timerInfo(indexPath)
-        
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
-    
-    func swipeDeleteButtonTapped(_ indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            let section = viewModel.sections[indexPath.section]
-            viewModel.deleteSection(section)
-        } else {
-            let timer = viewModel.timerInfo(indexPath)
-            viewModel.deleteTimer(section: indexPath.section, timer: timer)
-        }
-        tableView.reloadData()
-    }
-    
-    func swipeSetButtonTapped(_ indexPath: IndexPath) {
-        let vc = SetTimerVC()
-        vc.timer = viewModel.timerInfo(indexPath)
-        vc.timerIndexPath = indexPath
         
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve

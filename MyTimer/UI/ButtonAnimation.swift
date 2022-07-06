@@ -5,7 +5,6 @@
 //  Created by 권오준 on 2022/06/18.
 //
 
-import Foundation
 import UIKit
 
 extension TimerListVC {
@@ -18,6 +17,7 @@ extension TimerListVC {
         tableView.isUserInteractionEnabled = !show
         tableView.layer.opacity = show ? 0.7 : 1
         controlView.isHidden = !show
+        backgroundView.isHidden = !show
     }
     
     func animate(show: Bool, duration: TimeInterval) {

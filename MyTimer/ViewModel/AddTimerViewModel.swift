@@ -5,7 +5,6 @@
 //  Created by 권오준 on 2022/05/31.
 //
 
-import Foundation
 import UIKit
 
 // ViewModel for AddTimerVC
@@ -30,7 +29,7 @@ class AddTimerViewModel {
         pickerViewManager.componentsLabel(row: row, component: component)
     }
     
-    // MARK: - Funcs for Timer
+    // MARK: - Timer
     func didSelectTime(row: Int, component: Int) {
         pickerViewManager.didSelectTime(row: row, component: component)
     }
@@ -38,13 +37,13 @@ class AddTimerViewModel {
     func addTimer(title: String) {
         let time = pickerViewManager.time
         timerManager.addTimer(
+            section: section,
             title: title,
             min: time[0],
-            sec: time[1],
-            section: section)
+            sec: time[1])
     }
     
-    // MARK: - Func for load data
+    // MARK: - Load data
     func loadSections() {
         sections = timerManager.sections.map { $0.title }
     }

@@ -32,23 +32,7 @@ class TimerViewModel {
         return sections[indexPath.section].timers[indexPath.row - 1]
     }
     
-    // MARK: - Funcs for delete Section and Timer
-    func deleteSection(_ section: Section) {
-        sections = sections.filter { $0 != section }
-        save()
-    }
-    
-    func deleteTimer(section: Int, timer: MyTimer) {
-        sections[section].timers = sections[section].timers.filter { $0 != timer }
-        save()
-    }
-    
-    // MARK: - Funcs for save and load data
-    func save() {
-        manager.sections = sections
-        manager.save()
-    }
-    
+    // MARK: - Load data
     func load() {
         manager.load()
         sections = manager.sections

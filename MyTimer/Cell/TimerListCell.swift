@@ -16,7 +16,7 @@ class TimerListCell: UITableViewCell {
     // MARK: - Create UI items
     let subView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         view.layer.cornerRadius = 5
         view.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
         view.layer.borderWidth = 1.5

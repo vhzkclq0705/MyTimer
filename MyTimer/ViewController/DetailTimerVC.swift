@@ -436,17 +436,11 @@ extension DetailTimerVC {
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
         timer.invalidate()
-        
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil,
-            userInfo: nil)
-        
-        dismiss(animated: true)
+        notifyReloadAndDismiss()
     }
     
     @objc func didTapSettingsButton(_ sender: UIButton) {
-        let setTimerVC = AddTimerVC()
+        let setTimerVC = SetTimerVC()
         setTimerVC.sectionTitle = sectionTitle
         setTimerVC.timer = myTimer
         setTimerVC.modalTransitionStyle = .crossDissolve

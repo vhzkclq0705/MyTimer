@@ -1,5 +1,5 @@
 //
-//  UILabel.swift
+//  Extension++UILabel.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/06/18.

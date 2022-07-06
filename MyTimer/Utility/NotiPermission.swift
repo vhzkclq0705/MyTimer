@@ -10,10 +10,10 @@ import UIKit
 
 // Request for notification authority when the application is started first
 func requestAuthNoti() {
-    UNUserNotificationCenter.current().requestAuthorization(
-        options: [.alert, .sound]) { success, error in
-            if let error = error {
-                print(error)
-            }
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
+        success, error in
+        if let error = error {
+            print(error)
         }
+    }
 }

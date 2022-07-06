@@ -208,20 +208,10 @@ extension AddSectionVC {
         
         TimerManager.shared.addSection(term)
         
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil,
-            userInfo: nil)
-        
-        dismiss(animated: true)
+        notifyReloadAndDismiss()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {
-        NotificationCenter.default.post(
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil,
-            userInfo: nil)
-        
-        dismiss(animated: true)
+        notifyReloadAndDismiss()
     }
 }

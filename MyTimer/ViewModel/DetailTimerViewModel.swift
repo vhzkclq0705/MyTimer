@@ -34,7 +34,7 @@ class DetailTimerViewModel {
             Int(time.truncatingRemainder(dividingBy: 60)))
     }
     
-    // MARK: - Funcs for Timer
+    // MARK: - Timer
     func initTime(){
         time = Double(myTimer.min * 60 + myTimer.sec)
     }
@@ -52,6 +52,11 @@ class DetailTimerViewModel {
         if time < 0 {
             time = 0
         }
+    }
+    
+    // MARK: - Delete timer
+    func deleteTimer(section: String, timer: MyTimer) {
+        
     }
     
     func loadTimer(_ myTimer: MyTimer) {
