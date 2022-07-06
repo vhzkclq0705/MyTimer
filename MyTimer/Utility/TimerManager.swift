@@ -49,21 +49,19 @@ class TimerManager {
     
     func saveGoal(_ text: String) {
         UserDefaults.standard.set(text, forKey: "goal")
+        self.goal = text
     }
     
     func load() {
         guard let data = UserDefaults.standard.data(forKey: "Sections") else { return
         }
-        guard let goal = UserDefaults.standard.data(forKey: "goal") else {
-            self.goal = "자신의 각오 한 마디를 입력해주세요!"
-            return
+        if let goal = UserDefaults.standard.data(forKey: "goal") {
+            self.goal = (try? PropertyListDecoder().decode(String.self, from: goal)) ?? "자신의 각오 한 마디를 입력해주세요!"
         }
         
         sections = (try? PropertyListDecoder().decode(
             [Section].self,
             from: data)) ?? []
-        
-        self.goal = (try? PropertyListDecoder().decode(String.self, from: goal)) ?? "자신의 각오 한 마디를 입력해주세요!"
         
         print("Load Success!")
     }

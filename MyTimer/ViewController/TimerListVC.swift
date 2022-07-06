@@ -42,7 +42,7 @@ class TimerListVC: UIViewController {
             font: .bold,
             size: 23,
             color: UIColor.CustomColor(.gray2))
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         
         return label
     }()
@@ -50,11 +50,12 @@ class TimerListVC: UIViewController {
     let notimerLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
-            text: "아직 추가된 타이머가 없습니다! 타이머를 추가해주세요!",
+            text: "아직 추가된 타이머가 없습니다!\n 타이머를 추가해주세요!",
             font: .medium,
             size: 18,
             color: UIColor.CustomColor(.gray3))
         label.alpha = 0
+        label.textAlignment = .center
         label.numberOfLines = 2
         
         return label
@@ -212,7 +213,7 @@ extension TimerListVC {
             .forEach { view.addSubview($0) }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(goalLabel.snp.bottom).offset(20)
+            $0.top.equalTo(goalLabel.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.left.right.equalToSuperview()
         }
