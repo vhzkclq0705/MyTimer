@@ -42,8 +42,12 @@ class TimerManager {
         save()
     }
     
-    func deleteTimer(section: Int, timer: Int) {
-        sections[section].timers.remove(at: timer)
+    func deleteTimer(sectionTitle: String, timer: MyTimer) {
+        let sectionTitles = sections.map { $0.title }
+        let sectionIndex: Int = sectionTitles.firstIndex(of: sectionTitle)!
+        let timerIndex: Int = sections[sectionIndex].timers.firstIndex(of: timer)!
+        
+        sections[sectionIndex].timers.remove(at: timerIndex)
         save()
     }
     
