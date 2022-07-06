@@ -15,15 +15,9 @@ enum Font: String {
 }
 
 extension UILabel {
-    func setLabelStyle(text: String, font: Font, size: CGFloat) {
+    func setLabelStyle(text: String, font: Font, size: CGFloat, color: UIColor) {
         self.text = text
         self.font = UIFont(name: font.rawValue, size: size)
-    }
-    
-    func setAddButtonLabel(_ text: String) {
-        self.text = text
-        self.font = UIFont(name: Font.semibold.rawValue, size: 14)
-        self.textColor = .black
-        self.alpha = 0
+        self.textColor = color
     }
 }

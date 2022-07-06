@@ -35,6 +35,31 @@ class TimerListVC: UIViewController {
         return tableView
     }()
     
+    let goalLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "자신의 각오 한마디를 입력해주세요!",
+            font: .bold,
+            size: 23,
+            color: UIColor.CustomColor(.gray2))
+        label.numberOfLines = 2
+        
+        return label
+    }()
+    
+    let notimerLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "아직 추가된 타이머가 없습니다! 타이머를 추가해주세요!",
+            font: .medium,
+            size: 18,
+            color: UIColor.CustomColor(.gray3))
+        label.alpha = 0
+        label.numberOfLines = 2
+        
+        return label
+    }()
+    
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "add")?
@@ -83,21 +108,36 @@ class TimerListVC: UIViewController {
     
     let addSectionLabel: UILabel = {
         let label = UILabel()
-        label.setAddButtonLabel("섹션 추가")
+        label.setLabelStyle(
+            text: "섹션 추가",
+            font: .semibold,
+            size: 14,
+            color: .black)
+        label.alpha = 0
         
         return label
     }()
     
     let addTimerLabel: UILabel = {
         let label = UILabel()
-        label.setAddButtonLabel("타이머 추가")
+        label.setLabelStyle(
+            text: "타이머 추가",
+            font: .semibold,
+            size: 14,
+            color: .black)
+        label.alpha = 0
         
         return label
     }()
     
     let settingsLabel: UILabel = {
         let label = UILabel()
-        label.setAddButtonLabel("설정")
+        label.setLabelStyle(
+            text: "설정",
+            font: .semibold,
+            size: 14,
+            color: .black)
+        label.alpha = 0
         
         return label
     }()
@@ -125,6 +165,7 @@ class TimerListVC: UIViewController {
         super.viewDidLoad()
         loadAlarmSound()
         viewModel.load()
+        checkTimerCount()
         setupUI()
         requestAuthNoti()
         
@@ -147,6 +188,7 @@ class TimerListVC: UIViewController {
 extension TimerListVC {
     func setupUI() {
         view.backgroundColor = .white
+        goalLabel.text = viewModel.goal
         
         [
             addSectionButton,
@@ -163,13 +205,25 @@ extension TimerListVC {
         [
             tableView,
             addButton,
+            goalLabel,
+            notimerLabel,
             controlView,
         ]
             .forEach { view.addSubview($0) }
         
         tableView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(50)
+            $0.top.equalTo(goalLabel.snp.bottom).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            $0.left.right.equalToSuperview()
+        }
+        
+        goalLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(22)
             $0.left.right.equalToSuperview().inset(17)
+        }
+        
+        notimerLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
         
         addButton.snp.makeConstraints {
@@ -210,6 +264,10 @@ extension TimerListVC {
         controlView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    func checkTimerCount() {
+        notimerLabel.alpha = viewModel.numOfSections == 0 ? 1 : 0
     }
 }
 
@@ -275,7 +333,7 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath)
     -> CGFloat {
-        return indexPath.row == 0 ? 20 : 66
+        return indexPath.row == 0 ? 25 : 80
     }
     
     // Check whether the Section is open or closed.

@@ -17,7 +17,11 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     // MARK: - Create UI items
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.setLabelStyle(text: "", font: .semibold, size: 17)
+        label.setLabelStyle(
+            text: "",
+            font: .semibold,
+            size: 17,
+            color: .black)
         
         return label
     }()
@@ -59,7 +63,7 @@ extension TimerListHeaderCell {
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalToSuperview().inset(17)
+            $0.left.equalToSuperview()
         }
         
         detailButton.snp.makeConstraints {

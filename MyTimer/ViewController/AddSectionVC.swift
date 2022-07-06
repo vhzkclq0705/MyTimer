@@ -12,33 +12,47 @@ import SnapKit
 class AddSectionVC: UIViewController {
     
     // MARK: - Create UI items
+    let backgroundView: UIView = {
+        let view = UIView()
+        view.setBackgroundView()
+        
+        return view
+    }()
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "섹션을 추가하세요!",
-//            size: 20)
+        label.setLabelStyle(
+            text: "섹션 추가",
+            font: .bold,
+            size: 15,
+            color: .black)
         
         return label
     }()
     
-    lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
+    lazy var textField: UITextView = {
+        let textView = UITextView()
+        textView.setTextView("섹션 이름을 입력해주세요")
+        textView.delegate = self
         
-        return textField
+        return textView
     }()
     
-    lazy var sectionLabel: UILabel = {
+    let alertLabel: UILabel = {
         let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "섹션",
-//            size: 15)
+        label.setLabelStyle(
+            text: "섹션 이름을 입력해주세요",
+            font: .medium,
+            size: 12,
+            color: UIColor.CustomColor(.red))
+        label.alpha = 0
         
         return label
     }()
     
     lazy var okButton: UIButton = {
         let button = UIButton()
+        button.setSubViewOKButton()
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),
@@ -49,6 +63,7 @@ class AddSectionVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
+        button.setSubViewCancleButton()
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),
@@ -87,72 +102,94 @@ class AddSectionVC: UIViewController {
 // MARK: - Setup UI
 extension AddSectionVC {
     func setupUI() {
-        view.backgroundColor = .clear
         
         [
             titleLabel,
             textField,
-            sectionLabel,
             okButton,
             cancleButton,
+            alertLabel,
         ]
             .forEach { subView.addSubview($0) }
         
-        view.addSubview(subView)
+        [backgroundView, subView]
+            .forEach { view.addSubview($0) }
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         subView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.left.right.equalTo(textField).inset(-50)
-            $0.top.bottom.equalTo(textField).inset(-70)
+            $0.top.equalTo(textField).offset(-65)
+            $0.bottom.equalTo(textField).offset(104)
+            $0.left.right.equalToSuperview().inset(17)
         }
         
         textField.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(30)
+            $0.left.right.equalToSuperview().inset(18)
+            $0.height.equalTo(51)
         }
         
-        sectionLabel.snp.makeConstraints {
-            $0.left.equalTo(textField)
-            $0.bottom.equalTo(textField.snp.top).offset(-5)
+        alertLabel.snp.makeConstraints {
+            $0.top.equalTo(textField.snp.bottom).offset(3)
+            $0.right.equalTo(textField)
         }
         
         titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(sectionLabel.snp.top).offset(-10)
-            $0.centerX.equalTo(textField)
+            $0.bottom.equalTo(textField.snp.top).offset(-8)
+            $0.left.equalTo(textField)
         }
         
         okButton.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(20)
-            $0.right.equalTo(textField)
-            $0.left.equalTo(textField.snp.centerX).offset(20)
+            $0.bottom.equalToSuperview()
+            $0.left.equalTo(textField.snp.centerX)
+            $0.right.equalToSuperview()
+            $0.height.equalTo(59)
         }
         
         cancleButton.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(20)
-            $0.left.equalTo(textField)
-            $0.right.equalTo(textField.snp.centerX).offset(-20)
+            $0.top.equalTo(okButton)
+            $0.left.equalToSuperview()
+            $0.right.equalTo(textField.snp.centerX)
+            $0.height.equalTo(59)
         }
     }
 }
 
 // MARK: TextField
-extension AddSectionVC: UITextFieldDelegate {
+extension AddSectionVC: UITextViewDelegate {
     // Limit TextField range
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String)
-    -> Bool {
-        guard let text = textField.text,
-              let stringRange = Range(range, in: text) else {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.text = ""
+        textView.textColor = .black
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" || textView.text == nil {
+            textView.text = "섹션 이름을 입력해주세요"
+            textView.textColor = UIColor.CustomColor(.gray1)
+            textView.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            alertLabel.alpha = 1
+        } else {
+            textView.textColor = .black
+            textView.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            alertLabel.alpha = 0
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+        replacementText text: String) -> Bool {
+        guard let term = textField.text,
+              let stringRange = Range(range, in: term) else {
             return false
         }
-        let updatedText = text.replacingCharacters(
+        let updatedText = term.replacingCharacters(
             in: stringRange,
-            with: string)
+            with: text)
         
-        return updatedText.count <= 8
+        return updatedText.count <= 10
     }
 }
 

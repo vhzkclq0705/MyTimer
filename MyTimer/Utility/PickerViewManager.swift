@@ -26,8 +26,17 @@ class PickerViewManager {
     
     func componentsLabel(row: Int, component: Int) -> UIView {
         let label = UILabel()
-        //label.textColor = Colors.color(7)
-        label.font = .systemFont(ofSize: 25, weight: .bold)
+        component % 2 == 0
+        ? label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 30,
+            color: UIColor.CustomColor(.purple4))
+        : label.setLabelStyle(
+            text: "",
+            font: .bold,
+            size: 25,
+            color: .black)
         label.textAlignment = component % 2 == 0 ? .right : .center
         
         switch component {

@@ -13,41 +13,54 @@ import DropDown
 class AddTimerVC: UIViewController {
     
     // MARK: - Create UI items
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "타이머를 추가하세요!",
-//            size: 20)
+    let backgroundView: UIView = {
+        let view = UIView()
+        view.setBackgroundView()
         
-        return label
+        return view
     }()
     
     lazy var sectionLabel: UILabel = {
         let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "섹션",
-//            size: 15)
+        label.setLabelStyle(
+            text: "섹션 선택",
+            font: .bold,
+            size: 15,
+            color: .black)
         
         return label
     }()
     
-    lazy var sectionTextField: UITextField = {
-        let textField = UITextField()
-        textField.isUserInteractionEnabled = false
+    lazy var sectionTextField: UITextView = {
+        let textView = UITextView()
+        textView.setTextView("섹션을 선택해주세요")
+        textView.isUserInteractionEnabled = false
         
-        return textField
+        return textView
+    }()
+    
+    let alertSectionLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "섹션을 선택해주세요",
+            font: .medium,
+            size: 12,
+            color: UIColor.CustomColor(.red))
+        label.alpha = 0
+        
+        return label
     }()
     
     lazy var sectionButton: UIButton = {
         let button = UIButton()
         button.setImage(
-            UIImage(systemName: "arrowtriangle.down.fill"),
+            UIImage(named: "arrowDown")?
+                .withTintColor(.black),
             for: .normal)
         button.setImage(
-            UIImage(systemName: "arrowtriangle.up.fill"),
+            UIImage(named: "arrowUp")?
+                .withTintColor(.black),
             for: .selected)
-        button.tintColor = .white
-        button.layer.cornerRadius = 5
         button.addTarget(
             self,
             action: #selector(dropDownTapped(_:)),
@@ -58,25 +71,50 @@ class AddTimerVC: UIViewController {
     
     lazy var sectionView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         
         return view
     }()
     
     lazy var timerLabel: UILabel = {
         let label = UILabel()
-//        label.changeLabelStyle(
-//            text: "타이머",
-//            size: 15)
+        label.setLabelStyle(
+            text: "타이머 이름",
+            font: .bold,
+            size: 15,
+            color: .black)
         
         return label
     }()
     
-    lazy var timerTextField: UITextField = {
-        let textField = UITextField()
-        textField.delegate = self
+    lazy var timerTextField: UITextView = {
+        let textView = UITextView()
+        textView.setTextView("타이머 이름을 입력해주세요")
+        textView.delegate = self
         
-        return textField
+        return textView
+    }()
+    
+    let alertTimerLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "타이머 이름을 입력해주세요",
+            font: .medium,
+            size: 12,
+            color: UIColor.CustomColor(.red))
+        label.alpha = 0
+        
+        return label
+    }()
+    
+    lazy var timerSettingLabel: UILabel = {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "타이머 설정",
+            font: .bold,
+            size: 15,
+            color: .black)
+        
+        return label
     }()
     
     lazy var pickerView: UIPickerView = {
@@ -89,6 +127,7 @@ class AddTimerVC: UIViewController {
     
     lazy var okButton: UIButton = {
         let button = UIButton()
+        button.setSubViewOKButton()
         button.addTarget(
             self,
             action: #selector(okButtonTapped(_:)),
@@ -99,6 +138,7 @@ class AddTimerVC: UIViewController {
     
     lazy var cancleButton: UIButton = {
         let button = UIButton()
+        button.setSubViewCancleButton()
         button.addTarget(
             self,
             action: #selector(cancleButtonTapped(_:)),
@@ -141,7 +181,6 @@ class AddTimerVC: UIViewController {
 // MARK: - Setup UI
 extension AddTimerVC {
     func setupUI() {
-        view.backgroundColor = .clear
         
         [
             sectionTextField,
@@ -150,80 +189,97 @@ extension AddTimerVC {
             .forEach { sectionView.addSubview($0) }
         
         [
-            titleLabel,
             sectionLabel,
             sectionView,
+            alertSectionLabel,
             timerTextField,
+            alertTimerLabel,
             timerLabel,
+            timerSettingLabel,
             pickerView,
             okButton,
             cancleButton,
         ]
             .forEach { subView.addSubview($0) }
         
-        view.addSubview(subView)
+        [backgroundView, subView]
+            .forEach { view.addSubview($0) }
+        
+        backgroundView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         
         subView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.left.right.equalTo(pickerView).inset(-50)
-            $0.top.equalTo(pickerView).offset(-190)
-            $0.bottom.equalTo(pickerView).offset(70)
-        }
-        
-        pickerView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(120)
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(sectionLabel.snp.top).offset(-10)
-            $0.centerX.equalToSuperview()
-        }
-        
-        sectionLabel.snp.makeConstraints {
-            $0.left.equalTo(sectionTextField)
-            $0.bottom.equalTo(sectionTextField.snp.top).offset(-5)
-        }
-        
-        sectionView.snp.makeConstraints {
-            $0.bottom.equalTo(timerLabel.snp.top).offset(-15)
-            $0.left.right.equalToSuperview().inset(30)
-            $0.height.equalTo(30)
-        }
-        
-        sectionTextField.snp.makeConstraints {
-            $0.top.left.bottom.equalTo(sectionView)
-            $0.right.equalTo(sectionButton.snp.left)
-        }
-        
-        sectionButton.snp.makeConstraints {
-            $0.top.right.bottom.equalTo(sectionView)
-            $0.height.equalTo(sectionButton.snp.width)
-        }
-        
-        timerLabel.snp.makeConstraints {
-            $0.left.equalTo(timerTextField)
-            $0.bottom.equalTo(timerTextField.snp.top).offset(-5)
+            $0.center.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(17)
+            $0.top.equalTo(timerTextField).offset(-161)
+            $0.bottom.equalTo(timerTextField).offset(222)
         }
         
         timerTextField.snp.makeConstraints {
-            $0.bottom.equalTo(pickerView.snp.top).offset(-15)
-            $0.left.right.equalToSuperview().inset(30)
-            $0.height.equalTo(30)
+            $0.center.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(18)
+            $0.height.equalTo(51)
+        }
+        
+        timerLabel.snp.makeConstraints {
+            $0.bottom.equalTo(timerTextField.snp.top).offset(-7)
+            $0.left.equalTo(timerTextField)
+        }
+        
+        alertTimerLabel.snp.makeConstraints {
+            $0.top.equalTo(timerTextField.snp.bottom).offset(3)
+            $0.right.equalTo(timerTextField)
+        }
+        
+        sectionView.snp.makeConstraints {
+            $0.bottom.equalTo(timerTextField.snp.top).offset(-44)
+            $0.left.right.equalTo(timerTextField)
+            $0.height.equalTo(51)
+        }
+        
+        sectionTextField.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        sectionLabel.snp.makeConstraints {
+            $0.bottom.equalTo(sectionTextField.snp.top).offset(-7)
+            $0.left.equalTo(sectionTextField)
+        }
+        
+        sectionButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.right.equalToSuperview().inset(11)
+        }
+        
+        alertSectionLabel.snp.makeConstraints {
+            $0.top.equalTo(sectionTextField.snp.bottom).offset(3)
+            $0.right.equalTo(sectionTextField)
+        }
+        
+        timerSettingLabel.snp.makeConstraints {
+            $0.top.equalTo(timerTextField.snp.bottom).offset(17)
+            $0.left.equalTo(timerTextField)
+        }
+        
+        pickerView.snp.makeConstraints {
+            $0.top.equalTo(timerSettingLabel.snp.bottom).offset(7)
+            $0.left.right.equalToSuperview().inset(60)
+            $0.height.equalTo(100)
         }
         
         okButton.snp.makeConstraints {
-            $0.top.equalTo(pickerView.snp.bottom).offset(15)
-            $0.right.equalToSuperview().inset(30)
-            $0.left.equalTo(timerTextField.snp.centerX).offset(20)
+            $0.bottom.equalToSuperview()
+            $0.left.equalTo(timerTextField.snp.centerX)
+            $0.right.equalToSuperview()
+            $0.height.equalTo(59)
         }
         
         cancleButton.snp.makeConstraints {
-            $0.top.equalTo(pickerView.snp.bottom).offset(15)
-            $0.left.equalToSuperview().inset(30)
-            $0.right.equalTo(timerTextField.snp.centerX).offset(-20)
+            $0.top.equalTo(okButton)
+            $0.left.equalToSuperview()
+            $0.right.equalTo(timerTextField.snp.centerX)
+            $0.height.equalTo(59)
         }
     }
     
@@ -245,6 +301,9 @@ extension AddTimerVC {
         dropDown.selectionAction = { index, item in
             self.viewModel.section = index
             self.sectionTextField.text = item
+            self.sectionTextField.textColor = .black
+            self.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            self.alertSectionLabel.alpha = 0
             self.sectionButton.isSelected = false
         }
         dropDown.cancelAction = {
@@ -289,22 +348,44 @@ extension AddTimerVC: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 // MARK: - TextField
-extension AddTimerVC: UITextFieldDelegate {
+extension AddTimerVC: UITextViewDelegate {
     // Limit TextField range
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String)
-    -> Bool {
-        guard let text = textField.text,
-              let stringRange = Range(range, in: text) else {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.text = ""
+        textView.textColor = .black
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if sectionTextField.text == "섹션을 선택해주세요" {
+            sectionTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            alertSectionLabel.alpha = 1
+        } else {
+            sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            alertSectionLabel.alpha = 0
+        }
+        if timerTextField.text == "" || timerTextField.text == nil {
+            timerTextField.text = "타이머 이름을 작성해주세요"
+            timerTextField.textColor = UIColor.CustomColor(.gray1)
+            timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            alertTimerLabel.alpha = 1
+        } else {
+            timerTextField.textColor = .black
+            timerTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            alertTimerLabel.alpha = 0
+        }
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
+        replacementText text: String) -> Bool {
+        guard let term = timerTextField.text,
+              let stringRange = Range(range, in: term) else {
             return false
         }
-        let updatedText = text.replacingCharacters(
+        let updatedText = term.replacingCharacters(
             in: stringRange,
-            with: string)
-        
-        return updatedText.count <= 8
+            with: text)
+
+        return updatedText.count <= 10
     }
 }
 

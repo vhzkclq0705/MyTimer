@@ -14,6 +14,7 @@ class TimerViewModel {
     // MARK: - Property
     let manager = TimerManager.shared
     var sections = [Section]()
+    var goal = "자신의 각오 한 마디를 입력해주세요!"
     
     // MARK: - UI
     var numOfSections: Int {
@@ -52,5 +53,6 @@ class TimerViewModel {
     func load() {
         manager.load()
         sections = manager.sections
+        goal = manager.goal
     }
 }

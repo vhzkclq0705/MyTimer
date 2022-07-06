@@ -14,12 +14,23 @@ class TimerListCell: UITableViewCell {
     static let id = "timerListCell"
     
     // MARK: - Create UI items
+    let subView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
+        view.layer.borderWidth = 1.5
+        
+        return view
+    }()
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "",
             font: .bold,
-            size: 18)
+            size: 18,
+            color: .black)
         
         return label
     }()
@@ -29,7 +40,8 @@ class TimerListCell: UITableViewCell {
         label.setLabelStyle(
             text: "",
             font: .bold,
-            size: 20)
+            size: 20,
+            color: .black)
         
         return label
     }()
@@ -58,16 +70,20 @@ extension TimerListCell {
     func setup() {
         self.backgroundColor = .clear
         self.selectionStyle = .none
-        self.layer.cornerRadius = 5
-        self.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
-        self.layer.borderWidth = 1.5
         
         [
             titleLabel,
             timeLabel,
             timerButton,
         ]
-            .forEach { contentView.addSubview($0) }
+            .forEach { subView.addSubview($0) }
+        
+        contentView.addSubview(subView)
+        
+        subView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(7)
+            $0.left.right.equalToSuperview()
+        }
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
