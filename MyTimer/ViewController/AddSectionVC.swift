@@ -121,13 +121,17 @@ extension AddSectionVC {
         
         subView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.top.equalTo(textField).offset(-65)
-            $0.bottom.equalTo(textField).offset(104)
             $0.left.right.equalToSuperview().inset(17)
+            $0.height.equalTo(220)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(37)
+            $0.left.equalTo(textField)
         }
         
         textField.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.right.equalToSuperview().inset(18)
             $0.height.equalTo(51)
         }
@@ -135,11 +139,6 @@ extension AddSectionVC {
         alertLabel.snp.makeConstraints {
             $0.top.equalTo(textField.snp.bottom).offset(3)
             $0.right.equalTo(textField)
-        }
-        
-        titleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(textField.snp.top).offset(-8)
-            $0.left.equalTo(textField)
         }
         
         okButton.snp.makeConstraints {

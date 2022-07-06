@@ -28,17 +28,32 @@ class SettingsViewModel {
     ]
     
     // MARK: - UI
+    func numOfRows(_ component: Int) -> Int {
+        return sounds.count
+    }
+    
+    func componentsLabel(_ row: Int) -> UIView {
+        let label = UILabel()
+        label.setLabelStyle(
+            text: "\(sounds[row])",
+            font: .bold,
+            size: 23,
+            color: .black)
+        label.textAlignment = .center
+        
+        return label
+    }
+    
+    func didSelectAlarm(_ row: Int) {
+        alarmSound = sounds[row]
+    }
+    
     var numOfSounds: Int {
         return sounds.count
     }
     
-    // MARK: - Funcs for set alarm sound
-    func changeAlarmSound(_ index: Int) {
-        alarmSound = sounds[index]
-        save()
-    }
-    
-    func save() {
+    func save(_ text: String) {
         UserDefaults.standard.set(alarmSound, forKey: "alarmSound")
+        UserDefaults.standard.set(text, forKey: "goal")
     }
 }

@@ -212,39 +212,22 @@ extension AddTimerVC {
         subView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.left.right.equalToSuperview().inset(17)
-            $0.top.equalTo(timerTextField).offset(-161)
-            $0.bottom.equalTo(timerTextField).offset(222)
+            $0.height.equalTo(434)
         }
         
-        timerTextField.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        sectionLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(37)
             $0.left.right.equalToSuperview().inset(18)
-            $0.height.equalTo(51)
-        }
-        
-        timerLabel.snp.makeConstraints {
-            $0.bottom.equalTo(timerTextField.snp.top).offset(-7)
-            $0.left.equalTo(timerTextField)
-        }
-        
-        alertTimerLabel.snp.makeConstraints {
-            $0.top.equalTo(timerTextField.snp.bottom).offset(3)
-            $0.right.equalTo(timerTextField)
         }
         
         sectionView.snp.makeConstraints {
-            $0.bottom.equalTo(timerTextField.snp.top).offset(-44)
-            $0.left.right.equalTo(timerTextField)
+            $0.top.equalTo(sectionLabel.snp.bottom).offset(7)
+            $0.left.right.equalTo(sectionLabel)
             $0.height.equalTo(51)
         }
         
         sectionTextField.snp.makeConstraints {
             $0.edges.equalToSuperview()
-        }
-        
-        sectionLabel.snp.makeConstraints {
-            $0.bottom.equalTo(sectionTextField.snp.top).offset(-7)
-            $0.left.equalTo(sectionTextField)
         }
         
         sectionButton.snp.makeConstraints {
@@ -257,9 +240,25 @@ extension AddTimerVC {
             $0.right.equalTo(sectionTextField)
         }
         
+        timerLabel.snp.makeConstraints {
+            $0.top.equalTo(sectionView.snp.bottom).offset(17)
+            $0.left.right.equalTo(sectionLabel)
+        }
+        
+        timerTextField.snp.makeConstraints {
+            $0.top.equalTo(timerLabel.snp.bottom).offset(7)
+            $0.left.right.equalTo(sectionLabel)
+            $0.height.equalTo(51)
+        }
+        
+        alertTimerLabel.snp.makeConstraints {
+            $0.top.equalTo(timerTextField.snp.bottom).offset(3)
+            $0.right.equalTo(timerTextField)
+        }
+        
         timerSettingLabel.snp.makeConstraints {
             $0.top.equalTo(timerTextField.snp.bottom).offset(17)
-            $0.left.equalTo(timerTextField)
+            $0.left.right.equalTo(sectionLabel)
         }
         
         pickerView.snp.makeConstraints {

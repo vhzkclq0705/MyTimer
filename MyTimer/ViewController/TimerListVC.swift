@@ -177,6 +177,10 @@ class TimerListVC: UIViewController {
             object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print(TimerManager.shared.goal)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(
             self,
@@ -189,7 +193,6 @@ class TimerListVC: UIViewController {
 extension TimerListVC {
     func setupUI() {
         view.backgroundColor = .white
-        goalLabel.text = viewModel.goal
         
         [
             addSectionButton,
