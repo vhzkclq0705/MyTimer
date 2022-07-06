@@ -166,13 +166,10 @@ extension AddSectionVC: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" || textView.text == nil {
+        if textView.text == "" {
             textView.text = "섹션 이름을 입력해주세요"
             textView.textColor = UIColor.CustomColor(.gray1)
-            textView.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            alertLabel.alpha = 1
         } else {
-            textView.textColor = .black
             textView.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
             alertLabel.alpha = 0
         }
@@ -199,9 +196,16 @@ extension AddSectionVC {
     }
     
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let term = textField.text, term.isEmpty == false else {
+        guard let term = textField.text,
+              term != "섹션 이름을 입력해주세요",
+              term.isEmpty == false else {
+            textField.text = "섹션 이름을 입력해주세요"
+            textField.textColor = UIColor.CustomColor(.gray1)
+            textField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            alertLabel.alpha = 1
             return
         }
+        
         TimerManager.shared.addSection(term)
         
         NotificationCenter.default.post(

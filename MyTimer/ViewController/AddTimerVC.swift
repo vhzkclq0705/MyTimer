@@ -12,159 +12,23 @@ import DropDown
 // ViewController for add timer
 class AddTimerVC: UIViewController {
     
-    // MARK: - Create UI items
-    let backgroundView: UIView = {
-        let view = UIView()
-        view.setBackgroundView()
-        
-        return view
-    }()
-    
-    lazy var sectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "섹션 선택",
-            font: .bold,
-            size: 15,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var sectionTextField: UITextView = {
-        let textView = UITextView()
-        textView.setTextView("섹션을 선택해주세요")
-        textView.isUserInteractionEnabled = false
-        
-        return textView
-    }()
-    
-    let alertSectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "섹션을 선택해주세요",
-            font: .medium,
-            size: 12,
-            color: UIColor.CustomColor(.red))
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    lazy var sectionButton: UIButton = {
-        let button = UIButton()
-        button.setImage(
-            UIImage(named: "arrowDown")?
-                .withTintColor(.black),
-            for: .normal)
-        button.setImage(
-            UIImage(named: "arrowUp")?
-                .withTintColor(.black),
-            for: .selected)
-        button.addTarget(
-            self,
-            action: #selector(dropDownTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var sectionView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
-    
-    lazy var timerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "타이머 이름",
-            font: .bold,
-            size: 15,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var timerTextField: UITextView = {
-        let textView = UITextView()
-        textView.setTextView("타이머 이름을 입력해주세요")
-        textView.delegate = self
-        
-        return textView
-    }()
-    
-    let alertTimerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "타이머 이름을 입력해주세요",
-            font: .medium,
-            size: 12,
-            color: UIColor.CustomColor(.red))
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    lazy var timerSettingLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "타이머 설정",
-            font: .bold,
-            size: 15,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var pickerView: UIPickerView = {
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        
-        return pickerView
-    }()
-    
-    lazy var okButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewOKButton()
-        button.addTarget(
-            self,
-            action: #selector(okButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var cancleButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewCancleButton()
-        button.addTarget(
-            self,
-            action: #selector(cancleButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var subView: UIView = {
-        let view = UIView()
-        view.setupSubView()
-        
-        return view
-    }()
-    
     // MARK: - Property
+    let addTimerView = SetTimerView()
     let viewModel = AddTimerViewModel()
     let dropDown = DropDown()
-    var isSetting = false
+    var sectionTitle: String?
+    var timer: MyTimer?
     
     // MARK: - Funcs for life cycle
+    override func loadView() {
+        view = addTimerView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.loadSections()
         setupDropDown()
-        setupUI()
+        setViewController()
         initDropDown()
     }
     
@@ -177,114 +41,41 @@ class AddTimerVC: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    func setViewController() {
+        addTimerView.pickerView.delegate = self
+        addTimerView.pickerView.dataSource = self
+        addTimerView.timerTextField.delegate = self
+        addTimerView.sectionButton.addTarget(
+            self,
+            action: #selector(dropDownTapped(_:)),
+            for: .touchUpInside)
+        addTimerView.okButton.addTarget(
+            self,
+            action: #selector(okButtonTapped(_:)),
+            for: .touchUpInside)
+        addTimerView.cancleButton.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
+    }
 }
 
 // MARK: - Setup UI
 extension AddTimerVC {
-    func setupUI() {
-        if isSetting {
-            
-        }
-        
-        [
-            sectionTextField,
-            sectionButton,
-        ]
-            .forEach { sectionView.addSubview($0) }
-        
-        [
-            sectionLabel,
-            sectionView,
-            alertSectionLabel,
-            timerTextField,
-            alertTimerLabel,
-            timerLabel,
-            timerSettingLabel,
-            pickerView,
-            okButton,
-            cancleButton,
-        ]
-            .forEach { subView.addSubview($0) }
-        
-        [backgroundView, subView]
-            .forEach { view.addSubview($0) }
-        
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        subView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(17)
-            $0.height.equalTo(434)
-        }
-        
-        sectionLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(37)
-            $0.left.right.equalToSuperview().inset(18)
-        }
-        
-        sectionView.snp.makeConstraints {
-            $0.top.equalTo(sectionLabel.snp.bottom).offset(7)
-            $0.left.right.equalTo(sectionLabel)
-            $0.height.equalTo(51)
-        }
-        
-        sectionTextField.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        sectionButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(11)
-        }
-        
-        alertSectionLabel.snp.makeConstraints {
-            $0.top.equalTo(sectionTextField.snp.bottom).offset(3)
-            $0.right.equalTo(sectionTextField)
-        }
-        
-        timerLabel.snp.makeConstraints {
-            $0.top.equalTo(sectionView.snp.bottom).offset(17)
-            $0.left.right.equalTo(sectionLabel)
-        }
-        
-        timerTextField.snp.makeConstraints {
-            $0.top.equalTo(timerLabel.snp.bottom).offset(7)
-            $0.left.right.equalTo(sectionLabel)
-            $0.height.equalTo(51)
-        }
-        
-        alertTimerLabel.snp.makeConstraints {
-            $0.top.equalTo(timerTextField.snp.bottom).offset(3)
-            $0.right.equalTo(timerTextField)
-        }
-        
-        timerSettingLabel.snp.makeConstraints {
-            $0.top.equalTo(timerTextField.snp.bottom).offset(17)
-            $0.left.right.equalTo(sectionLabel)
-        }
-        
-        pickerView.snp.makeConstraints {
-            $0.top.equalTo(timerSettingLabel.snp.bottom).offset(7)
-            $0.left.right.equalToSuperview().inset(60)
-            $0.height.equalTo(100)
-        }
-        
-        okButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.left.equalTo(timerTextField.snp.centerX)
-            $0.right.equalToSuperview()
-            $0.height.equalTo(59)
-        }
-        
-        cancleButton.snp.makeConstraints {
-            $0.top.equalTo(okButton)
-            $0.left.equalToSuperview()
-            $0.right.equalTo(timerTextField.snp.centerX)
-            $0.height.equalTo(59)
-        }
-    }
+    
+    
+//    func setTimerSetting() {
+//        guard let sectionTitle = sectionTitle else { return }
+//        guard let timer = timer else { return }
+//        sectionTextField.text = sectionTitle
+//        sectionTextField.textColor = .black
+//        timerTextField.text = timer.title
+//        timerTextField.textColor = .black
+//
+//        pickerView.selectRow(timer.min, inComponent: 0, animated: true)
+//        pickerView.selectRow(timer.sec, inComponent: 2, animated: true)
+//    }
     
     // Init attributes of DropDown
     func initDropDown() {
@@ -299,18 +90,18 @@ extension AddTimerVC {
     //  Setup DropDown
     func setupDropDown() {
         dropDown.dataSource = viewModel.sections
-        dropDown.anchorView = sectionView
-        dropDown.bottomOffset = CGPoint(x: 0, y: 30)
+        dropDown.anchorView = addTimerView.sectionView
+        dropDown.bottomOffset = CGPoint(x: 0, y: 40)
         dropDown.selectionAction = { index, item in
             self.viewModel.section = index
-            self.sectionTextField.text = item
-            self.sectionTextField.textColor = .black
-            self.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            self.alertSectionLabel.alpha = 0
-            self.sectionButton.isSelected = false
+            self.addTimerView.sectionTextField.text = item
+            self.addTimerView.sectionTextField.textColor = .black
+            self.addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            self.addTimerView.alertSectionLabel.alpha = 0
+            self.addTimerView.sectionButton.isSelected = false
         }
         dropDown.cancelAction = {
-            self.sectionButton.isSelected = false
+            self.addTimerView.sectionButton.isSelected = false
         }
     }
 }
@@ -359,28 +150,18 @@ extension AddTimerVC: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if sectionTextField.text == "섹션을 선택해주세요" {
-            sectionTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            alertSectionLabel.alpha = 1
+        if addTimerView.timerTextField.text == "" {
+            addTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
+            addTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
         } else {
-            sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            alertSectionLabel.alpha = 0
-        }
-        if timerTextField.text == "" || timerTextField.text == nil {
-            timerTextField.text = "타이머 이름을 작성해주세요"
-            timerTextField.textColor = UIColor.CustomColor(.gray1)
-            timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            alertTimerLabel.alpha = 1
-        } else {
-            timerTextField.textColor = .black
-            timerTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            alertTimerLabel.alpha = 0
+            addTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            addTimerView.alertTimerLabel.alpha = 0
         }
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
         replacementText text: String) -> Bool {
-        guard let term = timerTextField.text,
+        guard let term = addTimerView.timerTextField.text,
               let stringRange = Range(range, in: term) else {
             return false
         }
@@ -395,12 +176,22 @@ extension AddTimerVC: UITextViewDelegate {
 // MARK: - Button actions
 extension AddTimerVC {
     @objc func okButtonTapped(_ sender: UIButton) {
-        guard let section = sectionTextField.text,
+        guard let section = addTimerView.sectionTextField.text,
+              section != "섹션을 선택해주세요",
               section.isEmpty == false else {
+            addTimerView.sectionTextField.text = "섹션을 선택해주세요"
+            addTimerView.sectionTextField.textColor = UIColor.CustomColor(.gray1)
+            addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            addTimerView.alertSectionLabel.alpha = 1
             return
         }
-        guard let title = timerTextField.text,
+        guard let title = addTimerView.timerTextField.text,
+              title != "타이머 이름을 입력해주세요",
               title.isEmpty == false else {
+            addTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
+            addTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
+            addTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            addTimerView.alertTimerLabel.alpha = 1
             return
         }
         viewModel.addTimer(title: title)
@@ -424,6 +215,6 @@ extension AddTimerVC {
     
     @objc func dropDownTapped(_ sender: UIButton) {
         dropDown.show()
-        sectionButton.isSelected = !sectionButton.isSelected
+        addTimerView.sectionButton.isSelected = !addTimerView.sectionButton.isSelected
     }
 }

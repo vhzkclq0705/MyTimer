@@ -67,6 +67,8 @@ class DetailTimerVC: UIViewController {
             font: .bold,
             size: 25,
             color: .black)
+        label.textAlignment = .center
+        label.numberOfLines = 2
         
         return label
     }()
@@ -202,7 +204,7 @@ extension DetailTimerVC {
             .forEach { view.addSubview($0) }
         
         circleProgrssBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview().offset(-50)
+            $0.centerY.equalToSuperview().offset(-100)
             $0.centerX.equalToSuperview()
         }
         
@@ -237,6 +239,11 @@ extension DetailTimerVC {
         remainingSecTime.snp.makeConstraints {
             $0.centerY.equalTo(colon)
             $0.left.equalTo(colon.snp.right)
+        }
+        
+        timerLabel.snp.makeConstraints {
+            $0.top.equalTo(colon.snp.bottom).offset(165)
+            $0.centerX.equalToSuperview()
         }
         
         resetButton.snp.makeConstraints {
@@ -439,7 +446,13 @@ extension DetailTimerVC {
     }
     
     @objc func didTapSettingsButton(_ sender: UIButton) {
+        let setTimerVC = AddTimerVC()
+        setTimerVC.sectionTitle = sectionTitle
+        setTimerVC.timer = myTimer
+        setTimerVC.modalTransitionStyle = .crossDissolve
+        setTimerVC.modalPresentationStyle = .overFullScreen
         
+        present(setTimerVC, animated: true)
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
