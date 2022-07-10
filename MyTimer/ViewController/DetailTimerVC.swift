@@ -226,7 +226,7 @@ extension DetailTimerVC {
         }
     }
     
-    @objc func cancleButtonTapped(_ sender: UIButton) {
+    @objc override func cancleButtonTapped(_ sender: UIButton) {
         timer.invalidate()
         notifyReloadAndDismiss()
     }

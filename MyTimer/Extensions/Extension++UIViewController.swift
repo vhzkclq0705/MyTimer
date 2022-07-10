@@ -23,4 +23,8 @@ extension UIViewController{
         
         dismiss(animated: true)
     }
+    
+    @objc func cancleButtonTapped(_ sender: UIButton) {
+        notifyReloadAndDismiss()
+    }
 }

@@ -11,153 +11,62 @@ import SnapKit
 // ViewController for add section
 class AddSectionVC: UIViewController {
     
-    // MARK: - Create UI items
-    let backgroundView: UIView = {
-        let view = UIView()
-        view.setBackgroundView()
-        
-        return view
-    }()
-    
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "섹션 추가",
-            font: .bold,
-            size: 15,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var textField: UITextView = {
-        let textView = UITextView()
-        textView.setTextView("섹션 이름을 입력해주세요")
-        textView.delegate = self
-        
-        return textView
-    }()
-    
-    let alertLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "섹션 이름을 입력해주세요",
-            font: .medium,
-            size: 12,
-            color: UIColor.CustomColor(.red))
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    lazy var okButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewOKButton()
-        button.addTarget(
-            self,
-            action: #selector(okButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var cancleButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewCancleButton()
-        button.addTarget(
-            self,
-            action: #selector(cancleButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var subView: UIView = {
-        let view = UIView()
-        view.setupSubView()
-        
-        return view
-    }()
+    // MARK: - Property
+    let addSectionView = AddSectionView()
     
     
-    // MARK: - Funcs for life cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+    // MARK: - Life cycle
+    override func loadView() {
+        view = addSectionView
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setController()
     }
     
     // MARK: - Keyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-}
-
-// MARK: - Setup UI
-extension AddSectionVC {
-    func setupUI() {
+    
+    // MARK: - Setup
+    func setController() {
+        addSectionView.textField.delegate = self
         
-        [
-            titleLabel,
-            textField,
-            okButton,
-            cancleButton,
-            alertLabel,
-        ]
-            .forEach { subView.addSubview($0) }
-        
-        [backgroundView, subView]
-            .forEach { view.addSubview($0) }
-        
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        addSectionView.okButton.addTarget(
+            self,
+            action: #selector(okButtonTapped(_:)),
+            for: .touchUpInside)
+        addSectionView.cancleButton.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
+    }
+    
+    // MARK: - Actions
+    @objc func reload() {
+        dismiss(animated: true)
+    }
+    
+    @objc func okButtonTapped(_ sender: UIButton) {
+        guard let term = addSectionView.textField.text,
+              term != "섹션 이름을 입력해주세요",
+              term.isEmpty == false else {
+            addSectionView.textField.text = "섹션 이름을 입력해주세요"
+            addSectionView.textField.textColor = UIColor.CustomColor(.gray1)
+            addSectionView.textField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            addSectionView.alertLabel.alpha = 1
+            return
         }
         
-        subView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(17)
-            $0.height.equalTo(220)
-        }
+        TimerManager.shared.addSection(term)
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(37)
-            $0.left.equalTo(textField)
-        }
-        
-        textField.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.right.equalToSuperview().inset(18)
-            $0.height.equalTo(51)
-        }
-        
-        alertLabel.snp.makeConstraints {
-            $0.top.equalTo(textField.snp.bottom).offset(3)
-            $0.right.equalTo(textField)
-        }
-        
-        okButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.left.equalTo(textField.snp.centerX)
-            $0.right.equalToSuperview()
-            $0.height.equalTo(59)
-        }
-        
-        cancleButton.snp.makeConstraints {
-            $0.top.equalTo(okButton)
-            $0.left.equalToSuperview()
-            $0.right.equalTo(textField.snp.centerX)
-            $0.height.equalTo(59)
-        }
+        notifyReloadAndDismiss()
     }
 }
 
-// MARK: TextField
+// MARK: - TextField
 extension AddSectionVC: UITextViewDelegate {
     // Limit TextField range
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -171,13 +80,13 @@ extension AddSectionVC: UITextViewDelegate {
             textView.textColor = UIColor.CustomColor(.gray1)
         } else {
             textView.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            alertLabel.alpha = 0
+            addSectionView.alertLabel.alpha = 0
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
         replacementText text: String) -> Bool {
-        guard let term = textField.text,
+        guard let term = addSectionView.textField.text,
               let stringRange = Range(range, in: term) else {
             return false
         }
@@ -186,32 +95,5 @@ extension AddSectionVC: UITextViewDelegate {
             with: text)
         
         return updatedText.count <= 10
-    }
-}
-
-// MARK: - Button actions
-extension AddSectionVC {
-    @objc func reload() {
-        dismiss(animated: true)
-    }
-    
-    @objc func okButtonTapped(_ sender: UIButton) {
-        guard let term = textField.text,
-              term != "섹션 이름을 입력해주세요",
-              term.isEmpty == false else {
-            textField.text = "섹션 이름을 입력해주세요"
-            textField.textColor = UIColor.CustomColor(.gray1)
-            textField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            alertLabel.alpha = 1
-            return
-        }
-        
-        TimerManager.shared.addSection(term)
-        
-        notifyReloadAndDismiss()
-    }
-    
-    @objc func cancleButtonTapped(_ sender: UIButton) {
-        notifyReloadAndDismiss()
     }
 }

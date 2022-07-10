@@ -9,10 +9,6 @@ import UIKit
 import SnapKit
 import DropDown
 
-protocol SetTimerDelegate {
-    func updateTimer(section: Int, timer: MyTimer)
-}
-
 // ViewController for add timer
 class SetTimerVC: UIViewController {
     
@@ -48,6 +44,7 @@ class SetTimerVC: UIViewController {
         setTimerView.pickerView.delegate = self
         setTimerView.pickerView.dataSource = self
         setTimerView.timerTextField.delegate = self
+        
         setTimerView.sectionButton.addTarget(
             self,
             action: #selector(dropDownTapped(_:)),
@@ -89,7 +86,7 @@ class SetTimerVC: UIViewController {
         }
     }
     
-    // MARK: - funcs
+    // MARK: - Actions
     func setTimer() {
         viewModel.timer = timer
         viewModel.sectionTitle = sectionTitle
@@ -126,13 +123,8 @@ class SetTimerVC: UIViewController {
         notifyReloadAndDismiss()
     }
     
-    // MARK: - Button actions
     @objc func okButtonTapped(_ sender: UIButton) {
         checkTextField()
-    }
-    
-    @objc func cancleButtonTapped(_ sender: UIButton) {
-        notifyReloadAndDismiss()
     }
     
     @objc func dropDownTapped(_ sender: UIButton) {

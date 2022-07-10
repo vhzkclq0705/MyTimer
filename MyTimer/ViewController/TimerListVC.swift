@@ -85,7 +85,7 @@ class TimerListVC: UIViewController {
         }
     }
     
-    // MARK: - Actions(Selectors)
+    // MARK: - Actions
     @objc func recognizeTapped(_ sender: Any) {
         timerListView.addButton.isSelected = false
         displayButtons(false)

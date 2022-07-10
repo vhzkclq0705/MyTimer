@@ -40,6 +40,7 @@ class AddTimerVC: UIViewController {
         addTimerView.pickerView.delegate = self
         addTimerView.pickerView.dataSource = self
         addTimerView.timerTextField.delegate = self
+        
         addTimerView.sectionButton.addTarget(
             self,
             action: #selector(dropDownTapped(_:)),
@@ -81,7 +82,7 @@ class AddTimerVC: UIViewController {
         }
     }
     
-    // MARK: - funcs
+    // MARK: - Actions
     func checkTextField() {
         guard let section = addTimerView.sectionTextField.text,
               section != "섹션을 선택해주세요",
@@ -106,13 +107,8 @@ class AddTimerVC: UIViewController {
         notifyReloadAndDismiss()
     }
     
-    // MARK: - Button actions
     @objc func okButtonTapped(_ sender: UIButton) {
         checkTextField()
-    }
-    
-    @objc func cancleButtonTapped(_ sender: UIButton) {
-        notifyReloadAndDismiss()
     }
     
     @objc func dropDownTapped(_ sender: UIButton) {

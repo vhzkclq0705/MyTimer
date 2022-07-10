@@ -25,6 +25,9 @@
 		762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762162A02875D67E0063A3AF /* Extension++UIViewController.swift */; };
 		763EAD42287B1AB60019DC27 /* TimerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD41287B1AB60019DC27 /* TimerListView.swift */; };
 		763EAD44287B25530019DC27 /* DetailTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD43287B25530019DC27 /* DetailTimerView.swift */; };
+		763EAD46287B29100019DC27 /* AddSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD45287B29100019DC27 /* AddSectionView.swift */; };
+		763EAD49287B2BB30019DC27 /* SetTimerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD48287B2BB30019DC27 /* SetTimerDelegate.swift */; };
+		763EAD4B287B2C000019DC27 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD4A287B2C000019DC27 /* SettingsView.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
@@ -83,6 +86,9 @@
 		762162A02875D67E0063A3AF /* Extension++UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIViewController.swift"; sourceTree = "<group>"; };
 		763EAD41287B1AB60019DC27 /* TimerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListView.swift; sourceTree = "<group>"; };
 		763EAD43287B25530019DC27 /* DetailTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerView.swift; sourceTree = "<group>"; };
+		763EAD45287B29100019DC27 /* AddSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionView.swift; sourceTree = "<group>"; };
+		763EAD48287B2BB30019DC27 /* SetTimerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimerDelegate.swift; sourceTree = "<group>"; };
+		763EAD4A287B2C000019DC27 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
@@ -150,6 +156,8 @@
 				763EAD41287B1AB60019DC27 /* TimerListView.swift */,
 				7621629C2875C9A20063A3AF /* SetTimerView.swift */,
 				763EAD43287B25530019DC27 /* DetailTimerView.swift */,
+				763EAD45287B29100019DC27 /* AddSectionView.swift */,
+				763EAD4A287B2C000019DC27 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -161,6 +169,14 @@
 				7603B5392849E74F0016B66C /* PickerViewManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		763EAD47287B2BA60019DC27 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				763EAD48287B2BB30019DC27 /* SetTimerDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		769B5200284F8B7400C3E5A3 /* AlarmSounds */ = {
@@ -205,6 +221,7 @@
 			children = (
 				7621628E2874A00C0063A3AF /* Fonts */,
 				769B5200284F8B7400C3E5A3 /* AlarmSounds */,
+				763EAD47287B2BA60019DC27 /* Delegates */,
 				76D9AE33284383EC00A2F5B9 /* Extensions */,
 				7621629F2875D63B0063A3AF /* Managers */,
 				76D9AE2A284368DD00A2F5B9 /* Utility */,
@@ -437,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				763EAD4B287B2C000019DC27 /* SettingsView.swift in Sources */,
 				76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */,
 				76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */,
 				7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */,
@@ -448,6 +466,7 @@
 				7603B53E284A22830016B66C /* DetailTimerViewModel.swift in Sources */,
 				76D9AE162843637200A2F5B9 /* TimerListVC.swift in Sources */,
 				76B3DC60284928CC00342295 /* CircleProgressBar.swift in Sources */,
+				763EAD49287B2BB30019DC27 /* SetTimerDelegate.swift in Sources */,
 				7621629A287561A50063A3AF /* Extension++UITextView.swift in Sources */,
 				76034393285E00950075F9E7 /* Extension++UIView.swift in Sources */,
 				76034391285DFDFE0075F9E7 /* Extension++UILabel.swift in Sources */,
@@ -459,6 +478,7 @@
 				7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */,
 				76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */,
 				7621629D2875C9A20063A3AF /* SetTimerView.swift in Sources */,
+				763EAD46287B29100019DC27 /* AddSectionView.swift in Sources */,
 				7621628D287499E40063A3AF /* Extension++UIColor.swift in Sources */,
 				7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */,
 				7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */,
