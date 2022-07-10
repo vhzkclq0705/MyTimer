@@ -127,11 +127,13 @@ class SettingsVC: UIViewController {
     
     // MARK: - Property
     let viewModel = SettingsViewModel()
+    var goal: String!
     
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setGoal()
     }
     
     // MARK: - Keyboard
@@ -144,6 +146,7 @@ class SettingsVC: UIViewController {
 extension SettingsVC {
     func setupUI() {
         view.backgroundColor = .clear
+        goalTextField.text = goal
         
         [
             pickerView,
@@ -279,6 +282,12 @@ extension SettingsVC: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 extension SettingsVC {
+    func setGoal() {
+        goalTextField.textColor = goal == "자신의 각오 한 마디를 입력해주세요"
+        ? UIColor.CustomColor(.gray1)
+        : .black
+    }
+    
     @objc func okButtonTapped(_ sender: UIButton) {
         stopAudio()
         

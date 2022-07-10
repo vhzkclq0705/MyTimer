@@ -9,6 +9,7 @@ import Foundation
 
 // Model for timer
 struct MyTimer: Codable, Equatable {
+    var id: Int
     var title: String
     var min: Int
     var sec: Int

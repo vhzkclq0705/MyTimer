@@ -33,6 +33,19 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         return imageView
     }()
     
+    lazy var modifyButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "modify"), for: .normal)
+        button.addTarget(
+            self,
+            action: #selector(didTapModifyButton(_:)),
+            for: .touchUpInside)
+        
+        return button
+    }()
+    
+    let clearView = UIButton()
+    
     // MARK: - Property
     var color: UIColor!
     
@@ -52,6 +65,8 @@ extension TimerListHeaderCell {
         [
             titleLabel,
             detailImageView,
+            modifyButton,
+            clearView,
         ]
             .forEach { contentView.addSubview($0) }
         
@@ -64,6 +79,21 @@ extension TimerListHeaderCell {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(titleLabel.snp.right).offset(5)
         }
+        
+        modifyButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(detailImageView.snp.right).offset(5)
+        }
+        
+        clearView.snp.makeConstraints {
+            $0.top.bottom.right.equalToSuperview()
+            $0.left.equalTo(modifyButton.snp.right)
+        }
+        
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        detailImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        modifyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        clearView.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     
     // MARK: - Update UI
@@ -77,5 +107,9 @@ extension TimerListHeaderCell {
         case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
         default: break
         }
+    }
+    
+    @objc func didTapModifyButton(_ sender: UIButton) {
+        print("modify")
     }
 }

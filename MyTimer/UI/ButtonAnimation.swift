@@ -14,8 +14,6 @@ extension TimerListVC {
     }
     
     func changeView(_ show: Bool) {
-        tableView.isUserInteractionEnabled = !show
-        tableView.layer.opacity = show ? 0.7 : 1
         controlView.isHidden = !show
         backgroundView.isHidden = !show
     }

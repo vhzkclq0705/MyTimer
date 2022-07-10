@@ -103,12 +103,12 @@ class AddTimerVC: UIViewController {
         }
         
         viewModel.addTimer(title: title)
+        notifyReloadAndDismiss()
     }
     
     // MARK: - Button actions
     @objc func okButtonTapped(_ sender: UIButton) {
         checkTextField()
-        notifyReloadAndDismiss()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {

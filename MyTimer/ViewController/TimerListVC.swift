@@ -12,7 +12,7 @@ import ExpyTableView
 // ViewController for timer list
 class TimerListVC: UIViewController {
     
-    // MARK: - Create UI items
+    // MARK: - UI
     lazy var tableView: ExpyTableView = {
         let tableView = ExpyTableView(
             frame: .zero,
@@ -145,7 +145,7 @@ class TimerListVC: UIViewController {
     
     let backgroundView: UIView = {
         let view = UIView()
-        //view.setBackgroundView()
+        view.setBackgroundView()
         view.isHidden = true
         
         return view
@@ -174,7 +174,6 @@ class TimerListVC: UIViewController {
         super.viewDidLoad()
         loadAlarmSound()
         viewModel.load()
-        checkTimerCount()
         setupUI()
         setGoal()
         requestAuthNoti()
@@ -183,6 +182,10 @@ class TimerListVC: UIViewController {
             self, selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"),
             object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        checkTimerCount()
     }
 }
 
@@ -273,7 +276,8 @@ extension TimerListVC {
     }
     
     func checkTimerCount() {
-        notimerLabel.alpha = viewModel.numOfSections == 0 ? 1 : 0
+        notimerLabel.isHidden = viewModel.numOfSections == 0
+        ? false : true
     }
 }
 
@@ -381,6 +385,7 @@ extension TimerListVC {
     
     @objc func settingsButtonTapped(_ sender: UIButton) {
         let vc = SettingsVC()
+        vc.goal = goalLabel.text!
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         
@@ -394,11 +399,14 @@ extension TimerListVC {
     }
     
     func setGoal() {
+        let basic = "자신의 각오 한 마디를 입력해주세요"
         if let goal = UserDefaults.standard.string(forKey: "goal") {
             goalLabel.text = goal
-            goalLabel.textColor = UIColor.CustomColor(.purple5)
+            goalLabel.textColor = goal == basic
+            ? UIColor.CustomColor(.gray1)
+            : UIColor.CustomColor(.purple5)
         } else {
-            goalLabel.text = "자신의 각오 한 마디를 입력해주세요"
+            goalLabel.text = basic
             goalLabel.textColor = UIColor.CustomColor(.gray1)
         }
     }

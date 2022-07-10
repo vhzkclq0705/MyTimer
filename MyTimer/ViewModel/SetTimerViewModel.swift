@@ -36,39 +36,48 @@ class SetTimerViewModel {
         return sections.map { $0.title }
     }
     
-    // MARK: - Funcs for set Timer
+    // MARK: - Set timer
     func didSelectTime(row: Int, component: Int) {
-        pickerViewManager.didSelectTime(row: row, component: component)
+        if component == 0 {
+            timer.min = row
+        } else if component == 2 {
+            timer.sec = row
+        }
     }
     
-    func checkSetting(_ timer: MyTimer) {
-        let min = pickerViewManager.time[0]
-        let sec = pickerViewManager.time[1]
+    func checkSetting() -> (Int, MyTimer) {
+        let min = timer.min
+        let sec = timer.sec
         let setSection: Int = sectionTitles().firstIndex(of: sectionTitle)!
         let addSection: Int = sectionTitles().firstIndex(of: selectedSectionTitle)!
 
-        addSection == setSection
-        ? setTimer(
-            section: setSection,
-            timer: timer,
-            min: min,
-            sec: sec)
-        : timerManager.addTimer(
-            section: addSection,
+        let updatedTimer = MyTimer(
+            id: timer.id,
             title: timerTitle,
             min: min,
             sec: sec)
-    }
-    
-    func setTimer(section: Int, timer: MyTimer, min: Int, sec: Int) {
-        let timerIndex: Int = sections[section].timers.firstIndex(of: timer)!
         
-        timerManager.setTimer(
-            section: section,
-            index: timerIndex,
-            title: timerTitle,
-            min: min,
-            sec: sec)
+        if addSection == setSection {
+            timerManager.setTimer(
+                section: setSection,
+                id: timer.id,
+                title: timerTitle,
+                min: min,
+                sec: sec)
+            
+            return (setSection, updatedTimer)
+        } else {
+            timerManager.deleteTimer(
+                sectionTitle: sectionTitle,
+                timer: timer)
+            timerManager.addTimer(
+                section: addSection,
+                title: timerTitle,
+                min: min,
+                sec: sec)
+            
+            return (addSection, updatedTimer)
+        }
     }
     
     // MARK: - Load data

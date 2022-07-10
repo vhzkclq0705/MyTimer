@@ -14,8 +14,13 @@ class DetailTimerViewModel {
     // MARK: - Property
     var time: Double!
     var myTimer: MyTimer!
+    var section: String!
     
     // MARK: - UI
+    var sectionTitle: String {
+        return section
+    }
+    
     var title: String {
         return myTimer.title
     }
@@ -61,7 +66,8 @@ class DetailTimerViewModel {
             timer: timer)
     }
     
-    func loadTimer(_ myTimer: MyTimer) {
+    func loadTimer(sectionTitle: String, myTimer: MyTimer) {
+        self.section = sectionTitle
         self.myTimer = myTimer
         initTime()
     }

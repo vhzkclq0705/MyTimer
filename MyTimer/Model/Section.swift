@@ -10,6 +10,7 @@ import UIKit
 
 // Model for Section
 struct Section: Codable, Equatable {
+    var id: Int
     var title: String
     var timers = [MyTimer]()
 }

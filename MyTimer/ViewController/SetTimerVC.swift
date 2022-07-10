@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import DropDown
 
+protocol SetTimerDelegate {
+    func updateTimer(section: Int, timer: MyTimer)
+}
+
 // ViewController for add timer
 class SetTimerVC: UIViewController {
     
@@ -18,6 +22,7 @@ class SetTimerVC: UIViewController {
     let dropDown = DropDown()
     var sectionTitle: String!
     var timer: MyTimer!
+    var delegate: SetTimerDelegate?
     
     // MARK: - Life cycle
     override func loadView() {
@@ -86,11 +91,9 @@ class SetTimerVC: UIViewController {
     
     // MARK: - funcs
     func setTimer() {
-        guard let sectionTitle = sectionTitle else { return }
-        guard let timer = timer else { return }
-        
         viewModel.timer = timer
         viewModel.sectionTitle = sectionTitle
+        viewModel.selectedSectionTitle = sectionTitle
         setTimerView.sectionTextField.text = sectionTitle
         setTimerView.sectionTextField.textColor = .black
         setTimerView.timerTextField.text = timer.title
@@ -117,15 +120,15 @@ class SetTimerVC: UIViewController {
             return
         }
         
-        // TODO: SetTimer
         viewModel.timerTitle = title
-        viewModel.checkSetting(timer)
+        let updatedTimer = viewModel.checkSetting()
+        delegate?.updateTimer(section: updatedTimer.0, timer: updatedTimer.1)
+        notifyReloadAndDismiss()
     }
     
     // MARK: - Button actions
     @objc func okButtonTapped(_ sender: UIButton) {
         checkTextField()
-        notifyReloadAndDismiss()
     }
     
     @objc func cancleButtonTapped(_ sender: UIButton) {

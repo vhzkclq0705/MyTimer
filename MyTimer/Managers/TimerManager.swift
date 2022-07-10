@@ -12,42 +12,71 @@ class TimerManager {
     
     // MARK: - Property
     static let shared = TimerManager()
+    
+    var lastSectionID: Int = 0
     var sections = [Section]()
     
     private init() {}
     
     // MARK: - Sections and Timers
     func addSection(_ title: String) {
-        let section = Section(title: title,timers: [])
+        let nextSectionID = lastSectionID + 1
+        lastSectionID = nextSectionID
+        
+        let section = Section(
+            id: nextSectionID,
+            title: title,
+            timers: [])
         
         sections.append(section)
         save()
     }
     
     func addTimer(section: Int, title: String, min: Int, sec: Int) {
-        let timer = MyTimer(title: title, min: min, sec: sec)
+        let lastTimerID = sections[section].timers.last?.id ?? 0
+        let nextTimerID = lastTimerID + 1
+        
+        let timer = MyTimer(
+            id: nextTimerID,
+            title: title,
+            min: min,
+            sec: sec)
+        
         sections[section].timers.append(timer)
         save()
     }
     
-    func setTimer(section: Int, index: Int, title: String, min: Int, sec: Int) {
-        sections[section].timers[index].title = title
-        sections[section].timers[index].min = min
-        sections[section].timers[index].sec = sec
+    func setTimer(section: Int, id: Int, title: String, min: Int, sec: Int) {
+        let timers = sections[section].timers
+        let timer = (timers.filter { $0.id == id })[0]
+        print(timer)
+        guard let index: Int = timers.firstIndex(of: timer) else {
+            print("??")
+            return
+        }
+        
+        let setTimer = MyTimer(id: id, title: title, min: min, sec: sec)
+        sections[section].timers[index] = setTimer
+        
         save()
     }
     
-    func deleteSection(_ section: Int) {
-        sections.remove(at: section)
+    func deleteSection(_ section: Section) {
+        sections = sections.filter { $0.id != section.id }
+        
         save()
     }
     
     func deleteTimer(sectionTitle: String, timer: MyTimer) {
-        let sectionTitles = sections.map { $0.title }
-        let sectionIndex: Int = sectionTitles.firstIndex(of: sectionTitle)!
-        let timerIndex: Int = sections[sectionIndex].timers.firstIndex(of: timer)!
+        let section = (sections.filter { $0.title == sectionTitle })[0]
+        guard let index: Int = sections.firstIndex(of: section) else {
+            return
+        }
         
-        sections[sectionIndex].timers.remove(at: timerIndex)
+        sections[index].timers = sections[index].timers.filter {
+            $0.id != $0.id
+        }
+        
         save()
     }
     
@@ -56,8 +85,6 @@ class TimerManager {
         UserDefaults.standard.set(
             try? PropertyListEncoder().encode(sections),
             forKey: "Sections")
-        
-        print("Save Success!")
     }
     
     func load() {
@@ -68,6 +95,6 @@ class TimerManager {
             [Section].self,
             from: data)) ?? []
         
-        print("Load Success!")
+        lastSectionID = sections.last?.id ?? 0
     }
 }

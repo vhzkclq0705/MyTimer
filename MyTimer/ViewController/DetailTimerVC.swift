@@ -169,7 +169,9 @@ class DetailTimerVC: UIViewController {
     // MARK: - Funcs for life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.loadTimer(myTimer)
+        viewModel.loadTimer(
+            sectionTitle: sectionTitle,
+            myTimer: myTimer)
         setupUI()
         timerNotification()
     }
@@ -177,11 +179,15 @@ class DetailTimerVC: UIViewController {
 
 // MARK: - Setup UI
 extension DetailTimerVC {
-    func setupUI() {
-        view.backgroundColor = .white
-        sectionLabel.text = sectionTitle
+    func setViewController() {
+        sectionLabel.text = viewModel.section
         timerLabel.text = viewModel.title
         remainingTimeText()
+    }
+    
+    func setupUI() {
+        view.backgroundColor = .white
+        setViewController()
         circleProgrssBar.createCircularPath()
         
         alertView.addGestureRecognizer(recognizeTapGesture)
@@ -441,6 +447,7 @@ extension DetailTimerVC {
     
     @objc func didTapSettingsButton(_ sender: UIButton) {
         let setTimerVC = SetTimerVC()
+        setTimerVC.delegate = self
         setTimerVC.sectionTitle = sectionTitle
         setTimerVC.timer = myTimer
         setTimerVC.modalTransitionStyle = .crossDissolve
@@ -450,6 +457,16 @@ extension DetailTimerVC {
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
-        
+        viewModel.deleteTimer(
+            sectionTitle: sectionTitle,
+            timer: myTimer)
+    }
+}
+
+extension DetailTimerVC: SetTimerDelegate {
+    func updateTimer(section: Int, timer: MyTimer) {
+        let sectionTitle = TimerManager.shared.sections[section].title
+        viewModel.loadTimer(sectionTitle: sectionTitle, myTimer: timer)
+        setViewController()
     }
 }
