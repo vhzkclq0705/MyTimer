@@ -5,14 +5,14 @@ The goal of this project is to launch in the App Store.
 It was written by code only.   
 The code style applied https://github.com/airbnb/swift.
 
-## Preview
+# Preview
 
 ![Preview](https://user-images.githubusercontent.com/75382687/175110042-4219529e-4ff5-4e5d-b612-efe5c64cf1da.gif)
 
 
 <br>
 
-## Features
+# Features
 
 <details>
   <summary> Timer Playback </summary>
@@ -82,13 +82,27 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-## Language
+# Update log
+
+### 2022.07.11 v1.1
+- Improve the UI
+- Add section modifications
+- Fixed a bug that the same timer deletes.
+- Fixed a bug that the same section deletes.
+
+### 2022.06.27 v1.0
+- Release!
+
+
+<br>
+
+# Language
 
 - Swift
 
 <br>
 
-## Architecture
+# Architecture
 
 - MVVM   
   <details>
@@ -98,6 +112,7 @@ The code style applied https://github.com/airbnb/swift.
   ```Swift
     // Timer
     struct MyTimer: Codable, Equatable {
+    var id: Int
     var title: String
     var min: Int
     var sec: Int
@@ -105,6 +120,7 @@ The code style applied https://github.com/airbnb/swift.
     
     // Section
     struct Section: Codable, Equatable {
+    var id: Int
     var title: String
     var timers = [MyTimer]()
     }
@@ -115,7 +131,7 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-## Skills
+# Skills
 
 - UIBezierPath()
   > Visually show the progress of the timer.   
@@ -138,7 +154,7 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-## Library
+# Library
 
 - AVFoundation
   > Used for sound the alarm.   
@@ -155,9 +171,9 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-## App Store
+# App Store
 
-- COMING SOON!
+- https://apps.apple.com/kr/app/%EB%A7%88%EC%9D%B4%ED%83%80%EC%9D%B4%EB%A8%B8/id1631776048
 
 
 
