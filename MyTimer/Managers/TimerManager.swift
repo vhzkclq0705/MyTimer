@@ -18,7 +18,7 @@ class TimerManager {
     
     private init() {}
     
-    // MARK: - Sections and Timers
+    // MARK: - Sections
     func addSection(_ title: String) {
         let nextSectionID = lastSectionID + 1
         lastSectionID = nextSectionID
@@ -29,13 +29,30 @@ class TimerManager {
             timers: [])
         
         sections.append(section)
+        
         save()
     }
     
+    func setSection(section: Section, title: String) {
+        guard let index: Int = sections.firstIndex(of: section) else {
+            return
+        }
+        
+        sections[index].title = title
+        
+        save()
+    }
+    
+    func deleteSection(_ section: Section) {
+        sections = sections.filter { $0.id != section.id }
+        
+        save()
+    }
+    
+    // MARK: - Timers
     func addTimer(section: Int, title: String, min: Int, sec: Int) {
         let lastTimerID = sections[section].timers.last?.id ?? 0
         let nextTimerID = lastTimerID + 1
-        
         let timer = MyTimer(
             id: nextTimerID,
             title: title,
@@ -43,26 +60,19 @@ class TimerManager {
             sec: sec)
         
         sections[section].timers.append(timer)
+        
         save()
     }
     
     func setTimer(section: Int, id: Int, title: String, min: Int, sec: Int) {
         let timers = sections[section].timers
         let timer = (timers.filter { $0.id == id })[0]
-        print(timer)
         guard let index: Int = timers.firstIndex(of: timer) else {
-            print("??")
             return
         }
-        
         let setTimer = MyTimer(id: id, title: title, min: min, sec: sec)
-        sections[section].timers[index] = setTimer
         
-        save()
-    }
-    
-    func deleteSection(_ section: Section) {
-        sections = sections.filter { $0.id != section.id }
+        sections[section].timers[index] = setTimer
         
         save()
     }

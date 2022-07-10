@@ -25,6 +25,7 @@ class TimerListVC: UIViewController {
         setController()
         loadAlarmSound()
         viewModel.load()
+        checkTimerCount()
         setGoal()
         requestAuthNoti()
         
@@ -33,10 +34,6 @@ class TimerListVC: UIViewController {
             selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"),
             object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        checkTimerCount()
     }
     
     // MARK: - Setup
@@ -66,11 +63,6 @@ class TimerListVC: UIViewController {
             action: #selector(recognizeTapped(_:)))
     }
     
-    func checkTimerCount() {
-        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
-        ? false : true
-    }
-    
     func setGoal() {
         let basic = "자신의 각오 한 마디를 입력해주세요"
         if let goal = UserDefaults.standard.string(forKey: "goal") {
@@ -84,10 +76,16 @@ class TimerListVC: UIViewController {
         }
     }
     
+    func checkTimerCount() {
+        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
+        ? false : true
+    }
+    
     // MARK: - Actions
     @objc func reload() {
         viewModel.load()
         setGoal()
+        checkTimerCount()
         timerListView.tableView.reloadData()
     }
     

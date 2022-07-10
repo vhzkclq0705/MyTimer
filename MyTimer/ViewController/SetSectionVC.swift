@@ -92,13 +92,15 @@ class SetSectionVC: UIViewController {
             return
         }
         
-        //TimerManager.shared.addSection(term)
+        TimerManager.shared.setSection(
+            section: section,
+            title: term)
         
         changeCompleteView(.setSection)
     }
 }
 
-// MARK: - TextField
+// MARK: - TextView
 extension SetSectionVC: UITextViewDelegate {
     // Limit TextField range
     func textViewDidBeginEditing(_ textView: UITextView) {

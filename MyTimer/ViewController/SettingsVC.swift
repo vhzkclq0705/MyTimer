@@ -130,7 +130,7 @@ extension SettingsVC: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" || textView.text == nil {
+        if textView.text == "" {
             textView.text = "자신의 각오 한 마디를 입력해주세요"
             textView.textColor = UIColor.CustomColor(.gray1)
         }
@@ -149,6 +149,6 @@ extension SettingsVC: UITextViewDelegate {
             in: stringRange,
             with: text)
         
-        return updatedText.count <= 35
+        return updatedText.count <= 33
     }
 }

@@ -51,7 +51,6 @@ class TimerListView: UIView {
             font: .medium,
             size: 18,
             color: UIColor.CustomColor(.gray3))
-        label.alpha = 0
         label.textAlignment = .center
         label.numberOfLines = 2
 

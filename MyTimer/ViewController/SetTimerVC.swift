@@ -169,7 +169,7 @@ extension SetTimerVC: UIPickerViewDelegate,
     }
 }
 
-// MARK: - TextField
+// MARK: - TextView
 extension SetTimerVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.text = ""

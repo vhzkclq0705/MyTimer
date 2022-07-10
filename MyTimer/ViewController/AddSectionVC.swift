@@ -65,7 +65,7 @@ class AddSectionVC: UIViewController {
     }
 }
 
-// MARK: - TextField
+// MARK: - TextView
 extension AddSectionVC: UITextViewDelegate {
     // Limit TextField range
     func textViewDidBeginEditing(_ textView: UITextView) {
