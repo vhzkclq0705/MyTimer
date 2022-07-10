@@ -31,10 +31,8 @@ class DetailTimerVC: UIViewController {
         setViewController()
         timerNotification()
     }
-}
-
-// MARK: - Setup
-extension DetailTimerVC {
+    
+    // MARK: - Setup
     func setViewController() {
         detailTimerView.sectionLabel.text = viewModel.section
         detailTimerView.timerLabel.text = viewModel.title
@@ -89,6 +87,20 @@ extension DetailTimerVC {
         timer.invalidate()
         timerisOn = false
         print("stop")
+    }
+    
+    func play() {
+        startTimer()
+        if isInited {
+            detailTimerView.circleProgrssBar.progressAnimation(viewModel.remainingTime)
+            isInited = false
+        }
+        detailTimerView.circleProgrssBar.resumeAnimation()
+    }
+    
+    func pause() {
+        stopTimer()
+        detailTimerView.circleProgrssBar.pauseLayer()
     }
     
     func resetTimer() {
@@ -211,17 +223,7 @@ extension DetailTimerVC {
     @objc func startButtonTapped(_ sender: UIButton) {
         detailTimerView.startButton.isSelected = !detailTimerView.startButton.isSelected
         
-        if detailTimerView.startButton.isSelected {
-            startTimer()
-            if isInited {
-                detailTimerView.circleProgrssBar.progressAnimation(viewModel.remainingTime)
-                isInited = false
-            }
-            detailTimerView.circleProgrssBar.resumeAnimation()
-        } else {
-            stopTimer()
-            detailTimerView.circleProgrssBar.pauseLayer()
-        }
+        detailTimerView.startButton.isSelected ? play() : pause()
     }
     
     @objc override func didTapCancleButton(_ sender: UIButton) {
@@ -230,6 +232,9 @@ extension DetailTimerVC {
     }
     
     @objc func didTapSettingsButton(_ sender: UIButton) {
+        detailTimerView.startButton.isSelected = false
+        pause()
+        
         let setTimerVC = SetTimerVC()
         setTimerVC.delegate = self
         setTimerVC.sectionTitle = sectionTitle
@@ -238,6 +243,9 @@ extension DetailTimerVC {
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
+        detailTimerView.startButton.isSelected = false
+        pause()
+        
         let vc = DeleteVC()
         vc.type = .timer
         vc.sectionTitle = sectionTitle
@@ -254,5 +262,6 @@ extension DetailTimerVC: SetTimerDelegate {
         self.myTimer = timer
         viewModel.loadTimer(sectionTitle: sectionTitle, myTimer: timer)
         setViewController()
+        resetTimer()
     }
 }
