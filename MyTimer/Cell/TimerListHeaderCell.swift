@@ -49,6 +49,9 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     // MARK: - Property
     var color: UIColor!
     
+    // MARK: - Button tap handler
+    var modifyButtonTapHandler: (() -> Void)?
+    
     // MARK: - Cell init
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -70,7 +73,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     // MARK: - Actions
     @objc func didTapModifyButton(_ sender: UIButton) {
-        print("modify")
+        modifyButtonTapHandler?()
     }
 }
 

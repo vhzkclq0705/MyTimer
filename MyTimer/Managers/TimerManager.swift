@@ -74,7 +74,7 @@ class TimerManager {
         }
         
         sections[index].timers = sections[index].timers.filter {
-            $0.id != $0.id
+            $0.id != timer.id
         }
         
         save()

@@ -58,13 +58,7 @@ class DetailTimerViewModel {
         }
     }
     
-    // MARK: - Delete timer
-    func deleteTimer(sectionTitle: String, timer: MyTimer) {
-        TimerManager.shared.deleteTimer(
-            sectionTitle: sectionTitle,
-            timer: timer)
-    }
-    
+    // MARK: - Load
     func loadTimer(sectionTitle: String, myTimer: MyTimer) {
         self.section = sectionTitle
         self.myTimer = myTimer

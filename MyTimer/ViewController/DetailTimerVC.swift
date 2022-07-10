@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import SnapKit
-import AVFoundation
 
 // ViewController for timer
 class DetailTimerVC: UIViewController {
@@ -240,21 +238,12 @@ extension DetailTimerVC {
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
-        let checkView = changeCheckView(.timer)
-        checkView.okButton.addTarget(
-            self,
-            action: #selector(deleteTimer(_:)),
-            for: .touchUpInside)
+        let vc = DeleteVC()
+        vc.type = .timer
+        vc.sectionTitle = sectionTitle
+        vc.timer = myTimer
         
-        view.addSubview(checkView)
-    }
-    
-    @objc func deleteTimer(_ sender: UIButton) {
-        viewModel.deleteTimer(
-            sectionTitle: sectionTitle,
-            timer: myTimer)
-        
-        changeCompleteView(.deleteTimer)
+        presentCustom(vc)
     }
 }
 

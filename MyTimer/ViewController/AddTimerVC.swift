@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 import DropDown
 
 // ViewController for add timer

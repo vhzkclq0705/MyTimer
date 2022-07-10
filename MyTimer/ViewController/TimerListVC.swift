@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 import ExpyTableView
 
 // ViewController for timer list
@@ -86,6 +85,12 @@ class TimerListVC: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func reload() {
+        viewModel.load()
+        setGoal()
+        timerListView.tableView.reloadData()
+    }
+    
     @objc func recognizeTapped(_ sender: Any) {
         timerListView.addButton.isSelected = false
         displayButtons(false)
@@ -98,30 +103,35 @@ class TimerListVC: UIViewController {
     
     @objc func addTimerButtonTapped(_ sender: UIButton) {
         let vc = AddTimerVC()
+        
         presentCustom(vc)
     }
     
     @objc func addSectionButtonTapped(_ sender: UIButton) {
         let vc = AddSectionVC()
+        
         presentCustom(vc)
     }
     
     @objc func settingsButtonTapped(_ sender: UIButton) {
         let vc = SettingsVC()
         vc.goal = timerListView.goalLabel.text!
+        
         presentCustom(vc)
     }
     
-    @objc func reload() {
-        viewModel.load()
-        setGoal()
-        timerListView.tableView.reloadData()
+    func popupSetSection(_ index: Int) {
+        let vc = SetSectionVC()
+        vc.section = viewModel.sections[index]
+        
+        presentCustom(vc)
     }
     
     func popupDetailTimer(_ indexPath: IndexPath) {
         let vc = DetailTimerVC()
         vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
         vc.myTimer = viewModel.timerInfo(indexPath)
+        
         presentCustom(vc)
     }
     
@@ -230,10 +240,12 @@ extension TimerListVC: ExpyTableViewDelegate,
         guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
             return UITableViewCell()
         }
-        
         let title = viewModel.sectionTitle(section)
         
         header.updateUI(text: title)
+        header.modifyButtonTapHandler = {
+            self.popupSetSection(section)
+        }
         
         return header
     }
@@ -245,13 +257,12 @@ extension TimerListVC: ExpyTableViewDelegate,
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else {
             return UITableViewCell()
         }
-        
         let timer = viewModel.timerInfo(indexPath)
+        
         cell.updateUI(
             title: timer.title,
             min: timer.min,
             sec: timer.sec)
-        
         cell.timerButtonTapHandler = {
             self.popupDetailTimer(indexPath)
         }

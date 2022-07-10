@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 // ViewController for settings
 class SettingsVC: UIViewController {

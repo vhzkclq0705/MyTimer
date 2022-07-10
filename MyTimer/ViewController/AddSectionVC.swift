@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 // ViewController for add section
 class AddSectionVC: UIViewController {

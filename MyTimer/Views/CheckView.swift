@@ -97,11 +97,6 @@ class CheckView: UIView {
             $0.height.equalTo(180)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(53)
-            $0.left.right.equalToSuperview().inset(20)
-        }
-        
         subTitleLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(5)
             $0.left.right.equalTo(titleLabel)
