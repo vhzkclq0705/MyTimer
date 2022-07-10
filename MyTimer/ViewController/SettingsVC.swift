@@ -51,7 +51,7 @@ class SettingsVC: UIViewController {
             for: .touchUpInside)
         settingsView.cancleButton.addTarget(
             self,
-            action: #selector(cancleButtonTapped(_:)),
+            action: #selector(didTapCancleButton(_:)),
             for: .touchUpInside)
     }
     
@@ -66,10 +66,10 @@ class SettingsVC: UIViewController {
         
         viewModel.save(settingsView.goalTextField.text)
         
-        notifyReloadAndDismiss()
+        changeCompleteView(.settings)
     }
     
-    @objc override func cancleButtonTapped(_ sender: UIButton) {
+    @objc override func didTapCancleButton(_ sender: UIButton) {
         stopAudio()
         notifyReloadAndDismiss()
     }

@@ -53,7 +53,7 @@ extension DetailTimerVC {
             for: .touchUpInside)
         detailTimerView.backButton.addTarget(
             self,
-            action: #selector(cancleButtonTapped(_:)),
+            action: #selector(didTapCancleButton(_:)),
             for: .touchUpInside)
         detailTimerView.settingButton.addTarget(
             self,
@@ -226,7 +226,7 @@ extension DetailTimerVC {
         }
     }
     
-    @objc override func cancleButtonTapped(_ sender: UIButton) {
+    @objc override func didTapCancleButton(_ sender: UIButton) {
         timer.invalidate()
         notifyReloadAndDismiss()
     }
@@ -240,9 +240,21 @@ extension DetailTimerVC {
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
+        let checkView = changeCheckView(.timer)
+        checkView.okButton.addTarget(
+            self,
+            action: #selector(deleteTimer(_:)),
+            for: .touchUpInside)
+        
+        view.addSubview(checkView)
+    }
+    
+    @objc func deleteTimer(_ sender: UIButton) {
         viewModel.deleteTimer(
             sectionTitle: sectionTitle,
             timer: myTimer)
+        
+        changeCompleteView(.deleteTimer)
     }
 }
 

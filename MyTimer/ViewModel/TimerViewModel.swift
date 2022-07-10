@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 // ViewModel for TimerListVC
 class TimerViewModel {

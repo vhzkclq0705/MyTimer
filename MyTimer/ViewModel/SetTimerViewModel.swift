@@ -5,7 +5,7 @@
 //  Created by 권오준 on 2022/06/03.
 //
 
-import UIKit
+import Foundation
 
 // ViewModel for SetTimerVC
 class SetTimerViewModel {

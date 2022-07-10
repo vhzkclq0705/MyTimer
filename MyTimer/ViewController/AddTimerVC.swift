@@ -51,7 +51,7 @@ class AddTimerVC: UIViewController {
             for: .touchUpInside)
         addTimerView.cancleButton.addTarget(
             self,
-            action: #selector(cancleButtonTapped(_:)),
+            action: #selector(didTapCancleButton(_:)),
             for: .touchUpInside)
     }
     
@@ -104,7 +104,8 @@ class AddTimerVC: UIViewController {
         }
         
         viewModel.addTimer(title: title)
-        notifyReloadAndDismiss()
+        
+        changeCompleteView(.addTimer)
     }
     
     @objc func okButtonTapped(_ sender: UIButton) {

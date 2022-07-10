@@ -40,7 +40,7 @@ class AddSectionVC: UIViewController {
             for: .touchUpInside)
         addSectionView.cancleButton.addTarget(
             self,
-            action: #selector(cancleButtonTapped(_:)),
+            action: #selector(didTapCancleButton(_:)),
             for: .touchUpInside)
     }
     
@@ -62,7 +62,7 @@ class AddSectionVC: UIViewController {
         
         TimerManager.shared.addSection(term)
         
-        notifyReloadAndDismiss()
+        changeCompleteView(.addSection)
     }
 }
 
