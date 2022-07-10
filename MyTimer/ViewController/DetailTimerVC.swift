@@ -251,6 +251,7 @@ extension DetailTimerVC {
 extension DetailTimerVC: SetTimerDelegate {
     func updateTimer(section: Int, timer: MyTimer) {
         let sectionTitle = TimerManager.shared.sections[section].title
+        self.myTimer = timer
         viewModel.loadTimer(sectionTitle: sectionTitle, myTimer: timer)
         setViewController()
     }
