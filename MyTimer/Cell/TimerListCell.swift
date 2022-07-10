@@ -13,7 +13,7 @@ class TimerListCell: UITableViewCell {
     
     static let id = "timerListCell"
     
-    // MARK: - Create UI items
+    // MARK: - UI
     let subView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -67,10 +67,23 @@ class TimerListCell: UITableViewCell {
         super.layoutSubviews()
         setup()
     }
+    
+    // MARK: - Update UI
+    func updateUI(title: String, min: Int, sec: Int) {
+        let mintoStr = String(format: "%02d", min)
+        let sectoStr = String(format: "%02d", sec)
+        titleLabel.text = title
+        timeLabel.text = "\(mintoStr):\(sectoStr)"
+    }
+    
+    // MARK: - Actions
+    @objc func timerButtonTapped(_ sender: UIButton) {
+        timerButtonTapHandler?()
+    }
 }
 
 extension TimerListCell {
-    // MARK: - Setup UI
+    // MARK: - Setup
     func setup() {
         self.backgroundColor = .clear
         self.selectionStyle = .none
@@ -103,18 +116,5 @@ extension TimerListCell {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().inset(20)
         }
-    }
-    
-    // MARK: - Update UI
-    func updateUI(title: String, min: Int, sec: Int) {
-        let mintoStr = String(format: "%02d", min)
-        let sectoStr = String(format: "%02d", sec)
-        titleLabel.text = title
-        timeLabel.text = "\(mintoStr):\(sectoStr)"
-    }
-    
-    // MARK: - Button action
-    @objc func timerButtonTapped(_ sender: UIButton) {
-        timerButtonTapHandler?()
     }
 }

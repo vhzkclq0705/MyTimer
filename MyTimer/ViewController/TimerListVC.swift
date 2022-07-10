@@ -12,174 +12,26 @@ import ExpyTableView
 // ViewController for timer list
 class TimerListVC: UIViewController {
     
-    // MARK: - UI
-    lazy var tableView: ExpyTableView = {
-        let tableView = ExpyTableView(
-            frame: .zero,
-            style: .insetGrouped)
-        
-        tableView.register(
-            TimerListHeaderCell.self,
-            forCellReuseIdentifier: TimerListHeaderCell.id)
-        tableView.register(
-            TimerListCell.self,
-            forCellReuseIdentifier: TimerListCell.id)
-        
-        tableView.expandingAnimation = .fade
-        tableView.collapsingAnimation = .fade
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        return tableView
-    }()
-    
-    var goalLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "자신의 각오 한마디를 입력해주세요!",
-            font: .bold,
-            size: 23,
-            color: UIColor.CustomColor(.gray2))
-        label.numberOfLines = 0
-        
-        return label
-    }()
-    
-    let notimerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "아직 추가된 타이머가 없습니다!\n 타이머를 추가해주세요!",
-            font: .medium,
-            size: 18,
-            color: UIColor.CustomColor(.gray3))
-        label.alpha = 0
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        
-        return label
-    }()
-    
-    lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "add")?
-            .withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(addButtonTapped(_:)),
-            for: .touchUpInside
-        )
-        
-        return button
-    }()
-    
-    lazy var addTimerButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("timer")
-        button.addTarget(
-            self,
-            action: #selector(addTimerButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var addSectionButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("section")
-        button.addTarget(
-            self,
-            action: #selector(addSectionButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("settings")
-        button.addTarget(
-            self,
-            action: #selector(settingsButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    let addSectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "섹션 추가",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    let addTimerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "타이머 추가",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    let settingsLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "설정",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        label.alpha = 0
-        
-        return label
-    }()
-    
-    let backgroundView: UIView = {
-        let view = UIView()
-        view.setBackgroundView()
-        view.isHidden = true
-        
-        return view
-    }()
-    
-    let controlView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.isHidden = true
-        
-        return view
-    }()
-    
-    lazy var recognizeTapGesture: UITapGestureRecognizer = {
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
-        
-        return gesture
-    }()
-    
     // MARK: - Property
+    let timerListView = TimerListView()
     let viewModel = TimerViewModel()
     
     // MARK: - Life cycle
+    override func loadView() {
+        view = timerListView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setController()
         loadAlarmSound()
         viewModel.load()
-        setupUI()
         setGoal()
         requestAuthNoti()
         
         NotificationCenter.default.addObserver(
-            self, selector: #selector(reload),
+            self,
+            selector: #selector(reload),
             name: NSNotification.Name(rawValue: "reload"),
             object: nil)
     }
@@ -187,102 +39,170 @@ class TimerListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         checkTimerCount()
     }
-}
-
-// MARK: - Setup UI
-extension TimerListVC {
-    func setupUI() {
-        view.backgroundColor = .white
+    
+    // MARK: - Setup
+    func setController() {
+        timerListView.tableView.delegate = self
+        timerListView.tableView.dataSource = self
         
-        [
-            addSectionButton,
-            addTimerButton,
-            settingsButton,
-            addTimerLabel,
-            addSectionLabel,
-            settingsLabel,
-        ]
-            .forEach { controlView.addSubview($0) }
-        
-        controlView.addGestureRecognizer(recognizeTapGesture)
-        
-        [
-            backgroundView,
-            tableView,
-            addButton,
-            goalLabel,
-            notimerLabel,
-            controlView,
-        ]
-            .forEach { view.addSubview($0) }
-        
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(goalLabel.snp.bottom)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-            $0.left.right.equalToSuperview()
-        }
-        
-        goalLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(22)
-            $0.left.right.equalToSuperview().inset(17)
-        }
-        
-        notimerLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        
-        addButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-35)
-            $0.right.equalToSuperview().offset(-26)
-        }
-        
-        addTimerButton.snp.makeConstraints {
-            $0.bottom.equalTo(addButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
-        }
-        
-        addSectionButton.snp.makeConstraints {
-            $0.bottom.equalTo(addTimerButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
-        }
-        
-        settingsButton.snp.makeConstraints {
-            $0.bottom.equalTo(addSectionButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
-        }
-        
-        addTimerLabel.snp.makeConstraints {
-            $0.centerY.equalTo(addTimerButton)
-            $0.right.equalTo(addTimerButton.snp.left).offset(-9)
-        }
-        
-        addSectionLabel.snp.makeConstraints {
-            $0.centerY.equalTo(addSectionButton)
-            $0.right.equalTo(addTimerLabel)
-        }
-        
-        settingsLabel.snp.makeConstraints {
-            $0.centerY.equalTo(settingsButton)
-            $0.right.equalTo(addTimerLabel)
-        }
-        
-        controlView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        timerListView.addButton.addTarget(
+            self,
+            action: #selector(addButtonTapped(_:)),
+            for: .touchUpInside
+        )
+        timerListView.addTimerButton.addTarget(
+            self,
+            action: #selector(addTimerButtonTapped(_:)),
+            for: .touchUpInside)
+        timerListView.addSectionButton.addTarget(
+            self,
+            action: #selector(addSectionButtonTapped(_:)),
+            for: .touchUpInside)
+        timerListView.settingsButton.addTarget(
+            self,
+            action: #selector(settingsButtonTapped(_:)),
+            for: .touchUpInside)
+        timerListView.recognizeTapGesture.addTarget(
+            self,
+            action: #selector(recognizeTapped(_:)))
     }
     
     func checkTimerCount() {
-        notimerLabel.isHidden = viewModel.numOfSections == 0
+        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
         ? false : true
+    }
+    
+    func setGoal() {
+        let basic = "자신의 각오 한 마디를 입력해주세요"
+        if let goal = UserDefaults.standard.string(forKey: "goal") {
+            timerListView.goalLabel.text = goal
+            timerListView.goalLabel.textColor = goal == basic
+            ? UIColor.CustomColor(.gray1)
+            : UIColor.CustomColor(.purple5)
+        } else {
+            timerListView.goalLabel.text = basic
+            timerListView.goalLabel.textColor = UIColor.CustomColor(.gray1)
+        }
+    }
+    
+    // MARK: - Actions(Selectors)
+    @objc func recognizeTapped(_ sender: Any) {
+        timerListView.addButton.isSelected = false
+        displayButtons(false)
+    }
+    
+    @objc func addButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        displayButtons(sender.isSelected)
+    }
+    
+    @objc func addTimerButtonTapped(_ sender: UIButton) {
+        let vc = AddTimerVC()
+        presentCustom(vc)
+    }
+    
+    @objc func addSectionButtonTapped(_ sender: UIButton) {
+        let vc = AddSectionVC()
+        presentCustom(vc)
+    }
+    
+    @objc func settingsButtonTapped(_ sender: UIButton) {
+        let vc = SettingsVC()
+        vc.goal = timerListView.goalLabel.text!
+        presentCustom(vc)
+    }
+    
+    @objc func reload() {
+        viewModel.load()
+        setGoal()
+        timerListView.tableView.reloadData()
+    }
+    
+    func popupDetailTimer(_ indexPath: IndexPath) {
+        let vc = DetailTimerVC()
+        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
+        vc.myTimer = viewModel.timerInfo(indexPath)
+        presentCustom(vc)
+    }
+    
+    // MARK: - Button Animations
+    func displayButtons(_ show: Bool) {
+        animate(show: show, duration: 0.05)
+    }
+    
+    func changeView(_ show: Bool) {
+        timerListView.controlView.isHidden = !show
+        timerListView.backgroundView.isHidden = !show
+    }
+    
+    func animate(show: Bool, duration: TimeInterval) {
+        if show { self.changeView(show) }
+        UIView.animate(
+            withDuration: duration,
+            animations: { self.firstAnimation(show) }) { _ in
+                UIView.animate(
+                    withDuration: duration,
+                    animations: { self.secondAnimation(show) }) { _ in
+                        UIView.animate(
+                            withDuration: duration,
+                            animations: { self.thirdAnimation(show) }) { _ in
+                                if !show { self.changeView(show) }
+                            }
+                    }
+            }
+    }
+    
+    func firstAnimation(_ show: Bool) {
+        let angle: CGFloat
+        
+        if show {
+            [
+                timerListView.addTimerButton,
+                timerListView.addTimerLabel,
+            ]
+                .forEach { $0.alpha = 1 }
+            
+            angle = Double.pi / 4
+        }
+        else {
+            [
+                timerListView.settingsButton,
+                timerListView.settingsLabel,
+            ]
+                .forEach { $0.alpha = 0 }
+            
+            angle = 0
+        }
+        
+        timerListView.addButton.transform = CGAffineTransform(
+            rotationAngle: angle)
+    }
+    
+    func secondAnimation(_ show: Bool) {
+        [
+            timerListView.addSectionButton,
+            timerListView.addSectionLabel
+        ]
+            .forEach { $0.alpha = show ? 1 : 0 }
+    }
+    
+    func thirdAnimation(_ show: Bool) {
+        show
+        ? [
+            timerListView.settingsButton,
+            timerListView.settingsLabel
+        ]
+            .forEach { $0.alpha = 1 }
+        : [timerListView.addTimerButton,
+           timerListView.addTimerLabel
+        ]
+            .forEach { $0.alpha = 0 }
     }
 }
 
-// MARK: - Funcs for TableView
-extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
+// MARK: - TableView
+extension TimerListVC: ExpyTableViewDelegate,
+                       ExpyTableViewDataSource {
     // true = Expandable, false = Non-Expandable(Same as default TableView)
     func tableView(
         _ tableView: ExpyTableView,
@@ -353,72 +273,4 @@ extension TimerListVC: ExpyTableViewDelegate, ExpyTableViewDataSource {
         changeForSection section: Int) {
             // This function is only a stub.
         }
-}
-
-// MARK: - Funcs for actions
-extension TimerListVC {
-    @objc func recognizeTapped(_ sender: Any) {
-        addButton.isSelected = false
-        displayButtons(false)
-    }
-    
-    @objc func addButtonTapped(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        displayButtons(sender.isSelected)
-    }
-    
-    @objc func addTimerButtonTapped(_ sender: UIButton) {
-        let vc = AddTimerVC()
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
-    
-    @objc func addSectionButtonTapped(_ sender: UIButton) {
-        let vc = AddSectionVC()
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
-    
-    @objc func settingsButtonTapped(_ sender: UIButton) {
-        let vc = SettingsVC()
-        vc.goal = goalLabel.text!
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
-    
-    @objc func reload() {
-        viewModel.load()
-        setGoal()
-        self.tableView.reloadData()
-    }
-    
-    func setGoal() {
-        let basic = "자신의 각오 한 마디를 입력해주세요"
-        if let goal = UserDefaults.standard.string(forKey: "goal") {
-            goalLabel.text = goal
-            goalLabel.textColor = goal == basic
-            ? UIColor.CustomColor(.gray1)
-            : UIColor.CustomColor(.purple5)
-        } else {
-            goalLabel.text = basic
-            goalLabel.textColor = UIColor.CustomColor(.gray1)
-        }
-    }
-    
-    func popupDetailTimer(_ indexPath: IndexPath) {
-        let vc = DetailTimerVC()
-        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
-        vc.myTimer = viewModel.timerInfo(indexPath)
-        
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        
-        present(vc, animated: true)
-    }
 }

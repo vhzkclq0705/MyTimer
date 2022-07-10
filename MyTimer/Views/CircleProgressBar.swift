@@ -16,6 +16,7 @@ class CircleProgressBar: UIView {
     var startPoint = CGFloat(-Double.pi / 2)
     var endPoint = CGFloat(3 * Double.pi / 2)
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .clear
@@ -25,7 +26,7 @@ class CircleProgressBar: UIView {
         super.init(coder: coder)
     }
     
-    // MARK: - Setup CircleProgressBar
+    // MARK: - Setup
     func createCircularPath() {
         // CircularPath for layer
         let circularPath = UIBezierPath(
@@ -69,7 +70,7 @@ class CircleProgressBar: UIView {
         progressLayer.add(circularProgressAnimation, forKey: "progressAnimation")
     }
     
-    // MARK: - Funcs for when layer is in progress
+    // MARK: - Progress
     func pauseLayer(){
         let pauseTime = progressLayer.convertTime(CACurrentMediaTime(), from: nil)
         progressLayer.speed = 0

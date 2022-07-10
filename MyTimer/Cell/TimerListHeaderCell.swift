@@ -14,7 +14,7 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     static let id = "timerListHeaderCell"
     
-    // MARK: - Create UI items
+    // MARK: - UI
     let titleLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
@@ -54,10 +54,28 @@ class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         super.layoutSubviews()
         setup()
     }
+    
+    // MARK: - Update UI
+    func updateUI(text: String) {
+        titleLabel.text = text
+    }
+    
+    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
+        switch state {
+        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
+        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
+        default: break
+        }
+    }
+    
+    // MARK: - Actions
+    @objc func didTapModifyButton(_ sender: UIButton) {
+        print("modify")
+    }
 }
 
 extension TimerListHeaderCell {
-    // MARK: - Setup UI
+    // MARK: - Setup
     func setup() {
         self.backgroundColor = .clear
         self.selectionStyle = .none
@@ -94,22 +112,5 @@ extension TimerListHeaderCell {
         detailImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         modifyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         clearView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-    }
-    
-    // MARK: - Update UI
-    func updateUI(text: String) {
-        titleLabel.text = text
-    }
-    
-    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
-        switch state {
-        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
-        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
-        default: break
-        }
-    }
-    
-    @objc func didTapModifyButton(_ sender: UIButton) {
-        print("modify")
     }
 }

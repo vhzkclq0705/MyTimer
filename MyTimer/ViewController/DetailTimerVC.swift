@@ -12,151 +12,6 @@ import AVFoundation
 // ViewController for timer
 class DetailTimerVC: UIViewController {
     
-    // MARK: - Create UI items
-    lazy var circleProgrssBar = CircleProgressBar()
-    
-    lazy var sectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 20,
-            color: .black)
-        label.textAlignment = .center
-        
-        return label
-    }()
-    
-    lazy var colon: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: " : ",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var remainingMinTime: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var remainingSecTime: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
-    
-    lazy var timerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 25,
-            color: .black)
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        
-        return label
-    }()
-    
-    lazy var resetButton: UIButton = {
-        let button = UIButton()
-        button.setImage(
-            UIImage(named: "reset"),
-            for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(resetButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var startButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "play"), for: .normal)
-        button.setImage(UIImage(named: "pause"), for: .selected)
-        button.addTarget(
-            self,
-            action: #selector(startButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "arrowBack"), for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(cancleButtonTapped(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var alertView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        view.isHidden = true
-        
-        return view
-    }()
-    
-    lazy var alertLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "화면을 터치하세요!!",
-            font: .bold,
-            size: 40,
-            color: .white)
-        
-        return label
-    }()
-    
-    lazy var settingButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "settingFill"), for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(didTapSettingsButton(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var deleteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "delete"), for: .normal)
-        button.addTarget(
-            self,
-            action: #selector(didTapDeleteButton(_:)),
-            for: .touchUpInside)
-        
-        return button
-    }()
-    
-    lazy var recognizeTapGesture: UITapGestureRecognizer = {
-        let gesture = UITapGestureRecognizer()
-        gesture.addTarget(self, action: #selector(recognizeTapped(_:)))
-        
-        return gesture
-    }()
-    
     // MARK: - Property
     var sectionTitle: String!
     var myTimer: MyTimer!
@@ -165,120 +20,58 @@ class DetailTimerVC: UIViewController {
     var timerisOn = false
     var timeInBackground: Date?
     let viewModel = DetailTimerViewModel()
+    let detailTimerView = DetailTimerView()
     
-    // MARK: - Funcs for life cycle
+    // MARK: - Life cycle
+    override func loadView() {
+        view = detailTimerView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.loadTimer(
-            sectionTitle: sectionTitle,
-            myTimer: myTimer)
-        setupUI()
+        viewModel.loadTimer(sectionTitle: sectionTitle, myTimer: myTimer)
+        setViewController()
         timerNotification()
     }
 }
 
-// MARK: - Setup UI
+// MARK: - Setup
 extension DetailTimerVC {
     func setViewController() {
-        sectionLabel.text = viewModel.section
-        timerLabel.text = viewModel.title
+        detailTimerView.sectionLabel.text = viewModel.section
+        detailTimerView.timerLabel.text = viewModel.title
+        detailTimerView.circleProgrssBar.createCircularPath()
         remainingTimeText()
+        
+        detailTimerView.resetButton.addTarget(
+            self,
+            action: #selector(resetButtonTapped(_:)),
+            for: .touchUpInside)
+        detailTimerView.startButton.addTarget(
+            self,
+            action: #selector(startButtonTapped(_:)),
+            for: .touchUpInside)
+        detailTimerView.backButton.addTarget(
+            self,
+            action: #selector(cancleButtonTapped(_:)),
+            for: .touchUpInside)
+        detailTimerView.settingButton.addTarget(
+            self,
+            action: #selector(didTapSettingsButton(_:)),
+            for: .touchUpInside)
+        detailTimerView.deleteButton.addTarget(
+            self,
+            action: #selector(didTapDeleteButton(_:)),
+            for: .touchUpInside)
+        detailTimerView.recognizeTapGesture.addTarget(
+            self,
+            action: #selector(recognizeTapped(_:)))
     }
     
-    func setupUI() {
-        view.backgroundColor = .white
-        setViewController()
-        circleProgrssBar.createCircularPath()
-        
-        alertView.addGestureRecognizer(recognizeTapGesture)
-        alertView.addSubview(alertLabel)
-        
-        [
-            sectionLabel,
-            timerLabel,
-            remainingMinTime,
-            remainingSecTime,
-            colon,
-            resetButton,
-            startButton,
-            backButton,
-            circleProgrssBar,
-            alertView,
-            settingButton,
-            deleteButton,
-        ]
-            .forEach { view.addSubview($0) }
-        
-        circleProgrssBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview().offset(-100)
-            $0.centerX.equalToSuperview()
-        }
-        
-        alertView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
-        alertLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-250)
-        }
-        
-        sectionLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(15)
-            $0.centerX.equalToSuperview()
-        }
-        
-        backButton.snp.makeConstraints {
-            $0.centerY.equalTo(sectionLabel)
-            $0.left.equalToSuperview().offset(16)
-        }
-        
-        colon.snp.makeConstraints {
-            $0.center.equalTo(circleProgrssBar)
-        }
-        
-        remainingMinTime.snp.makeConstraints {
-            $0.centerY.equalTo(colon)
-            $0.right.equalTo(colon.snp.left)
-        }
-        
-        remainingSecTime.snp.makeConstraints {
-            $0.centerY.equalTo(colon)
-            $0.left.equalTo(colon.snp.right)
-        }
-        
-        timerLabel.snp.makeConstraints {
-            $0.top.equalTo(colon.snp.bottom).offset(165)
-            $0.centerX.equalToSuperview()
-        }
-        
-        resetButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-148)
-            $0.left.equalToSuperview().offset(35)
-        }
-        
-        startButton.snp.makeConstraints {
-            $0.centerY.equalTo(resetButton)
-            $0.right.equalToSuperview().offset(-35)
-        }
-        
-        settingButton.snp.makeConstraints{
-            $0.centerY.equalTo(sectionLabel)
-            $0.right.equalToSuperview().offset(-19)
-        }
-        
-        deleteButton.snp.makeConstraints {
-            $0.top.equalTo(settingButton.snp.bottom).offset(15)
-            $0.right.equalTo(settingButton)
-        }
-    }
-}
-
-// MARK: - Timer actions
-extension DetailTimerVC {
+    // MARK: - Timer actions
     func remainingTimeText() {
-        remainingMinTime.text = viewModel.min
-        remainingSecTime.text = viewModel.sec
+        detailTimerView.remainingMinTime.text = viewModel.min
+        detailTimerView.remainingSecTime.text = viewModel.sec
     }
     
     func startTimer() {
@@ -303,16 +96,16 @@ extension DetailTimerVC {
     func resetTimer() {
         stopTimer()
         
-        startButton.isSelected = false
+        detailTimerView.startButton.isSelected = false
         isInited = true
         
-        circleProgrssBar.reset()
+        detailTimerView.circleProgrssBar.reset()
         viewModel.initTime()
         remainingTimeText()
     }
     
     func timerIsFinished() {
-        alertView.isHidden = false
+        detailTimerView.alertView.isHidden = false
         stopTimer()
         playAudio(true)
         tremorsAnimation()
@@ -325,10 +118,10 @@ extension DetailTimerVC {
             delay: 0,
             options: [.repeat, .autoreverse],
             animations: {
-                self.colon.transform = CGAffineTransform(rotationAngle: angle)
-                self.remainingMinTime.transform = CGAffineTransform(
+                self.detailTimerView.colon.transform = CGAffineTransform(rotationAngle: angle)
+                self.detailTimerView.remainingMinTime.transform = CGAffineTransform(
                     rotationAngle: angle)
-                self.remainingSecTime.transform = CGAffineTransform(
+                self.detailTimerView.remainingSecTime.transform = CGAffineTransform(
                     rotationAngle: angle)
             })
     }
@@ -341,11 +134,8 @@ extension DetailTimerVC {
             timerIsFinished()
         }
     }
-}
-
-
-// MARK: - Push notification
-extension DetailTimerVC {
+    
+    // MARK: - Push notification
     func timerNotification() {
         let notificationCenter = NotificationCenter.default
         // Notification when moving to background state.
@@ -376,10 +166,7 @@ extension DetailTimerVC {
             }
         }
     }
-}
-
-// MARK: - Detect app state
-extension DetailTimerVC {
+    
     @objc func movedToBackground() {
         if timerisOn {
             stopTimer()
@@ -402,22 +189,21 @@ extension DetailTimerVC {
             }
         }
     }
-}
-
-// MARK: - Button actions
-extension DetailTimerVC {
+    
+    // MARK: - Actions
     @objc func recognizeTapped(_ sender: Any) {
-        alertView.isHidden = true
+        detailTimerView.alertView.isHidden = true
         resetTimer()
         stopAudio()
         
-        colon.layer.removeAllAnimations()
-        remainingMinTime.layer.removeAllAnimations()
-        remainingSecTime.layer.removeAllAnimations()
-        
-        colon.transform = CGAffineTransform(rotationAngle: 0)
-        remainingMinTime.transform = CGAffineTransform(rotationAngle: 0)
-        remainingSecTime.transform = CGAffineTransform(rotationAngle: 0)
+        [
+            detailTimerView.colon,
+            detailTimerView.remainingMinTime,
+            detailTimerView.remainingSecTime,
+        ]
+            .forEach {
+                $0.layer.removeAllAnimations()
+                $0.transform = CGAffineTransform(rotationAngle: 0)}
     }
     
     @objc func resetButtonTapped(_ sender: Any) {
@@ -425,18 +211,18 @@ extension DetailTimerVC {
     }
     
     @objc func startButtonTapped(_ sender: UIButton) {
-        startButton.isSelected = !startButton.isSelected
+        detailTimerView.startButton.isSelected = !detailTimerView.startButton.isSelected
         
-        if startButton.isSelected {
+        if detailTimerView.startButton.isSelected {
             startTimer()
             if isInited {
-                circleProgrssBar.progressAnimation(viewModel.remainingTime)
+                detailTimerView.circleProgrssBar.progressAnimation(viewModel.remainingTime)
                 isInited = false
             }
-            circleProgrssBar.resumeAnimation()
+            detailTimerView.circleProgrssBar.resumeAnimation()
         } else {
             stopTimer()
-            circleProgrssBar.pauseLayer()
+            detailTimerView.circleProgrssBar.pauseLayer()
         }
     }
     
@@ -450,10 +236,7 @@ extension DetailTimerVC {
         setTimerVC.delegate = self
         setTimerVC.sectionTitle = sectionTitle
         setTimerVC.timer = myTimer
-        setTimerVC.modalTransitionStyle = .crossDissolve
-        setTimerVC.modalPresentationStyle = .overFullScreen
-        
-        present(setTimerVC, animated: true)
+        presentCustom(setTimerVC)
     }
     
     @objc func didTapDeleteButton(_ sender: UIButton) {
@@ -463,6 +246,7 @@ extension DetailTimerVC {
     }
 }
 
+// MARK: - Delegate
 extension DetailTimerVC: SetTimerDelegate {
     func updateTimer(section: Int, timer: MyTimer) {
         let sectionTitle = TimerManager.shared.sections[section].title

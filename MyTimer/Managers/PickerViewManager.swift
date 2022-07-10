@@ -14,7 +14,7 @@ class PickerViewManager {
     var time = [0, 0]
     let timeUnits = ["분", "초"]
     
-    // MARK: - Funcs for UI
+    // MARK: - UI
     var numOfComponents: Int {
         return 4
     }
@@ -47,7 +47,7 @@ class PickerViewManager {
         return label
     }
     
-    // MARK: - Func for select time
+    // MARK: - Select time
     func didSelectTime(row: Int, component: Int) {
         if component == 0 {
             time[0] = row

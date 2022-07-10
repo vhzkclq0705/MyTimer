@@ -9,7 +9,8 @@ import UIKit
 import SnapKit
 
 class SetTimerView: UIView {
-    // MARK: - Create UI items
+    
+    // MARK: - UI
     let backgroundView: UIView = {
         let view = UIView()
         view.setBackgroundView()
@@ -17,7 +18,7 @@ class SetTimerView: UIView {
         return view
     }()
     
-    lazy var sectionLabel: UILabel = {
+    let sectionLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "섹션 선택",
@@ -62,13 +63,9 @@ class SetTimerView: UIView {
         return button
     }()
     
-    lazy var sectionView: UIView = {
-        let view = UIView()
-        
-        return view
-    }()
+    let sectionView = UIView()
     
-    lazy var timerLabel: UILabel = {
+    let timerLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "타이머 이름",
@@ -98,7 +95,7 @@ class SetTimerView: UIView {
         return label
     }()
     
-    lazy var timerSettingLabel: UILabel = {
+    let timerSettingLabel: UILabel = {
         let label = UILabel()
         label.setLabelStyle(
             text: "타이머 설정",
@@ -129,13 +126,14 @@ class SetTimerView: UIView {
         return button
     }()
     
-    lazy var subView: UIView = {
+    let subView: UIView = {
         let view = UIView()
         view.setupSubView()
         
         return view
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -150,6 +148,7 @@ class SetTimerView: UIView {
         setLayout()
     }
     
+    // MARK: - Setup
     func addViews() {
         [
             sectionTextField,

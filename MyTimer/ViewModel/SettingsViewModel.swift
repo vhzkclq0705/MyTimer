@@ -52,6 +52,7 @@ class SettingsViewModel {
         return sounds.count
     }
     
+    // MARK: - Save
     func save(_ text: String) {
         UserDefaults.standard.set(alarmSound, forKey: "alarmSound")
         UserDefaults.standard.setValue(text, forKey: "goal")
