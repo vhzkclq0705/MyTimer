@@ -1,13 +1,12 @@
 # MyTimer
 
-It's a timer app created by adding various visual elements.   
-The goal of this project is to launch in the App Store.   
+It's a timer app created by adding various visual elements.    
 It was written by code only.   
 The code style applied https://github.com/airbnb/swift.
 
 # Preview
 
-![Preview](https://user-images.githubusercontent.com/75382687/175110042-4219529e-4ff5-4e5d-b612-efe5c64cf1da.gif)
+![Preview](https://user-images.githubusercontent.com/75382687/178198393-682c5195-dc91-44fc-8bd5-59e89c83e510.gif)
 
 
 <br>
@@ -15,67 +14,90 @@ The code style applied https://github.com/airbnb/swift.
 # Features
 
 <details>
-  <summary> Timer Playback </summary>
+  <summary> Timer playback </summary>
   <div markdown="0">
 
- | Timer Playback |
+ | Timer playback |
  | --- |
- | ![TimerPlayback](https://user-images.githubusercontent.com/75382687/175099768-c84c70ee-c127-4ac7-8b5c-746567579afc.gif) |
+ | ![TimerPlayback](https://user-images.githubusercontent.com/75382687/178198437-c8f53404-085e-48e4-a90b-db4b44575f12.gif) |
 
   </div>
 </details>
 
 <details>
-  <summary> Button Animation </summary>
+  <summary> Button animation </summary>
   <div markdown="1">
 
- | Button Animation |
+ | Button animation |
  | --- |
- | ![ButtonAnimation](https://user-images.githubusercontent.com/75382687/175100330-4e27cb93-aa82-4b87-803b-d51d210efda2.gif) |
+ | ![ButtonAnimation](https://user-images.githubusercontent.com/75382687/178198483-f1b46354-bf28-4a81-992e-ae79b821dbc3.gif) |
 
   </div>
 </details>
 
 <details>
-  <summary> Add Section&Timer </summary>
+  <summary> Add section </summary>
   <div markdown="2">
 
- | Add Section&Timer |
+ | Add section |
  | --- |
- | ![Add_Section Timer](https://user-images.githubusercontent.com/75382687/175100353-11cb9f54-b13e-463f-9cce-308e3ad8862a.gif) |
+ | ![AddSection](https://user-images.githubusercontent.com/75382687/178198503-248ea3ab-db7c-4588-87f0-53d3e291b3bd.gif) |
 
   </div>
 </details>
 
 <details>
-  <summary> Delete&Set Timer </summary>
+  <summary> Set&Delete section </summary>
   <div markdown="3">
 
- | Delete&Set Timer |
+ | Set&Delete section |
  | --- |
- | ![Delete Set_Timer](https://user-images.githubusercontent.com/75382687/175100366-47964d54-2d3c-4f06-9f72-f48f4183be15.gif) |
+ | ![Set_DeleteSection](https://user-images.githubusercontent.com/75382687/178199149-bcbf0e88-902c-4d12-9ac5-8d5f33b9dc0f.gif) |
 
   </div>
 </details>
 
 <details>
-  <summary> Select Sound </summary>
+  <summary> Add timer </summary>
+  <div markdown="2">
+
+ | Add timer |
+ | --- |
+ | ![AddTimer](https://user-images.githubusercontent.com/75382687/178198563-43178784-35fe-41d0-8390-6d116c9c24b9.gif) |
+
+  </div>
+</details>
+
+<details>
+  <summary> Set&Delete timer </summary>
+  <div markdown="3">
+
+ | Set&Delete timer |
+ | --- |
+ | ![Set_DeleteTimer](https://user-images.githubusercontent.com/75382687/178198615-c8ea2d1a-eae5-41f8-a059-67b1384a25ab.gif) |
+
+  </div>
+</details>
+
+<details>
+  <summary> Settings </summary>
   <div markdown="4">
 
- | Select Sound |
+ | Settings |
  | --- |
- | ![SelectSound](https://user-images.githubusercontent.com/75382687/175100378-db26cf3f-5cef-418d-9baa-b2ad6c3ab6ad.gif) |
+ | ![Settings](https://user-images.githubusercontent.com/75382687/178198652-a4c0dd7c-ab92-4553-83d7-ee3438b7a09c.gif) |
 
   </div>
 </details>
 
 <details>
-  <summary> Background Push </summary>
+  <summary> Background push </summary>
   <div markdown="5">
 
- | Background Push |
+ | Background push |
  | --- |
- | ![BackgroundPush](https://user-images.githubusercontent.com/75382687/175100424-a8648c2d-ecd2-4f4e-bedf-e1e325b8ac34.gif) |
+ | ![Background](https://user-images.githubusercontent.com/75382687/178198690-17eeadfe-827a-4f76-890b-46099d04c90f.gif) |
+
 
   </div>
 </details>
