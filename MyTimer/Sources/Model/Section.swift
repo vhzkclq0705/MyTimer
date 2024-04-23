@@ -6,11 +6,19 @@
 //
 
 import Foundation
-import UIKit
 
 // Model for Section
 struct Section: Codable, Equatable {
     var id: Int
     var title: String
     var timers = [MyTimer]()
+}
+
+/// Section model
+struct RxSection: Codable {
+    
+    var id: UUID
+    var title: String
+    var timers: [RxMyTimer]
+    
 }

@@ -111,7 +111,13 @@ class TimerManager {
 
 // MARK: - Rx
 
+/// Manager for handling timer and section management operations:
+/// adding, deleting, and updating.
 final class RxTimerManager {
+    
+    // MARK: Property
+    
+    static let shared = RxTimerManager()
     
     
     
