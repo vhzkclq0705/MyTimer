@@ -5,9 +5,9 @@
 //  Created by 권오준 on 2022/05/30.
 //
 
-import UIKit
+import Foundation
+import RxRelay
 
-// Class for model(Section) management
 class TimerManager {
     
     // MARK: - Property
@@ -107,4 +107,12 @@ class TimerManager {
         
         lastSectionID = sections.last?.id ?? 0
     }
+}
+
+// MARK: - Rx
+
+final class RxTimerManager {
+    
+    
+    
 }

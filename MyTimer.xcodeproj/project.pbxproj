@@ -35,7 +35,6 @@
 		7646D50D2BD7EB050026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D50C2BD7EB050026E4E4 /* BaseViewController.swift */; };
 		7646D50F2BD7ECDF0026E4E4 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */; };
 		7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5102BD7F1CA0026E4E4 /* Storage.swift */; };
-		7646D5132BD7FA9E0026E4E4 /* FileStroageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5122BD7FA9E0026E4E4 /* FileStroageManager.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
@@ -104,7 +103,6 @@
 		7646D50C2BD7EB050026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		7646D5102BD7F1CA0026E4E4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		7646D5122BD7FA9E0026E4E4 /* FileStroageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStroageManager.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 				76CC80392844DE0A00683831 /* TimerManager.swift */,
 				7603B5392849E74F0016B66C /* PickerViewManager.swift */,
 				7646D5102BD7F1CA0026E4E4 /* Storage.swift */,
-				7646D5122BD7FA9E0026E4E4 /* FileStroageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -587,7 +584,6 @@
 				762162982874A1870063A3AF /* SplashViewController.swift in Sources */,
 				763EAD57287B47CB0019DC27 /* SetSectionVC.swift in Sources */,
 				7603B5382849D51B0016B66C /* SetTimerVC.swift in Sources */,
-				7646D5132BD7FA9E0026E4E4 /* FileStroageManager.swift in Sources */,
 				7646D50F2BD7ECDF0026E4E4 /* ViewModelType.swift in Sources */,
 				76CC803A2844DE0A00683831 /* TimerManager.swift in Sources */,
 				76D9AE3F2843C91A00A2F5B9 /* MyTimer.swift in Sources */,
