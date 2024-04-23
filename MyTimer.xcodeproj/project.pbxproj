@@ -157,21 +157,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		7621629B2875C9740063A3AF /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				76B3DC5F284928CC00342295 /* CircleProgressBar.swift */,
-				763EAD41287B1AB60019DC27 /* TimerListView.swift */,
-				763EAD43287B25530019DC27 /* DetailTimerView.swift */,
-				763EAD45287B29100019DC27 /* AddSectionView.swift */,
-				7621629C2875C9A20063A3AF /* SetTimerView.swift */,
-				763EAD4A287B2C000019DC27 /* SettingsView.swift */,
-				763EAD4C287B2FEC0019DC27 /* CompleteView.swift */,
-				763EAD50287B37B10019DC27 /* CheckView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		7621629F2875D63B0063A3AF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,9 +169,153 @@
 		763EAD47287B2BA60019DC27 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				763EAD48287B2BB30019DC27 /* SetTimerDelegate.swift */,
+				76D9AE112843637200A2F5B9 /* AppDelegate.swift */,
+				76D9AE132843637200A2F5B9 /* SceneDelegate.swift */,
 			);
 			path = Delegates;
+			sourceTree = "<group>";
+		};
+		7646D4FD2BD7E2EA0026E4E4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				7646D5012BD7E3D10026E4E4 /* Presentation */,
+				763EAD47287B2BA60019DC27 /* Delegates */,
+				7621629F2875D63B0063A3AF /* Managers */,
+				76D9AE2A284368DD00A2F5B9 /* Utilities */,
+				76D9AE27284368CB00A2F5B9 /* Model */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		7646D4FE2BD7E2F60026E4E4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7621628E2874A00C0063A3AF /* Fonts */,
+				769B5200284F8B7400C3E5A3 /* AlarmSounds */,
+				76D9AE1A2843637400A2F5B9 /* Assets.xcassets */,
+				76D9AE172843637200A2F5B9 /* Main.storyboard */,
+				76D9AE1C2843637400A2F5B9 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7646D4FF2BD7E2FE0026E4E4 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				76D9AE1F2843637400A2F5B9 /* Info.plist */,
+			);
+			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		7646D5002BD7E3BD0026E4E4 /* TimerList */ = {
+			isa = PBXGroup;
+			children = (
+				76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */,
+				76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */,
+				76D9AE362843B16400A2F5B9 /* TimerListCell.swift */,
+				763EAD41287B1AB60019DC27 /* TimerListView.swift */,
+				76D9AE152843637200A2F5B9 /* TimerListVC.swift */,
+			);
+			path = TimerList;
+			sourceTree = "<group>";
+		};
+		7646D5012BD7E3D10026E4E4 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				7646D5092BD7E5AC0026E4E4 /* Splash */,
+				7646D5002BD7E3BD0026E4E4 /* TimerList */,
+				7646D5022BD7E5640026E4E4 /* DetailTimer */,
+				7646D5032BD7E5770026E4E4 /* AddSection */,
+				7646D5042BD7E57D0026E4E4 /* SetSection */,
+				7646D5052BD7E58F0026E4E4 /* AddTimer */,
+				7646D5062BD7E5960026E4E4 /* SetTimer */,
+				7646D5082BD7E5A70026E4E4 /* Delete */,
+				7646D5072BD7E59C0026E4E4 /* Settings */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		7646D5022BD7E5640026E4E4 /* DetailTimer */ = {
+			isa = PBXGroup;
+			children = (
+				7603B53D284A22830016B66C /* DetailTimerViewModel.swift */,
+				763EAD43287B25530019DC27 /* DetailTimerView.swift */,
+				76B3DC592849062800342295 /* DetailTimerVC.swift */,
+			);
+			path = DetailTimer;
+			sourceTree = "<group>";
+		};
+		7646D5032BD7E5770026E4E4 /* AddSection */ = {
+			isa = PBXGroup;
+			children = (
+				763EAD45287B29100019DC27 /* AddSectionView.swift */,
+				76558921284623A400DB4FC2 /* AddSectionVC.swift */,
+			);
+			path = AddSection;
+			sourceTree = "<group>";
+		};
+		7646D5042BD7E57D0026E4E4 /* SetSection */ = {
+			isa = PBXGroup;
+			children = (
+				763EAD56287B47CB0019DC27 /* SetSectionVC.swift */,
+			);
+			path = SetSection;
+			sourceTree = "<group>";
+		};
+		7646D5052BD7E58F0026E4E4 /* AddTimer */ = {
+			isa = PBXGroup;
+			children = (
+				7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */,
+				7655891F2846239800DB4FC2 /* AddTimerVC.swift */,
+			);
+			path = AddTimer;
+			sourceTree = "<group>";
+		};
+		7646D5062BD7E5960026E4E4 /* SetTimer */ = {
+			isa = PBXGroup;
+			children = (
+				763EAD48287B2BB30019DC27 /* SetTimerDelegate.swift */,
+				7603B53B2849EA170016B66C /* SetTimerViewModel.swift */,
+				7621629C2875C9A20063A3AF /* SetTimerView.swift */,
+				7603B5372849D51B0016B66C /* SetTimerVC.swift */,
+			);
+			path = SetTimer;
+			sourceTree = "<group>";
+		};
+		7646D5072BD7E59C0026E4E4 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */,
+				763EAD4A287B2C000019DC27 /* SettingsView.swift */,
+				769B521B284F9E6600C3E5A3 /* SettingsVC.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		7646D5082BD7E5A70026E4E4 /* Delete */ = {
+			isa = PBXGroup;
+			children = (
+				763EAD50287B37B10019DC27 /* CheckView.swift */,
+				763EAD52287B3F450019DC27 /* DeleteVC.swift */,
+			);
+			path = Delete;
+			sourceTree = "<group>";
+		};
+		7646D5092BD7E5AC0026E4E4 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				762162972874A1870063A3AF /* SplashVC.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		7646D50A2BD7E70C0026E4E4 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				76B3DC5F284928CC00342295 /* CircleProgressBar.swift */,
+				763EAD4C287B2FEC0019DC27 /* CompleteView.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		769B5200284F8B7400C3E5A3 /* AlarmSounds */ = {
@@ -229,50 +358,11 @@
 		76D9AE102843637200A2F5B9 /* MyTimer */ = {
 			isa = PBXGroup;
 			children = (
-				7621628E2874A00C0063A3AF /* Fonts */,
-				769B5200284F8B7400C3E5A3 /* AlarmSounds */,
-				763EAD47287B2BA60019DC27 /* Delegates */,
-				76D9AE33284383EC00A2F5B9 /* Extensions */,
-				7621629F2875D63B0063A3AF /* Managers */,
-				76D9AE2A284368DD00A2F5B9 /* Utility */,
-				76D9AE28284368CF00A2F5B9 /* ViewModel */,
-				76D9AE27284368CB00A2F5B9 /* Model */,
-				76D9AE26284368C700A2F5B9 /* Cell */,
-				7621629B2875C9740063A3AF /* Views */,
-				76D9AE25284368BE00A2F5B9 /* ViewController */,
-				76D9AE112843637200A2F5B9 /* AppDelegate.swift */,
-				76D9AE132843637200A2F5B9 /* SceneDelegate.swift */,
-				76D9AE172843637200A2F5B9 /* Main.storyboard */,
-				76D9AE1A2843637400A2F5B9 /* Assets.xcassets */,
-				76D9AE1C2843637400A2F5B9 /* LaunchScreen.storyboard */,
-				76D9AE1F2843637400A2F5B9 /* Info.plist */,
+				7646D4FF2BD7E2FE0026E4E4 /* Supporting files */,
+				7646D4FE2BD7E2F60026E4E4 /* Resources */,
+				7646D4FD2BD7E2EA0026E4E4 /* Sources */,
 			);
 			path = MyTimer;
-			sourceTree = "<group>";
-		};
-		76D9AE25284368BE00A2F5B9 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				76D9AE152843637200A2F5B9 /* TimerListVC.swift */,
-				76B3DC592849062800342295 /* DetailTimerVC.swift */,
-				76558921284623A400DB4FC2 /* AddSectionVC.swift */,
-				763EAD56287B47CB0019DC27 /* SetSectionVC.swift */,
-				7655891F2846239800DB4FC2 /* AddTimerVC.swift */,
-				7603B5372849D51B0016B66C /* SetTimerVC.swift */,
-				763EAD52287B3F450019DC27 /* DeleteVC.swift */,
-				769B521B284F9E6600C3E5A3 /* SettingsVC.swift */,
-				762162972874A1870063A3AF /* SplashVC.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		76D9AE26284368C700A2F5B9 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */,
-				76D9AE362843B16400A2F5B9 /* TimerListCell.swift */,
-			);
-			path = Cell;
 			sourceTree = "<group>";
 		};
 		76D9AE27284368CB00A2F5B9 /* Model */ = {
@@ -284,25 +374,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		76D9AE28284368CF00A2F5B9 /* ViewModel */ = {
+		76D9AE2A284368DD00A2F5B9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */,
-				7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */,
-				7603B53B2849EA170016B66C /* SetTimerViewModel.swift */,
-				7603B53D284A22830016B66C /* DetailTimerViewModel.swift */,
-				769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		76D9AE2A284368DD00A2F5B9 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
+				7646D50A2BD7E70C0026E4E4 /* CustomViews */,
+				76D9AE33284383EC00A2F5B9 /* Extensions */,
 				769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */,
 				7603438C285DDAEF0075F9E7 /* NotiPermission.swift */,
 			);
-			path = Utility;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		76D9AE33284383EC00A2F5B9 /* Extensions */ = {
