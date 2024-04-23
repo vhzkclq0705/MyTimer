@@ -1,5 +1,5 @@
 //
-//  SplashVC.swift
+//  SplashViewController.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/07/06.
@@ -10,7 +10,7 @@ import SnapKit
 import Then
 
 /// Displays the splash screen when the app launches
-final class SplashViewController: UIViewController {
+final class SplashViewController: BaseViewController {
     
     // MARK: UI
 
@@ -22,30 +22,23 @@ final class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        view.addSubview(splashLogo)
-        setLayout()
     }
     
     // MARK: Configure
     
-    private func configureViewController() {
+    override func configureViewController() {
         view.backgroundColor = .white
     }
     
-    private func addUI() {
+    override func addViews() {
         view.addSubview(splashLogo)
     }
     
-    private func configureLayout() {
-        
-    }
-    
-    func setLayout() {
+    override func configureLayout() {
         splashLogo.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.height.equalTo(100)
         }
     }
+
 }

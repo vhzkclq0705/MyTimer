@@ -10,5 +10,9 @@ target 'MyTimer' do
   pod 'SnapKit'
   pod 'ExpyTableView'
   pod 'DropDown'
+  pod 'Then'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxRelay'
 
 end
