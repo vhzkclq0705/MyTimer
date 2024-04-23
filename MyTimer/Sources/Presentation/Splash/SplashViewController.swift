@@ -26,10 +26,6 @@ final class SplashViewController: BaseViewController {
     
     // MARK: Configure
     
-    override func configureViewController() {
-        view.backgroundColor = .white
-    }
-    
     override func addViews() {
         view.addSubview(splashLogo)
     }

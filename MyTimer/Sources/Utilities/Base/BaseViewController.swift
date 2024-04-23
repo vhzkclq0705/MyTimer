@@ -29,20 +29,15 @@ class BaseViewController: UIViewController {
     
     func configureViewController() {
         view.backgroundColor = .white
-        
-        // override 후, 원하는 작업 추가
     }
     
     func configureNavigationBar() {
-        // override 후, 원하는 작업 추가
     }
     
     func addViews() {
-        // override 후, UI 컴포넌트들 addSubView
     }
     
     func configureLayout() {
-        // override 후, UI 컴포넌트들 레이아웃 추가
     }
     
 }
