@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import RxRelay
+import RxSwift
+import RxCocoa
 
 class TimerManager {
     
@@ -115,10 +116,89 @@ class TimerManager {
 /// adding, deleting, and updating.
 final class RxTimerManager {
     
-    // MARK: Property
+    // MARK: Properties
     
     static let shared = RxTimerManager()
     
+    private let storage: StorageProtocol
+    private let disposeBag: DisposeBag
     
+    // MARK: Init
+    
+    private init(storage: StorageProtocol = Storage()) {
+        self.storage = storage
+        self.disposeBag = DisposeBag()
+        
+        bindStorageUpdates()
+    }
+    
+    private func bindStorageUpdates() {
+        storage.sections
+            .subscribe(
+                onNext: { sections in
+                    print("Sections changed: \(sections)")
+                },
+                onError: { error in
+                    print("Failed to change sections: \(error)")
+                })
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: Section Management
+    
+    func addSection(title: String) {
+        updateSectionsOfStorage { sections in
+            sections.append(RxSection(title: title, timers: []))
+        }
+    }
+    
+    func deleteSection(id: UUID) {
+        updateSectionsOfStorage { sections in
+            sections.removeAll(where: { $0.id == id })
+        }
+    }
+    
+    func updateSection(id: UUID, title: String) {
+        updateSectionsOfStorage { sections in
+            if let index = sections.firstIndex(where: { $0.id == id }) {
+                sections[index].title = title
+            }
+        }
+    }
+    
+    // MARK: Timer Management
+    
+    func addTimer(id: UUID, title: String, min: Int, sec: Int) {
+        updateSectionsOfStorage { sections in
+            if let index = sections.firstIndex(where: { $0.id == id }) {
+                sections[index].addTimer(title: title, min: min, sec: sec)
+            }
+        }
+    }
+    
+    func deleteTimer(sectionID: UUID, timerID: UUID) {
+        updateSectionsOfStorage { sections in
+            if let index = sections.firstIndex(where: { $0.id == sectionID }) {
+                sections[index].deleteTimer(id: timerID)
+            }
+        }
+    }
+    
+    func updateTimer(sectionID: UUID, timerID: UUID, title: String, min: Int, sec: Int) {
+        updateSectionsOfStorage { sections in
+            if let index = sections.firstIndex(where: { $0.id == sectionID }) {
+                sections[index].updateTimer(id: timerID, title: title, min: min, sec: sec)
+            }
+        }
+    }
+    
+    // MARK: Hepler Methods
+    
+    private func updateSectionsOfStorage(_ updateCompletion: (inout [RxSection]) -> Void) {
+        var sections = storage.sections.value
+        updateCompletion(&sections)
+        
+        storage.sections.accept(sections)
+    }
     
 }

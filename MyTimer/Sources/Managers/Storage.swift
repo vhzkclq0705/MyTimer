@@ -12,7 +12,7 @@ import RxRelay
 protocol StorageProtocol {
     
     /// Array of sections containing timers inside.
-    var sections: BehaviorRelay<[Section]> { get }
+    var sections: BehaviorRelay<[RxSection]> { get }
     /// URL used to determine the URL for data.
     var filePath: URL { get }
     
@@ -28,23 +28,21 @@ final class Storage: StorageProtocol {
     
     // MARK: Peoperties
     
-    var sections: BehaviorRelay<[Section]>
+    var sections: BehaviorRelay<[RxSection]>
     var filePath: URL
     
     // MARK: Init
     
     init() {
-        sections = BehaviorRelay<[Section]>(value: [])
-        filePath = FileManager.default.urls(
-            for: .documentDirectory,
-            in: .userDomainMask)
-        .first!
-        .appendingPathComponent("RxSections.plist")
+        sections = BehaviorRelay<[RxSection]>(value: [])
+        filePath = FileManager.default.urls(for: .documentDirectory,in: .userDomainMask)
+            .first!
+            .appendingPathComponent("RxSections.plist")
         
         loadData()
     }
     
-    // MARK: Methods
+    // MARK: Data Management
     
     func saveData() {
         do {
@@ -62,7 +60,7 @@ final class Storage: StorageProtocol {
         }
         
         do {
-            let loadedSecions = try PropertyListDecoder().decode([Section].self, from: data)
+            let loadedSecions = try PropertyListDecoder().decode([RxSection].self, from: data)
             sections.accept(loadedSecions)
         } catch {
             print("Failed to load data: \(error)")

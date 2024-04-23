@@ -30,8 +30,4 @@ struct RxMyTimer: Codable, Equatable {
         self.sec = sec
     }
     
-    static func ==(lhs: RxMyTimer, rhs: RxMyTimer) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
 }
