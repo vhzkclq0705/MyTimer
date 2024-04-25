@@ -23,6 +23,10 @@ class BaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        configureLayout()
+    }
+    
     // MARK: Configure
     
     func configureView() {

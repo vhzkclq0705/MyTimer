@@ -7,11 +7,10 @@
 
 import UIKit
 import ExpyTableView
-import RxSwift
 import SnapKit
 import Then
 
-final class TimerListView: UIView {
+final class TimerListView: BaseView {
     
     // MARK: UI
     
@@ -48,83 +47,39 @@ final class TimerListView: UIView {
         $0.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
 
-    lazy var addTimerButton = UIButton().then {
-        $0.setMainButtons("timer")
+    lazy var addTimerButton = createButtons("timer")
+    lazy var addSectionButton = createButtons("section")
+    lazy var settingsButton = createButtons("settings")
+
+    lazy var addSectionLabel = createLabels("섹션 추가")
+    lazy var addTimerLabel = createLabels("타이머 추가")
+    lazy var settingsLabel = createLabels("설정")
+
+    lazy var backgroundView = UIView().then {
+        $0.setBackgroundView()
+        $0.isHidden = true
     }
 
-    lazy var addSectionButton = UIButton().then {
-        $0.setMainButtons("section")
+    lazy var controlView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.isHidden = true
     }
 
-    lazy var settingsButton = UIButton().then {
-        $0.setMainButtons("settings")
-    }
-
-    lazy var addSectionLabel = UILabel().then {
-        $0.setLabelStyle(
-            text: "섹션 추가",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        $0.alpha = 0
-    }
-
-    lazy var addTimerLabel = UILabel().then {
-        $0.setLabelStyle(
-            text: "타이머 추가",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        $0.alpha = 0
-    }
-
-    lazy var settingsLabel = UILabel().then {
-        $0.setLabelStyle(
-            text: "설정",
-            font: .semibold,
-            size: 14,
-            color: .white)
-        $0.alpha = 0
-    }
-
-    let backgroundView: UIView = {
-        let view = UIView()
-        view.setBackgroundView()
-        view.isHidden = true
-
-        return view
-    }()
-
-    let controlView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.isHidden = true
-
-        return view
-    }()
-
-    let recognizeTapGesture = UITapGestureRecognizer()
+    lazy var recognizeTapGesture = UITapGestureRecognizer()
 
     // MARK: Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        
-        addViews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
-        setLayout()
-    }
-
     // MARK: Configure
     
-    private func addViews() {
+    override func configureUI() {
         [
             addSectionButton,
             addTimerButton,
@@ -148,7 +103,7 @@ final class TimerListView: UIView {
             .forEach { addSubview($0) }
     }
 
-    func setLayout() {
+    override func configureLayout() {
         backgroundView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -207,4 +162,24 @@ final class TimerListView: UIView {
             $0.edges.equalToSuperview()
         }
     }
+    
+    // MARK: Create common UI components
+    
+    private func createButtons(_ title: String) -> UIButton {
+        return UIButton().then {
+            $0.setMainButtons(title)
+        }
+    }
+    
+    private func createLabels(_ title: String) -> UILabel {
+        return UILabel().then {
+            $0.setLabelStyle(
+                text: title,
+                font: .semibold,
+                size: 14,
+                color: .white)
+            $0.alpha = 0
+        }
+    }
+    
 }
