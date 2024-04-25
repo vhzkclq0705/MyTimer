@@ -7,86 +7,75 @@
 
 import UIKit
 import SnapKit
+import Then
 
-// Cell for TableView
-class TimerListCell: UITableViewCell {
+/// Cell for timers of TableView
+final class TimerListCell: UITableViewCell {
     
-    static let id = "timerListCell"
+    // MARK:  UI
     
-    // MARK: - UI
-    let subView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.layer.cornerRadius = 5
-        view.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
-        view.layer.borderWidth = 1.5
-        
-        return view
-    }()
+    lazy var subView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 5
+        $0.layer.borderColor = UIColor.CustomColor(.purple1).cgColor
+        $0.layer.borderWidth = 1.5
+    }
     
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var titleLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "",
             font: .bold,
             size: 18,
             color: .black)
-        
-        return label
-    }()
+    }
     
-    lazy var timeLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var timeLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "",
             font: .bold,
             size: 20,
             color: .black)
-        
-        return label
-    }()
+    }
     
-    lazy var timerButton: UIButton = {
-        let button = UIButton()
-        button.setImage(
+    lazy var timerButton = UIButton().then {
+        $0.setImage(
             UIImage(named: "playCircle"),
             for: .normal)
-        button.addTarget(
+        $0.addTarget(
             self,
             action: #selector(timerButtonTapped(_:)),
             for: .touchUpInside)
-        
-        return button
-    }()
+    }
     
-    // MARK: - Button tap handler
+    // MARK: Properties
+    
+    static let id = "timerListCell"
+    
+    // MARK: Button tap handler
+    
     var timerButtonTapHandler: (() -> Void)?
     
-    // MARK: - Cell init
+    // MARK: init
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        setup()
+        configureLayout()
     }
     
-    // MARK: - Update UI
-    func updateUI(title: String, min: Int, sec: Int) {
-        let mintoStr = String(format: "%02d", min)
-        let sectoStr = String(format: "%02d", sec)
-        titleLabel.text = title
-        timeLabel.text = "\(mintoStr):\(sectoStr)"
-    }
+    // MARK: Configure
     
-    // MARK: - Actions
-    @objc func timerButtonTapped(_ sender: UIButton) {
-        timerButtonTapHandler?()
-    }
-}
-
-extension TimerListCell {
-    // MARK: - Setup
-    func setup() {
-        self.backgroundColor = .clear
-        self.selectionStyle = .none
+    private func configureUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
         
         [
             titleLabel,
@@ -96,7 +85,9 @@ extension TimerListCell {
             .forEach { subView.addSubview($0) }
         
         contentView.addSubview(subView)
-        
+    }
+    
+    private func configureLayout() {
         subView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(7)
             $0.left.right.equalToSuperview()
@@ -117,4 +108,20 @@ extension TimerListCell {
             $0.right.equalToSuperview().inset(20)
         }
     }
+    
+    // MARK: Update UI
+    
+    func updateUI(title: String, min: Int, sec: Int) {
+        let mintoStr = String(format: "%02d", min)
+        let sectoStr = String(format: "%02d", sec)
+        titleLabel.text = title
+        timeLabel.text = "\(mintoStr):\(sectoStr)"
+    }
+    
+    // MARK: Actions
+    
+    @objc private func timerButtonTapped(_ sender: UIButton) {
+        timerButtonTapHandler?()
+    }
+    
 }

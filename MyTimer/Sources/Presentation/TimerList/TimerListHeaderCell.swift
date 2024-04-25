@@ -6,82 +6,66 @@
 //
 
 import UIKit
-import SnapKit
 import ExpyTableView
+import SnapKit
+import Then
 
-// Header Cell for TableView
-class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
+// Cell for sections of TableView
+final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
-    static let id = "timerListHeaderCell"
+    // MARK: UI
     
-    // MARK: - UI
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var titleLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "",
             font: .semibold,
             size: 17,
             color: .black)
-        
-        return label
-    }()
+    }
     
-    lazy var detailImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "arrowDown")
-        
-        return imageView
-    }()
+    lazy var detailImageView = UIImageView().then {
+        $0.image = UIImage(named: "arrowDown")
+    }
     
-    lazy var modifyButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "modify"), for: .normal)
-        button.addTarget(
+    lazy var modifyButton = UIButton().then {
+        $0.setImage(UIImage(named: "modify"), for: .normal)
+        $0.addTarget(
             self,
             action: #selector(didTapModifyButton(_:)),
             for: .touchUpInside)
-        
-        return button
-    }()
+    }
     
-    let clearView = UIButton()
+    lazy var clearView = UIButton()
     
-    // MARK: - Property
-    var color: UIColor!
+    // MARK: Properties
     
-    // MARK: - Button tap handler
+    static let id = "timerListHeaderCell"
+
+    // MARK: Button tap handler
+    
     var modifyButtonTapHandler: (() -> Void)?
     
-    // MARK: - Cell init
+    // MARK: Init
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        setup()
+        configureLayout()
     }
     
-    // MARK: - Update UI
-    func updateUI(text: String) {
-        titleLabel.text = text
-    }
+    // MARK: Configure
     
-    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
-        switch state {
-        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
-        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
-        default: break
-        }
-    }
-    
-    // MARK: - Actions
-    @objc func didTapModifyButton(_ sender: UIButton) {
-        modifyButtonTapHandler?()
-    }
-}
-
-extension TimerListHeaderCell {
-    // MARK: - Setup
-    func setup() {
-        self.backgroundColor = .clear
-        self.selectionStyle = .none
+    private func configureUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
         
         [
             titleLabel,
@@ -90,7 +74,9 @@ extension TimerListHeaderCell {
             clearView,
         ]
             .forEach { contentView.addSubview($0) }
-        
+    }
+    
+    private func configureLayout() {
         titleLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalToSuperview()
@@ -116,19 +102,41 @@ extension TimerListHeaderCell {
         modifyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         clearView.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
+    
+    // MARK: Update UI
+    
+    func updateUI(text: String) {
+        titleLabel.text = text
+    }
+    
+    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
+        switch state {
+        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
+        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
+        default: break
+        }
+    }
+    
+    // MARK: Actions
+    
+    @objc private func didTapModifyButton(_ sender: UIButton) {
+        modifyButtonTapHandler?()
+    }
+    
 }
 
 extension UITableViewCell {
     
-    func showSeparator() {
-        DispatchQueue.main.async {
-            self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-    }
+//    func showSeparator() {
+//        DispatchQueue.main.async {
+//            self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        }
+//    }
+//    
+//    func hideSeparator() {
+//        DispatchQueue.main.async {
+//            self.separatorInset = UIEdgeInsets(top: 0, left: self.bounds.size.width, bottom: 0, right: 0)
+//        }
+//    }
     
-    func hideSeparator() {
-        DispatchQueue.main.async {
-            self.separatorInset = UIEdgeInsets(top: 0, left: self.bounds.size.width, bottom: 0, right: 0)
-        }
-    }
 }
