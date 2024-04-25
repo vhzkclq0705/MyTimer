@@ -147,7 +147,7 @@ final class RxTimerManager {
     
     func addSection(title: String) {
         updateSectionsOfStorage { sections in
-            sections.append(RxSection(title: title, timers: []))
+            sections.append(RxSection(title: title, items: []))
         }
     }
     

@@ -6,23 +6,25 @@
 //
 
 import UIKit
-import ExpyTableView
 import RxSwift
 import RxCocoa
+import RxDataSources
+import RxGesture
 
 // ViewController for timer list
-class TimerListViewController: UIViewController {
+final class TimerListViewController: BaseViewController {
     
     // MARK: Properties
     
+    private let viewModel: TimerListViewModel
     private let timerListView = TimerListView()
-    private let viewModel: any ViewModelType
+    private let disposeBag = DisposeBag()
     
     // MARK: Init
     
-    init(viewModel: any ViewModelType) {
-        super.init(nibName: nil, bundle: nil)
+    init(viewModel: TimerListViewModel) {
         self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -38,46 +40,103 @@ class TimerListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setController()
-        loadAlarmSound()
-        viewModel.load()
-        checkTimerCount()
-        setGoal()
-        requestAuthNoti()
+//        setController()
+//        loadAlarmSound()
+//        checkTimerCount()
+//        setGoal()
+//        requestAuthNoti()
+//        
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(reload),
+//            name: NSNotification.Name(rawValue: "reload"),
+//            object: nil)
+    }
+    
+    // MARK: Configure
+    
+    override func configureViewController() {
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        let input = TimerListViewModel.Input(
+            menuButtonTapEvent: timerListView.menuButton.rx.tap.asObservable(),
+            addSectionButtonTapEvent: timerListView.addSectionButton.rx.tap.asObservable(),
+            addTimerButtonTapEvent: timerListView.addTimerButton.rx.tap.asObservable(),
+            settingsButtonTapEvent: timerListView.settingsButton.rx.tap.asObservable())
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(reload),
-            name: NSNotification.Name(rawValue: "reload"),
-            object: nil)
+        let output = viewModel.transform(input: input)
+        
+        output.showButtons
+            .emit(onNext: {
+                // Button Up Animation
+            })
+            .disposed(by: disposeBag)
+        
+        output.presentAddSectionViewController
+            .emit(onNext: {
+                // Present AddSection
+            })
+            .disposed(by: disposeBag)
+        
+        output.presentAddTimerViewController
+            .emit(onNext: {
+                // Present AddTimer
+            })
+            .disposed(by: disposeBag)
+        
+        output.presentSettingsViewController
+            .emit(onNext: {
+                // Present Settings
+            })
+            .disposed(by: disposeBag)
+        
+        let dataSource = RxTableViewSectionedReloadDataSource<RxSection>(
+            configureCell: { dataSource, tableView, indexPath, item in
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
+                    return UITableViewCell()
+                }
+                cell.updateUI(text: item.title)
+                
+                return cell
+            },
+            titleForHeaderInSection: { dataSource, index in
+                return dataSource.sectionModels[index].title
+            }
+        )
+        
+        output.sections
+            .drive(timerListView.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Setup
-    func setController() {
-        timerListView.tableView.delegate = self
-        timerListView.tableView.dataSource = self
-        
-        timerListView.addButton.addTarget(
-            self,
-            action: #selector(addButtonTapped(_:)),
-            for: .touchUpInside
-        )
-        timerListView.addTimerButton.addTarget(
-            self,
-            action: #selector(addTimerButtonTapped(_:)),
-            for: .touchUpInside)
-        timerListView.addSectionButton.addTarget(
-            self,
-            action: #selector(addSectionButtonTapped(_:)),
-            for: .touchUpInside)
-        timerListView.settingsButton.addTarget(
-            self,
-            action: #selector(settingsButtonTapped(_:)),
-            for: .touchUpInside)
-        timerListView.recognizeTapGesture.addTarget(
-            self,
-            action: #selector(recognizeTapped(_:)))
-    }
+//    func setController() {
+//        timerListView.tableView.delegate = self
+//        timerListView.tableView.dataSource = self
+//        
+//        timerListView.addButton.addTarget(
+//            self,
+//            action: #selector(addButtonTapped(_:)),
+//            for: .touchUpInside
+//        )
+//        timerListView.addTimerButton.addTarget(
+//            self,
+//            action: #selector(addTimerButtonTapped(_:)),
+//            for: .touchUpInside)
+//        timerListView.addSectionButton.addTarget(
+//            self,
+//            action: #selector(addSectionButtonTapped(_:)),
+//            for: .touchUpInside)
+//        timerListView.settingsButton.addTarget(
+//            self,
+//            action: #selector(settingsButtonTapped(_:)),
+//            for: .touchUpInside)
+//        timerListView.recognizeTapGesture.addTarget(
+//            self,
+//            action: #selector(recognizeTapped(_:)))
+//    }
     
     func setGoal() {
         let basic = "자신의 각오 한 마디를 입력해주세요"
@@ -92,23 +151,23 @@ class TimerListViewController: UIViewController {
         }
     }
     
-    func checkTimerCount() {
-        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
-        ? false : true
-    }
-    
-    // MARK: - Actions
-    @objc func reload() {
-        viewModel.load()
-        setGoal()
-        checkTimerCount()
-        timerListView.tableView.reloadData()
-    }
-    
-    @objc func recognizeTapped(_ sender: Any) {
-        timerListView.addButton.isSelected = false
-        displayButtons(false)
-    }
+//    func checkTimerCount() {
+//        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
+//        ? false : true
+//    }
+//    
+//    // MARK: - Actions
+//    @objc func reload() {
+//        viewModel.load()
+//        setGoal()
+//        checkTimerCount()
+//        timerListView.tableView.reloadData()
+//    }
+//    
+//    @objc func recognizeTapped(_ sender: Any) {
+//        timerListView.addButton.isSelected = false
+//        displayButtons(false)
+//    }
     
     @objc func addButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
@@ -134,20 +193,20 @@ class TimerListViewController: UIViewController {
         presentCustom(vc)
     }
     
-    func popupSetSection(_ index: Int) {
-        let vc = SetSectionVC()
-        vc.section = viewModel.sections[index]
-        
-        presentCustom(vc)
-    }
-    
-    func popupDetailTimer(_ indexPath: IndexPath) {
-        let vc = DetailTimerVC()
-        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
-        vc.myTimer = viewModel.timerInfo(indexPath)
-        
-        presentCustom(vc)
-    }
+//    func popupSetSection(_ index: Int) {
+//        let vc = SetSectionVC()
+//        vc.section = viewModel.sections[index]
+//        
+//        presentCustom(vc)
+//    }
+//    
+//    func popupDetailTimer(_ indexPath: IndexPath) {
+//        let vc = DetailTimerVC()
+//        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
+//        vc.myTimer = viewModel.timerInfo(indexPath)
+//        
+//        presentCustom(vc)
+//    }
     
     // MARK: - Button Animations
     func displayButtons(_ show: Bool) {
@@ -198,7 +257,7 @@ class TimerListViewController: UIViewController {
             angle = 0
         }
         
-        timerListView.addButton.transform = CGAffineTransform(
+        timerListView.menuButton.transform = CGAffineTransform(
             rotationAngle: angle)
     }
     
@@ -225,77 +284,77 @@ class TimerListViewController: UIViewController {
 }
 
 // MARK: - TableView
-extension TimerListViewController: ExpyTableViewDelegate,
-                       ExpyTableViewDataSource {
-    // true = Expandable, false = Non-Expandable(Same as default TableView)
-    func tableView(
-        _ tableView: ExpyTableView,
-        canExpandSection section: Int)
-    -> Bool {
-        return true
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numOfSections
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int)
-    -> Int {
-        return viewModel.numOfTimers(section) + 1
-    }
-    
-    // About Section headers
-    func tableView(
-        _ tableView: ExpyTableView,
-        expandableCellForSection section: Int)
-    -> UITableViewCell {
-        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
-            return UITableViewCell()
-        }
-        let title = viewModel.sectionTitle(section)
-        
-        header.updateUI(text: title)
-        header.modifyButtonTapHandler = {
-            self.popupSetSection(section)
-        }
-        
-        return header
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath)
-    -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else {
-            return UITableViewCell()
-        }
-        let timer = viewModel.timerInfo(indexPath)
-        
-        cell.updateUI(
-            title: timer.title,
-            min: timer.min,
-            sec: timer.sec)
-        cell.timerButtonTapHandler = {
-            self.popupDetailTimer(indexPath)
-        }
-        
-        return cell
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath)
-    -> CGFloat {
-        return indexPath.row == 0 ? 25 : 80
-    }
-    
-    // Check whether the Section is open or closed.
-    func tableView(
-        _ tableView: ExpyTableView,
-        expyState state: ExpyState,
-        changeForSection section: Int) {
-            // This function is only a stub.
-        }
-}
+//extension TimerListViewController: ExpyTableViewDelegate,
+//                       ExpyTableViewDataSource {
+//    // true = Expandable, false = Non-Expandable(Same as default TableView)
+//    func tableView(
+//        _ tableView: ExpyTableView,
+//        canExpandSection section: Int)
+//    -> Bool {
+//        return true
+//    }
+//    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return viewModel.numOfSections
+//    }
+//    
+//    func tableView(
+//        _ tableView: UITableView,
+//        numberOfRowsInSection section: Int)
+//    -> Int {
+//        return viewModel.numOfTimers(section) + 1
+//    }
+//    
+//    // About Section headers
+//    func tableView(
+//        _ tableView: ExpyTableView,
+//        expandableCellForSection section: Int)
+//    -> UITableViewCell {
+//        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
+//            return UITableViewCell()
+//        }
+//        let title = viewModel.sectionTitle(section)
+//        
+//        header.updateUI(text: title)
+//        header.modifyButtonTapHandler = {
+//            self.popupSetSection(section)
+//        }
+//        
+//        return header
+//    }
+//    
+//    func tableView(
+//        _ tableView: UITableView,
+//        cellForRowAt indexPath: IndexPath)
+//    -> UITableViewCell {
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else {
+//            return UITableViewCell()
+//        }
+//        let timer = viewModel.timerInfo(indexPath)
+//        
+//        cell.updateUI(
+//            title: timer.title,
+//            min: timer.min,
+//            sec: timer.sec)
+//        cell.timerButtonTapHandler = {
+//            self.popupDetailTimer(indexPath)
+//        }
+//        
+//        return cell
+//    }
+//    
+//    func tableView(
+//        _ tableView: UITableView,
+//        heightForRowAt indexPath: IndexPath)
+//    -> CGFloat {
+//        return indexPath.row == 0 ? 25 : 80
+//    }
+//    
+//    // Check whether the Section is open or closed.
+//    func tableView(
+//        _ tableView: ExpyTableView,
+//        expyState state: ExpyState,
+//        changeForSection section: Int) {
+//            // This function is only a stub.
+//        }
+//}

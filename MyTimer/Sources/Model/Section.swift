@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 // Model for Section
 struct Section: Codable, Equatable {
@@ -19,12 +20,24 @@ struct RxSection: Codable {
     
     var id: UUID
     var title: String
-    var timers: [RxMyTimer]
+    var items: [RxMyTimer]
     
-    init(title: String, timers: [RxMyTimer]) {
+    init(title: String, items: [RxMyTimer]) {
         self.id = UUID()
         self.title = title
-        self.timers = timers
+        self.items = items
+    }
+    
+}
+
+// RxDataSources
+extension RxSection: SectionModelType {
+ 
+    typealias Item = RxMyTimer
+    
+    init(original: RxSection, items: [Item]) {
+        self = original
+        self.items = items
     }
     
 }
@@ -33,17 +46,17 @@ extension RxSection {
     
     mutating func addTimer(title: String, min: Int, sec: Int) {
         let timer = RxMyTimer(title: title, min: min, sec: sec)
-        timers.append(timer)
+        items.append(timer)
     }
     
     mutating func updateTimer(id: UUID, title: String, min: Int, sec: Int) {
-        if let index = timers.firstIndex(where: { $0.id == id }) {
-            timers[index] = RxMyTimer(title: title, min: min, sec: sec)
+        if let index = items.firstIndex(where: { $0.id == id }) {
+            items[index] = RxMyTimer(title: title, min: min, sec: sec)
         }
     }
     
     mutating func deleteTimer(id: UUID) {
-        timers.removeAll(where: { $0.id == id })
+        items.removeAll(where: { $0.id == id })
     }
     
 }

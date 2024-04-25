@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ExpyTableView
 import SnapKit
 import Then
 
@@ -14,9 +13,7 @@ final class TimerListView: BaseView {
     
     // MARK: UI
     
-    lazy var tableView = ExpyTableView(frame: .zero, style: .insetGrouped).then {
-        $0.expandingAnimation = .fade
-        $0.collapsingAnimation = .fade
+    lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
         
@@ -43,7 +40,7 @@ final class TimerListView: BaseView {
         $0.numberOfLines = 2
     }
 
-    lazy var addButton = UIButton().then {
+    lazy var menuButton = UIButton().then {
         $0.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
 
@@ -64,8 +61,6 @@ final class TimerListView: BaseView {
         $0.backgroundColor = .clear
         $0.isHidden = true
     }
-
-    lazy var recognizeTapGesture = UITapGestureRecognizer()
 
     // MARK: Init
     
@@ -90,12 +85,10 @@ final class TimerListView: BaseView {
         ]
             .forEach { controlView.addSubview($0) }
 
-        controlView.addGestureRecognizer(recognizeTapGesture)
-
         [
             backgroundView,
             tableView,
-            addButton,
+            menuButton,
             goalLabel,
             notimerLabel,
             controlView,
@@ -123,24 +116,24 @@ final class TimerListView: BaseView {
             $0.center.equalToSuperview()
         }
 
-        addButton.snp.makeConstraints {
+        menuButton.snp.makeConstraints {
             $0.bottom.equalToSuperview().offset(-35)
             $0.right.equalToSuperview().offset(-26)
         }
 
         addTimerButton.snp.makeConstraints {
-            $0.bottom.equalTo(addButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
+            $0.bottom.equalTo(menuButton.snp.top).offset(-10)
+            $0.centerX.equalTo(menuButton)
         }
 
         addSectionButton.snp.makeConstraints {
             $0.bottom.equalTo(addTimerButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
+            $0.centerX.equalTo(menuButton)
         }
 
         settingsButton.snp.makeConstraints {
             $0.bottom.equalTo(addSectionButton.snp.top).offset(-10)
-            $0.centerX.equalTo(addButton)
+            $0.centerX.equalTo(menuButton)
         }
 
         addTimerLabel.snp.makeConstraints {

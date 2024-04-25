@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 /// ViewModel for TimerListViewController
-final class TimerViewModel: ViewModelType {
+final class TimerListViewModel: ViewModelType {
     
     // MARK: Properties
     
@@ -19,13 +19,11 @@ final class TimerViewModel: ViewModelType {
         let addSectionButtonTapEvent: Observable<Void>
         let addTimerButtonTapEvent: Observable<Void>
         let settingsButtonTapEvent: Observable<Void>
-        let gestureTapEvent: Observable<Void>
     }
     
     struct Output {
         let sections: Driver<[RxSection]>
         let showButtons: Signal<Void>
-        let hideButtons: Signal<Void>
         let presentAddSectionViewController: Signal<Void>
         let presentAddTimerViewController: Signal<Void>
         let presentSettingsViewController: Signal<Void>
@@ -45,9 +43,6 @@ final class TimerViewModel: ViewModelType {
         let showButtons = input.menuButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
-        let hideButtons = input.gestureTapEvent
-            .asSignal(onErrorJustReturn: ())
-        
         let presentAddSectionViewController = input.addSectionButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
@@ -60,7 +55,6 @@ final class TimerViewModel: ViewModelType {
         return Output(
             sections: sections,
             showButtons: showButtons,
-            hideButtons: hideButtons,
             presentAddSectionViewController: presentAddSectionViewController,
             presentAddTimerViewController: presentAddTimerViewController,
             presentSettingsViewController: presentSettingsViewController)

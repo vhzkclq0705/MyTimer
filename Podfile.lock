@@ -1,9 +1,17 @@
 PODS:
+  - Differentiator (5.0.0)
   - DropDown (2.3.13)
   - ExpyTableView (1.2.1)
   - RxCocoa (6.6.0):
     - RxRelay (= 6.6.0)
     - RxSwift (= 6.6.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.6.0):
     - RxSwift (= 6.6.0)
   - RxSwift (6.6.0)
@@ -14,6 +22,8 @@ DEPENDENCIES:
   - DropDown
   - ExpyTableView
   - RxCocoa
+  - RxDataSources
+  - RxGesture
   - RxRelay
   - RxSwift
   - SnapKit
@@ -21,23 +31,29 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Differentiator
     - DropDown
     - ExpyTableView
     - RxCocoa
+    - RxDataSources
+    - RxGesture
     - RxRelay
     - RxSwift
     - SnapKit
     - Then
 
 SPEC CHECKSUMS:
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
   RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 3b9c4a4a68f7ba0e5af61580f5dab30615d3e0b0
+PODFILE CHECKSUM: afe4888956c089f07ad945321bf39203d3e6e154
 
 COCOAPODS: 1.15.2
