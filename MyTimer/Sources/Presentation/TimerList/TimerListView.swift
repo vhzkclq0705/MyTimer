@@ -6,121 +6,86 @@
 //
 
 import UIKit
-import SnapKit
 import ExpyTableView
+import RxSwift
+import SnapKit
+import Then
 
-class TimerListView: UIView {
+final class TimerListView: UIView {
     
-    // MARK: - UI
-    lazy var tableView: ExpyTableView = {
-        let tableView = ExpyTableView(
-            frame: .zero,
-            style: .insetGrouped)
+    // MARK: UI
+    
+    lazy var tableView = ExpyTableView(frame: .zero, style: .insetGrouped).then {
+        $0.expandingAnimation = .fade
+        $0.collapsingAnimation = .fade
+        $0.backgroundColor = .clear
+        $0.separatorStyle = .none
+        
+        $0.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
+        $0.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
+    }
 
-        tableView.register(
-            TimerListHeaderCell.self,
-            forCellReuseIdentifier: TimerListHeaderCell.id)
-        tableView.register(
-            TimerListCell.self,
-            forCellReuseIdentifier: TimerListCell.id)
-
-        tableView.expandingAnimation = .fade
-        tableView.collapsingAnimation = .fade
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-
-        return tableView
-    }()
-
-    let goalLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var goalLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "자신의 각오 한마디를 입력해주세요!",
             font: .bold,
             size: 23,
             color: UIColor.CustomColor(.gray2))
-        label.numberOfLines = 0
+        $0.numberOfLines = 0
+    }
 
-        return label
-    }()
-
-    let notimerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var notimerLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "아직 추가된 타이머가 없습니다!\n 타이머를 추가해주세요!",
             font: .medium,
             size: 18,
             color: UIColor.CustomColor(.gray3))
-        label.textAlignment = .center
-        label.numberOfLines = 2
+        $0.textAlignment = .center
+        $0.numberOfLines = 2
+    }
 
-        return label
-    }()
+    lazy var addButton = UIButton().then {
+        $0.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
 
-    lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "add")?
-            .withRenderingMode(.alwaysOriginal), for: .normal)
+    lazy var addTimerButton = UIButton().then {
+        $0.setMainButtons("timer")
+    }
 
-        return button
-    }()
+    lazy var addSectionButton = UIButton().then {
+        $0.setMainButtons("section")
+    }
 
-    lazy var addTimerButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("timer")
+    lazy var settingsButton = UIButton().then {
+        $0.setMainButtons("settings")
+    }
 
-        return button
-    }()
-
-    lazy var addSectionButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("section")
-
-        return button
-    }()
-
-    lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        button.setMainButtons("settings")
-
-        return button
-    }()
-
-    let addSectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var addSectionLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "섹션 추가",
             font: .semibold,
             size: 14,
             color: .white)
-        label.alpha = 0
+        $0.alpha = 0
+    }
 
-        return label
-    }()
-
-    let addTimerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var addTimerLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "타이머 추가",
             font: .semibold,
             size: 14,
             color: .white)
-        label.alpha = 0
+        $0.alpha = 0
+    }
 
-        return label
-    }()
-
-    let settingsLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var settingsLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "설정",
             font: .semibold,
             size: 14,
             color: .white)
-        label.alpha = 0
-
-        return label
-    }()
+        $0.alpha = 0
+    }
 
     let backgroundView: UIView = {
         let view = UIView()
@@ -140,10 +105,12 @@ class TimerListView: UIView {
 
     let recognizeTapGesture = UITapGestureRecognizer()
 
-    // MARK: - Init
+    // MARK: Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        backgroundColor = .white
+        
         addViews()
     }
 
@@ -155,10 +122,9 @@ class TimerListView: UIView {
         setLayout()
     }
 
-    // MARK: - Setup
-    func addViews() {
-        backgroundColor = .white
-
+    // MARK: Configure
+    
+    private func addViews() {
         [
             addSectionButton,
             addTimerButton,

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-/// Displays the splash screen when the app launches
+/// Class for Displaying the splash screen when the app launches
 final class SplashViewController: BaseViewController {
     
     // MARK: UI
@@ -26,7 +26,7 @@ final class SplashViewController: BaseViewController {
     
     // MARK: Configure
     
-    override func addViews() {
+    override func configureUI() {
         view.addSubview(splashLogo)
     }
     

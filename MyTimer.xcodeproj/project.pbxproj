@@ -32,9 +32,10 @@
 		763EAD51287B37B10019DC27 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD50287B37B10019DC27 /* CheckView.swift */; };
 		763EAD53287B3F450019DC27 /* DeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD52287B3F450019DC27 /* DeleteVC.swift */; };
 		763EAD57287B47CB0019DC27 /* SetSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD56287B47CB0019DC27 /* SetSectionVC.swift */; };
-		7646D50D2BD7EB050026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D50C2BD7EB050026E4E4 /* BaseViewController.swift */; };
 		7646D50F2BD7ECDF0026E4E4 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */; };
 		7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5102BD7F1CA0026E4E4 /* Storage.swift */; };
+		7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */; };
+		7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51A2BDA8E580026E4E4 /* BaseView.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
@@ -100,9 +101,10 @@
 		763EAD50287B37B10019DC27 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		763EAD52287B3F450019DC27 /* DeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteVC.swift; sourceTree = "<group>"; };
 		763EAD56287B47CB0019DC27 /* SetSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSectionVC.swift; sourceTree = "<group>"; };
-		7646D50C2BD7EB050026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		7646D5102BD7F1CA0026E4E4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		7646D51A2BDA8E580026E4E4 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
@@ -133,7 +135,7 @@
 		76D9AE182843637200A2F5B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		76D9AE1A2843637400A2F5B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		76D9AE1D2843637400A2F5B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		76D9AE1F2843637400A2F5B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76D9AE1F2843637400A2F5B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "MyTimer/Supporting files/Info.plist"; sourceTree = SOURCE_ROOT; };
 		76D9AE362843B16400A2F5B9 /* TimerListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListCell.swift; sourceTree = "<group>"; };
 		76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListHeaderCell.swift; sourceTree = "<group>"; };
@@ -328,8 +330,9 @@
 		7646D50B2BD7EAFA0026E4E4 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				7646D50C2BD7EB050026E4E4 /* BaseViewController.swift */,
 				7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */,
+				7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */,
+				7646D51A2BDA8E580026E4E4 /* BaseView.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -462,7 +465,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1330;
-				LastUpgradeCheck = 1330;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					76D9AE0D2843637200A2F5B9 = {
 						CreatedOnToolsVersion = 13.3.1;
@@ -566,9 +569,9 @@
 				763EAD4B287B2C000019DC27 /* SettingsView.swift in Sources */,
 				76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */,
 				76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */,
+				7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */,
 				7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */,
 				76CC802E2844901100683831 /* Section.swift in Sources */,
-				7646D50D2BD7EB050026E4E4 /* BaseViewController.swift in Sources */,
 				762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */,
 				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
 				763EAD42287B1AB60019DC27 /* TimerListView.swift in Sources */,
@@ -595,6 +598,7 @@
 				7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */,
 				763EAD46287B29100019DC27 /* AddSectionView.swift in Sources */,
 				7621628D287499E40063A3AF /* Extension++UIColor.swift in Sources */,
+				7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */,
 				7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */,
 				7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */,
 				769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */,
@@ -666,6 +670,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -680,7 +685,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = "MyTimer/Supporting files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -726,6 +734,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -734,7 +743,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				INFOPLIST_FILE = "MyTimer/Supporting files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -753,8 +765,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y7PRM9H29K;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyTimer/Info.plist;
+				INFOPLIST_FILE = "MyTimer/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -784,8 +797,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y7PRM9H29K;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = MyTimer/Info.plist;
+				INFOPLIST_FILE = "MyTimer/Supporting files/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
