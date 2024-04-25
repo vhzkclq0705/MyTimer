@@ -57,7 +57,7 @@ extension UIViewController{
     }
     
     @objc func dismissAll(_ sender: UIButton) {
-        let vc = TimerListVC()
+        let vc = TimerListViewController()
         view.window?.rootViewController = vc
         view.window?.rootViewController?.dismiss(animated: false)
     }

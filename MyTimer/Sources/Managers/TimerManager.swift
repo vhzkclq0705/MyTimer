@@ -121,13 +121,12 @@ final class RxTimerManager {
     static let shared = RxTimerManager()
     
     private let storage: StorageProtocol
-    private let disposeBag: DisposeBag
+    private let disposeBag = DisposeBag()
     
     // MARK: Init
     
     private init(storage: StorageProtocol = Storage()) {
         self.storage = storage
-        self.disposeBag = DisposeBag()
         
         bindStorageUpdates()
     }
@@ -190,6 +189,12 @@ final class RxTimerManager {
                 sections[index].updateTimer(id: timerID, title: title, min: min, sec: sec)
             }
         }
+    }
+    
+    // MARK: Display Data
+    
+    func getData() -> Driver<[RxSection]> {
+        return storage.sections.asDriver(onErrorJustReturn: [])
     }
     
     // MARK: Hepler Methods

@@ -1,5 +1,5 @@
 //
-//  TimerListVC.swift
+//  TimerListViewController.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/05/29.
@@ -7,16 +7,32 @@
 
 import UIKit
 import ExpyTableView
+import RxSwift
+import RxCocoa
 
 // ViewController for timer list
-class TimerListVC: UIViewController {
+class TimerListViewController: UIViewController {
     
-    // MARK: - Property
-    let timerListView = TimerListView()
-    let viewModel = TimerViewModel()
+    // MARK: Properties
     
-    // MARK: - Life cycle
+    private let timerListView = TimerListView()
+    private let viewModel: any ViewModelType
+    
+    // MARK: Init
+    
+    init(viewModel: any ViewModelType) {
+        super.init(nibName: nil, bundle: nil)
+        self.viewModel = viewModel
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Life cycle
+    
     override func loadView() {
+        super.loadView()
         view = timerListView
     }
     
@@ -209,7 +225,7 @@ class TimerListVC: UIViewController {
 }
 
 // MARK: - TableView
-extension TimerListVC: ExpyTableViewDelegate,
+extension TimerListViewController: ExpyTableViewDelegate,
                        ExpyTableViewDataSource {
     // true = Expandable, false = Non-Expandable(Same as default TableView)
     func tableView(

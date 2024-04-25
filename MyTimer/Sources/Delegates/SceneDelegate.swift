@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.window?.rootViewController = TimerListVC()
+            self.window?.rootViewController = TimerListViewController()
         }
         
         

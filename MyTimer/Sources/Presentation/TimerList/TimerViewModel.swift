@@ -6,36 +6,64 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-
-
-// ViewModel for TimerListVC
-class TimerViewModel {
+/// ViewModel for TimerListViewController
+final class TimerViewModel: ViewModelType {
     
-    // MARK: - Property
-    let manager = TimerManager.shared
-    var sections = [Section]()
+    // MARK: Properties
     
-    // MARK: - UI
-    var numOfSections: Int {
-        return sections.count
+    struct Input {
+        let menuButtonTapEvent: Observable<Void>
+        let addSectionButtonTapEvent: Observable<Void>
+        let addTimerButtonTapEvent: Observable<Void>
+        let settingsButtonTapEvent: Observable<Void>
+        let gestureTapEvent: Observable<Void>
     }
     
-    func numOfTimers(_ section: Int) -> Int {
-        return sections[section].timers.count
+    struct Output {
+        let sections: Driver<[RxSection]>
+        let showButtons: Signal<Void>
+        let hideButtons: Signal<Void>
+        let presentAddSectionViewController: Signal<Void>
+        let presentAddTimerViewController: Signal<Void>
+        let presentSettingsViewController: Signal<Void>
     }
     
-    func sectionTitle(_ section: Int) -> String {
-        return sections[section].title
+    var disposeBag = DisposeBag()
+    
+    // MARK: Init
+    
+    init() {}
+    
+    // MARK: Binding
+    
+    func transform(input: Input) -> Output {
+        let sections = RxTimerManager.shared.getData()
+        
+        let showButtons = input.menuButtonTapEvent
+            .asSignal(onErrorJustReturn: ())
+        
+        let hideButtons = input.gestureTapEvent
+            .asSignal(onErrorJustReturn: ())
+        
+        let presentAddSectionViewController = input.addSectionButtonTapEvent
+            .asSignal(onErrorJustReturn: ())
+        
+        let presentAddTimerViewController = input.addTimerButtonTapEvent
+            .asSignal(onErrorJustReturn: ())
+        
+        let presentSettingsViewController = input.settingsButtonTapEvent
+            .asSignal(onErrorJustReturn: ())
+        
+        return Output(
+            sections: sections,
+            showButtons: showButtons,
+            hideButtons: hideButtons,
+            presentAddSectionViewController: presentAddSectionViewController,
+            presentAddTimerViewController: presentAddTimerViewController,
+            presentSettingsViewController: presentSettingsViewController)
     }
     
-    func timerInfo(_ indexPath: IndexPath) -> MyTimer {
-        return sections[indexPath.section].timers[indexPath.row - 1]
-    }
-    
-    // MARK: - Load data
-    func load() {
-        manager.load()
-        sections = manager.sections
-    }
 }
