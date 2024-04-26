@@ -93,20 +93,20 @@ final class TimerListViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.presentAddSectionViewController
-            .emit(onNext: {
-                // Present AddSection
+            .emit(with: self, onNext: { owner, _ in
+                owner.didTapMenuButtons(.Section)
             })
             .disposed(by: disposeBag)
         
         output.presentAddTimerViewController
-            .emit(onNext: {
-                // Present AddTimer
+            .emit(with: self, onNext: { owner, _ in
+                owner.didTapMenuButtons(.Timer)
             })
             .disposed(by: disposeBag)
         
         output.presentSettingsViewController
-            .emit(onNext: {
-                // Present Settings
+            .emit(with: self, onNext: { owner, _ in
+                owner.didTapMenuButtons(.Settings)
             })
             .disposed(by: disposeBag)
         
@@ -190,16 +190,15 @@ final class TimerListViewController: BaseViewController {
         animate(show: timerListView.menuButton.isSelected, duration: 0.05)
     }
     
-    private func didTapAddSectionButton() {
+    private func didTapMenuButtons(_ style: MenuButtonStyle) {
+        let vc = switch style {
+        case .Section: 
+            AddSectionViewController(viewModel: AddSectionViewModel())
+        default: 
+            UIViewController()
+        }
         
-    }
-    
-    private func didTapAddTimerButton() {
-        
-    }
-    
-    private func didTapSettingsButton() {
-        
+        presentCustom(vc)
     }
     
     // MARK: Button Animations

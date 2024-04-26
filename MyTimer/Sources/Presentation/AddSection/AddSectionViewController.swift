@@ -48,6 +48,7 @@ final class AddSectionViewController: BaseViewController {
     
     override func configureViewController() {
         setupBindings()
+        view.backgroundColor = .black.withAlphaComponent(0.5)
     }
     
     private func setupBindings() {
@@ -58,91 +59,42 @@ final class AddSectionViewController: BaseViewController {
         
         let output = viewModel.transform(input: input)
         
-        output.isTitleLengthExceeded
-            .drive(with: self, onNext: { owner, isExceeded in
-                // 경고 + 입력불가
+        output.titleLength
+            .drive(with: self, onNext: { owner, length in
+                owner.addSectionView.validateText(length)
             })
             .disposed(by: disposeBag)
         
         output.createSection
             .emit(with: self, onNext: { owner, _ in
-                self.createSections()
+                owner.createSections()
             })
             .disposed(by: disposeBag)
         
         output.dismissViewController
             .emit(with: self, onNext: { owner, _ in
-                self.dismiss(animated: true)
+                owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
-            
+        
+        addSectionView.textField.rx.didBeginEditing
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.addSectionView.startEditingTextView()
+            })
+            .disposed(by: disposeBag)
+        
+        addSectionView.textField.rx.didEndEditing
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.addSectionView.endEditingTextView()
+            })
+            .disposed(by: disposeBag)
     }
-
-//    func setController() {
-//        addSectionView.textField.delegate = self
-//        
-//        addSectionView.okButton.addTarget(
-//            self,
-//            action: #selector(okButtonTapped(_:)),
-//            for: .touchUpInside)
-//        addSectionView.cancleButton.addTarget(
-//            self,
-//            action: #selector(didTapCancleButton(_:)),
-//            for: .touchUpInside)
-//    }
     
     // MARK: Actions
     
     private func createSections() {
         viewModel.createSections()
-        
+        dismiss(animated: true)
     }
     
-//    @objc func okButtonTapped(_ sender: UIButton) {
-//        guard let term = addSectionView.textField.text,
-//              term != "섹션 이름을 입력해주세요",
-//              term.isEmpty == false else {
-//            addSectionView.textField.text = "섹션 이름을 입력해주세요"
-//            addSectionView.textField.textColor = UIColor.CustomColor(.gray1)
-//            addSectionView.textField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-//            addSectionView.alertLabel.alpha = 1
-//            return
-//        }
-//        
-//        TimerManager.shared.addSection(term)
-//        
-//        changeCompleteView(.addSection)
-//    }
 }
-
-//// MARK: - TextView
-//extension AddSectionViewController: UITextViewDelegate {
-//    // Limit TextField range
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        textView.text = ""
-//        textView.textColor = .black
-//    }
-//    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        if textView.text == "" {
-//            textView.text = "섹션 이름을 입력해주세요"
-//            textView.textColor = UIColor.CustomColor(.gray1)
-//        } else {
-//            textView.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-//            addSectionView.alertLabel.alpha = 0
-//        }
-//    }
-//    
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange,
-//        replacementText text: String) -> Bool {
-//        guard let term = addSectionView.textField.text,
-//              let stringRange = Range(range, in: term) else {
-//            return false
-//        }
-//        let updatedText = term.replacingCharacters(
-//            in: stringRange,
-//            with: text)
-//        
-//        return updatedText.count <= 10
-//    }
-//}

@@ -22,12 +22,12 @@ final class AddSectionView: BaseView {
     }
     
     lazy var textField = UITextView().then {
-        $0.setTextView("섹션 이름을 입력해주세요")
+        $0.setTextView(placeholder)
     }
     
     lazy var alertLabel = UILabel().then {
         $0.setLabelStyle(
-            text: "섹션 이름을 입력해주세요",
+            text: "",
             font: .medium,
             size: 12,
             color: UIColor.CustomColor(.red))
@@ -35,16 +35,24 @@ final class AddSectionView: BaseView {
     }
     
     lazy var okButton = UIButton().then {
-        $0.setSubViewOKButton()
+        $0.setConfirmButtons(.Ok)
+        $0.isUserInteractionEnabled = false
     }
     
     lazy var cancleButton = UIButton().then {
-        $0.setSubViewCancleButton()
+        $0.setConfirmButtons(.Cancel)
     }
     
     lazy var subView = UIView().then {
         $0.setupSubView()
     }
+    
+    // MARK: Properties
+    
+    private let placeholder = "섹션 이름"
+    private let emptyAlarm = "섹션 이름을 입력해주세요."
+    private let exceededAlarm = "섹션 이름은 최대 10자 입니다."
+    private var sectionTitle = ""
     
     // MARK: Init
     
@@ -109,10 +117,40 @@ final class AddSectionView: BaseView {
         }
     }
     
-    // MARK: Validate
+    // MARK: TextView Management
     
-    func validateTitle() {
-        
+    func validateText(_ length: Int) {
+        if textField.text == placeholder { return }
+        switch length {
+        case 1..<10:
+            alertLabel.alpha = 0
+            textField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+            okButton.isUserInteractionEnabled = true
+        default:
+            if length > 10 {
+                textField.deleteBackward()
+            }
+            
+            alertLabel.text = length == 0 ? emptyAlarm : exceededAlarm
+            alertLabel.alpha = 1
+            textField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+            okButton.isUserInteractionEnabled = false
+        }
+    }
+    
+    func startEditingTextView() {
+        if textField.text == placeholder {
+            textField.text = ""
+            textField.textColor = .black
+        }
+    }
+    
+    func endEditingTextView() {
+        if textField.text.isEmpty {
+            textField.text = placeholder
+            textField.textColor = .CustomColor(.gray1)
+            okButton.isUserInteractionEnabled = false
+        }
     }
     
 }

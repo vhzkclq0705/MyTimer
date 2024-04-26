@@ -21,7 +21,7 @@ final class AddSectionViewModel: ViewModelType {
     }
     
     struct Output {
-        let isTitleLengthExceeded: Driver<Bool>
+        let titleLength: Driver<Int>
         let createSection: Signal<Void>
         let dismissViewController: Signal<Void>
     }
@@ -42,12 +42,13 @@ final class AddSectionViewModel: ViewModelType {
         inputTitle
             .subscribe(with: self, onNext: { owner, title in
                 owner.title = title
+                print(owner.title)
             })
             .disposed(by: disposeBag)
         
-        let isTitleLengthExceeded = inputTitle
-            .map { [weak self] in $0.count > (self?.maxLength ?? 0) }
-            .asDriver(onErrorJustReturn: false)
+        let titleLength = inputTitle
+            .map { $0.count }
+            .asDriver(onErrorJustReturn: 0)
         
         let createSection = input.okButtonTapEvent
             .asSignal(onErrorJustReturn: ())
@@ -56,7 +57,7 @@ final class AddSectionViewModel: ViewModelType {
             .asSignal(onErrorJustReturn: ())
         
         return Output(
-            isTitleLengthExceeded: isTitleLengthExceeded,
+            titleLength: titleLength,
             createSection: createSection,
             dismissViewController: dismissViewController)
     }
