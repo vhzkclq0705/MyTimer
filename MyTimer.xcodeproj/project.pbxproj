@@ -36,10 +36,11 @@
 		7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5102BD7F1CA0026E4E4 /* Storage.swift */; };
 		7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */; };
 		7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51A2BDA8E580026E4E4 /* BaseView.swift */; };
+		7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
-		76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionVC.swift */; };
+		76558922284623A400DB4FC2 /* AddSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionViewController.swift */; };
 		769B5202284F8B7E00C3E5A3 /* 닭소리.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5201284F8B7E00C3E5A3 /* 닭소리.mp3 */; };
 		769B520E284F9A2700C3E5A3 /* 학교 종소리.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5203284F9A2600C3E5A3 /* 학교 종소리.mp3 */; };
 		769B520F284F9A2700C3E5A3 /* 알람5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5204284F9A2600C3E5A3 /* 알람5.mp3 */; };
@@ -105,10 +106,11 @@
 		7646D5102BD7F1CA0026E4E4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7646D51A2BDA8E580026E4E4 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewModel.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
-		76558921284623A400DB4FC2 /* AddSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionVC.swift; sourceTree = "<group>"; };
+		76558921284623A400DB4FC2 /* AddSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewController.swift; sourceTree = "<group>"; };
 		769B5201284F8B7E00C3E5A3 /* 닭소리.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "닭소리.mp3"; sourceTree = "<group>"; };
 		769B5203284F9A2600C3E5A3 /* 학교 종소리.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "학교 종소리.mp3"; sourceTree = "<group>"; };
 		769B5204284F9A2600C3E5A3 /* 알람5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "알람5.mp3"; sourceTree = "<group>"; };
@@ -257,8 +259,9 @@
 		7646D5032BD7E5770026E4E4 /* AddSection */ = {
 			isa = PBXGroup;
 			children = (
+				7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */,
 				763EAD45287B29100019DC27 /* AddSectionView.swift */,
-				76558921284623A400DB4FC2 /* AddSectionVC.swift */,
+				76558921284623A400DB4FC2 /* AddSectionViewController.swift */,
 			);
 			path = AddSection;
 			sourceTree = "<group>";
@@ -567,11 +570,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				763EAD4B287B2C000019DC27 /* SettingsView.swift in Sources */,
-				76558922284623A400DB4FC2 /* AddSectionVC.swift in Sources */,
+				76558922284623A400DB4FC2 /* AddSectionViewController.swift in Sources */,
 				76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */,
 				7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */,
 				7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */,
 				76CC802E2844901100683831 /* Section.swift in Sources */,
+				7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */,
 				762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */,
 				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
 				763EAD42287B1AB60019DC27 /* TimerListView.swift in Sources */,

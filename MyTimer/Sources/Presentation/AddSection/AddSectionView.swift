@@ -108,4 +108,11 @@ final class AddSectionView: BaseView {
             $0.height.equalTo(59)
         }
     }
+    
+    // MARK: Validate
+    
+    func validateTitle() {
+        
+    }
+    
 }

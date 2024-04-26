@@ -149,24 +149,24 @@ final class TimerListViewController: BaseViewController {
 //        displayButtons(false)
 //    }
     
-    @objc func addTimerButtonTapped(_ sender: UIButton) {
-        let vc = AddTimerVC()
-        
-        presentCustom(vc)
-    }
-    
-    @objc func addSectionButtonTapped(_ sender: UIButton) {
-        let vc = AddSectionVC()
-        
-        presentCustom(vc)
-    }
-    
-    @objc func settingsButtonTapped(_ sender: UIButton) {
-        let vc = SettingsVC()
-        vc.goal = timerListView.goalLabel.text!
-        
-        presentCustom(vc)
-    }
+//    @objc func addTimerButtonTapped(_ sender: UIButton) {
+//        let vc = AddTimerVC()
+//        
+//        presentCustom(vc)
+//    }
+//    
+//    @objc func addSectionButtonTapped(_ sender: UIButton) {
+//        let vc = AddSectionVC()
+//        
+//        presentCustom(vc)
+//    }
+//    
+//    @objc func settingsButtonTapped(_ sender: UIButton) {
+//        let vc = SettingsVC()
+//        vc.goal = timerListView.goalLabel.text!
+//        
+//        presentCustom(vc)
+//    }
     
 //    func popupSetSection(_ index: Int) {
 //        let vc = SetSectionVC()
