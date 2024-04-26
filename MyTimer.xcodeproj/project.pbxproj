@@ -37,6 +37,8 @@
 		7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */; };
 		7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51A2BDA8E580026E4E4 /* BaseView.swift */; };
 		7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */; };
+		7646D5202BDBA97D0026E4E4 /* MenuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */; };
+		7646D5222BDBA99C0026E4E4 /* ConfirmButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
@@ -107,6 +109,8 @@
 		7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		7646D51A2BDA8E580026E4E4 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewModel.swift; sourceTree = "<group>"; };
+		7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
+		7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButtonStyle.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
@@ -340,6 +344,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		7646D51E2BDBA9700026E4E4 /* ButtonStyles */ = {
+			isa = PBXGroup;
+			children = (
+				7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */,
+				7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */,
+			);
+			path = ButtonStyles;
+			sourceTree = "<group>";
+		};
 		769B5200284F8B7400C3E5A3 /* AlarmSounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +412,7 @@
 		76D9AE2A284368DD00A2F5B9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				7646D51E2BDBA9700026E4E4 /* ButtonStyles */,
 				7646D50B2BD7EAFA0026E4E4 /* Base */,
 				7646D50A2BD7E70C0026E4E4 /* CustomViews */,
 				76D9AE33284383EC00A2F5B9 /* Extensions */,
@@ -575,6 +589,7 @@
 				7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */,
 				7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */,
 				76CC802E2844901100683831 /* Section.swift in Sources */,
+				7646D5222BDBA99C0026E4E4 /* ConfirmButtonStyle.swift in Sources */,
 				7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */,
 				762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */,
 				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
@@ -583,6 +598,7 @@
 				769B521C284F9E6600C3E5A3 /* SettingsVC.swift in Sources */,
 				7603B53E284A22830016B66C /* DetailTimerViewModel.swift in Sources */,
 				76D9AE162843637200A2F5B9 /* TimerListViewController.swift in Sources */,
+				7646D5202BDBA97D0026E4E4 /* MenuButtonStyle.swift in Sources */,
 				76B3DC60284928CC00342295 /* CircleProgressBar.swift in Sources */,
 				763EAD49287B2BB30019DC27 /* SetTimerDelegate.swift in Sources */,
 				7621629A287561A50063A3AF /* Extension++UITextView.swift in Sources */,

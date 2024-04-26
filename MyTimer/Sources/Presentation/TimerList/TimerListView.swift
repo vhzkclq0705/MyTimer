@@ -127,7 +127,7 @@ final class TimerListView: BaseView {
     
     // MARK: Create common UI components
     
-    private func createButtons(_ buttons: ButtonStyle) -> UIButton {
+    private func createButtons(_ buttons: MenuButtonStyle) -> UIButton {
         return UIButton().then {
             $0.setMainButtons(buttons)
         }
