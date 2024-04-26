@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 import RxRelay
 
 /// Protocol for Storage.
@@ -13,8 +14,9 @@ protocol StorageProtocol {
     
     /// Array of sections containing timers inside.
     var sections: BehaviorRelay<[RxSection]> { get }
-    /// URL used to determine the URL for data.
+    /// Path used to determine the URL for data.
     var filePath: URL { get }
+    var disposeBag: DisposeBag { get set }
     
     /// Function for saving data to disk.
     func saveData()
@@ -28,18 +30,27 @@ final class Storage: StorageProtocol {
     
     // MARK: Peoperties
     
-    var sections: BehaviorRelay<[RxSection]>
+    var sections = BehaviorRelay<[RxSection]>(value: [])
+    var disposeBag = DisposeBag()
     var filePath: URL
     
     // MARK: Init
     
     init() {
-        sections = BehaviorRelay<[RxSection]>(value: [])
-        filePath = FileManager.default.urls(for: .documentDirectory,in: .userDomainMask)
-            .first!
-            .appendingPathComponent("RxSections.plist")
+        filePath = try! FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true)
+        .appendingPathComponent("RxSections.plist")
         
         loadData()
+        
+        sections
+            .subscribe(with: self, onNext: { owner, _ in
+                self.saveData()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Data Management
@@ -54,14 +65,10 @@ final class Storage: StorageProtocol {
     }
     
     func loadData() {
-        guard let data = try? Data(contentsOf: filePath) else {
-            print("Failed to load data from disk.")
-            return
-        }
-        
         do {
-            let loadedSecions = try PropertyListDecoder().decode([RxSection].self, from: data)
-            sections.accept(loadedSecions)
+            let data = try Data(contentsOf: filePath)
+            let loadedSections = try PropertyListDecoder().decode([RxSection].self, from: data)
+            sections.accept(loadedSections)
         } catch {
             print("Failed to load data: \(error)")
         }
