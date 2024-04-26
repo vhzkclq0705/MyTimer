@@ -8,10 +8,6 @@
 import UIKit
 
 extension UIView {
-    func setBackgroundView() {
-        self.backgroundColor = .black
-        self.alpha = 0.45
-    }
     
     func setupSubView() {
         self.backgroundColor = .white

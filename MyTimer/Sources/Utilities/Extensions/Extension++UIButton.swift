@@ -7,15 +7,51 @@
 
 import UIKit
 
+enum ButtonStyle {
+    case Section
+    case Timer
+    case Settings
+}
+
+extension ButtonStyle {
+    
+    var title: String {
+        return switch self {
+        case .Section: "섹션 추가"
+        case .Timer: "타이머 추가"
+        case .Settings: "설정"
+        }
+    }
+    
+    var imageName: String {
+        return switch self {
+        case .Section: "section"
+        case .Timer: "timer"
+        case .Settings: "settings"
+        }
+    }
+    
+}
+
 extension UIButton {
-    func setMainButtons(_ name: String) {
-        var config = UIButton.Configuration.filled()
-        config.cornerStyle = .capsule
-        config.baseBackgroundColor = UIColor.CustomColor(.purple2)
+    
+    func setMainButtons(_ style: ButtonStyle) {
+        let attributedString = NSAttributedString(
+            string: style.title,
+            attributes: [
+                .font: UIFont(name: Font.semibold.rawValue, size: 14)!,
+                .foregroundColor: UIColor.white
+            ])
         
-        self.configuration = config
-        self.setImage(UIImage(named: name), for: .normal)
-        self.alpha = 0
+        configuration = UIButton.Configuration.filled()
+        configuration?.attributedTitle = AttributedString(attributedString)
+        configuration?.baseBackgroundColor = .CustomColor(.purple2)
+        configuration?.cornerStyle = .capsule
+        configuration?.imagePlacement = .trailing
+        configuration?.imagePadding = 10
+        
+        setImage(UIImage(named: style.imageName), for: .normal)
+        alpha = 0
     }
     
     func setSubViewOKButton() {

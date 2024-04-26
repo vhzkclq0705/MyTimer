@@ -44,18 +44,9 @@ final class TimerListView: BaseView {
         $0.setImage(UIImage(named: "add")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
 
-    lazy var addTimerButton = createButtons("timer")
-    lazy var addSectionButton = createButtons("section")
-    lazy var settingsButton = createButtons("settings")
-
-    lazy var addSectionLabel = createLabels("섹션 추가")
-    lazy var addTimerLabel = createLabels("타이머 추가")
-    lazy var settingsLabel = createLabels("설정")
-
-    lazy var backgroundView = UIView().then {
-        $0.setBackgroundView()
-        $0.isHidden = true
-    }
+    lazy var addSectionButton = createButtons(.Section)
+    lazy var addTimerButton = createButtons(.Timer)
+    lazy var settingsButton = createButtons(.Settings)
 
     lazy var controlView = UIView().then {
         $0.backgroundColor = .clear
@@ -78,15 +69,11 @@ final class TimerListView: BaseView {
         [
             addSectionButton,
             addTimerButton,
-            settingsButton,
-            addTimerLabel,
-            addSectionLabel,
-            settingsLabel,
+            settingsButton
         ]
             .forEach { controlView.addSubview($0) }
 
         [
-            backgroundView,
             tableView,
             menuButton,
             goalLabel,
@@ -97,9 +84,6 @@ final class TimerListView: BaseView {
     }
 
     override func configureLayout() {
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
 
         tableView.snp.makeConstraints {
             $0.top.equalTo(goalLabel.snp.bottom)
@@ -123,32 +107,17 @@ final class TimerListView: BaseView {
 
         addTimerButton.snp.makeConstraints {
             $0.bottom.equalTo(menuButton.snp.top).offset(-10)
-            $0.centerX.equalTo(menuButton)
+            $0.trailing.equalTo(menuButton)
         }
 
         addSectionButton.snp.makeConstraints {
             $0.bottom.equalTo(addTimerButton.snp.top).offset(-10)
-            $0.centerX.equalTo(menuButton)
+            $0.trailing.equalTo(menuButton)
         }
 
         settingsButton.snp.makeConstraints {
             $0.bottom.equalTo(addSectionButton.snp.top).offset(-10)
-            $0.centerX.equalTo(menuButton)
-        }
-
-        addTimerLabel.snp.makeConstraints {
-            $0.centerY.equalTo(addTimerButton)
-            $0.right.equalTo(addTimerButton.snp.left).offset(-9)
-        }
-
-        addSectionLabel.snp.makeConstraints {
-            $0.centerY.equalTo(addSectionButton)
-            $0.right.equalTo(addTimerLabel)
-        }
-
-        settingsLabel.snp.makeConstraints {
-            $0.centerY.equalTo(settingsButton)
-            $0.right.equalTo(addTimerLabel)
+            $0.trailing.equalTo(menuButton)
         }
 
         controlView.snp.makeConstraints {
@@ -158,20 +127,9 @@ final class TimerListView: BaseView {
     
     // MARK: Create common UI components
     
-    private func createButtons(_ title: String) -> UIButton {
+    private func createButtons(_ buttons: ButtonStyle) -> UIButton {
         return UIButton().then {
-            $0.setMainButtons(title)
-        }
-    }
-    
-    private func createLabels(_ title: String) -> UILabel {
-        return UILabel().then {
-            $0.setLabelStyle(
-                text: title,
-                font: .semibold,
-                size: 14,
-                color: .white)
-            $0.alpha = 0
+            $0.setMainButtons(buttons)
         }
     }
     

@@ -13,7 +13,7 @@ class SetTimerView: UIView {
     // MARK: - UI
     let backgroundView: UIView = {
         let view = UIView()
-        view.setBackgroundView()
+//        view.setBackgroundView()
         
         return view
     }()
