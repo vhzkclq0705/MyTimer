@@ -7,85 +7,58 @@
 
 import UIKit
 import SnapKit
+import Then
 
-class AddSectionView: UIView {
+final class AddSectionView: BaseView {
     
-    // MARK: - UI
-    let backgroundView: UIView = {
-        let view = UIView()
-//        view.setBackgroundView()
-        
-        return view
-    }()
+    // MARK:  UI
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var titleLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "섹션 추가",
             font: .bold,
             size: 15,
             color: .black)
-        
-        return label
-    }()
+    }
     
-    lazy var textField: UITextView = {
-        let textView = UITextView()
-        textView.setTextView("섹션 이름을 입력해주세요")
-        
-        return textView
-    }()
+    lazy var textField = UITextView().then {
+        $0.setTextView("섹션 이름을 입력해주세요")
+    }
     
-    let alertLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
+    lazy var alertLabel = UILabel().then {
+        $0.setLabelStyle(
             text: "섹션 이름을 입력해주세요",
             font: .medium,
             size: 12,
             color: UIColor.CustomColor(.red))
-        label.alpha = 0
-        
-        return label
-    }()
+        $0.alpha = 0
+    }
     
-    lazy var okButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewOKButton()
-        
-        return button
-    }()
+    lazy var okButton = UIButton().then {
+        $0.setSubViewOKButton()
+    }
     
-    lazy var cancleButton: UIButton = {
-        let button = UIButton()
-        button.setSubViewCancleButton()
-        
-        return button
-    }()
+    lazy var cancleButton = UIButton().then {
+        $0.setSubViewCancleButton()
+    }
     
-    let subView: UIView = {
-        let view = UIView()
-        view.setupSubView()
-        
-        return view
-    }()
+    lazy var subView = UIView().then {
+        $0.setupSubView()
+    }
     
-    // MARK: - Init
+    // MARK: Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        addViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        setLayout()
-    }
+    // MARK: Configure
     
-    // MARK: - Setup
-    func addViews() {
+    override func configureUI() {
         [
             titleLabel,
             textField,
@@ -95,15 +68,10 @@ class AddSectionView: UIView {
         ]
             .forEach { subView.addSubview($0) }
         
-        [backgroundView, subView]
-            .forEach { addSubview($0) }
+        addSubview(subView)
     }
     
-    func setLayout() {
-        backgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
+    override func configureLayout() {
         subView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.left.right.equalToSuperview().inset(17)
