@@ -1,5 +1,5 @@
 //
-//  SetSectionViewContoller.swift
+//  UpdateSectionViewContoller.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/07/11.
@@ -12,17 +12,17 @@ import RxSwift
 import RxCocoa
 
 /// ViewController for updating sections
-final class SetSectionViewContoller: BaseViewController {
+final class UpdateSectionViewContoller: BaseViewController {
     
     // MARK: Properties
     
-    private let viewModel: SetSectionViewModel
-    private let setSectionView = AddSectionView()
+    private let viewModel: UpdateSectionViewModel
+    private let updateSectionView = AddORSetSectionView(frame: .zero, feature: .Update)
     private let disposeBag = DisposeBag()
     
     // MARK: Init
     
-    init(viewModel: SetSectionViewModel) {
+    init(viewModel: UpdateSectionViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -34,7 +34,7 @@ final class SetSectionViewContoller: BaseViewController {
     // MARK:  Life cycle
     
     override func loadView() {
-        view = setSectionView
+        view = updateSectionView
     }
     
     override func viewDidLoad() {
@@ -53,36 +53,27 @@ final class SetSectionViewContoller: BaseViewController {
     }
     
     override func configureUI() {
-        setSectionView.titleLabel.text = "섹션 이름 변경"
+        updateSectionView.titleLabel.text = "섹션 이름 변경"
         
-        let deleteButton = UIButton().then {
-            $0.setImage(UIImage(named: "delete"), for: .normal)
-        }
-        view.addSubview(deleteButton)
-        deleteButton.snp.makeConstraints {
-            $0.top.right.equalTo(view).inset(15)
-        }
-        
-        
-        deleteButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.deleteSections()
-                owner.dismiss(animated: true)
-            })
-            .disposed(by: disposeBag)
+//        deleteButton.rx.tap
+//            .bind(with: self, onNext: { owner, _ in
+//                owner.viewModel.deleteSections()
+//                owner.dismiss(animated: true)
+//            })
+//            .disposed(by: disposeBag)
     }
     
     private func setupBindings() {
-        let input = SetSectionViewModel.Input(
-            title: setSectionView.textField.rx.text.orEmpty.distinctUntilChanged().asObservable(),
-            okButtonTapEvent: setSectionView.okButton.rx.tap.asObservable(),
-            calcelButtonTapEvent: setSectionView.cancleButton.rx.tap.asObservable())
+        let input = UpdateSectionViewModel.Input(
+            title: updateSectionView.textField.rx.text.orEmpty.distinctUntilChanged().asObservable(),
+            okButtonTapEvent: updateSectionView.okButton.rx.tap.asObservable(),
+            calcelButtonTapEvent: updateSectionView.cancleButton.rx.tap.asObservable())
         
         let output = viewModel.transform(input: input)
         
         output.titleLength
             .drive(with: self, onNext: { owner, length in
-                owner.setSectionView.validateText(length)
+                owner.updateSectionView.validateText(length)
             })
             .disposed(by: disposeBag)
         
@@ -99,15 +90,15 @@ final class SetSectionViewContoller: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        setSectionView.textField.rx.didBeginEditing
+        updateSectionView.textField.rx.didBeginEditing
             .subscribe(with: self, onNext: { owner, _ in
-                owner.setSectionView.startEditingTextView()
+                owner.updateSectionView.startEditingTextView()
             })
             .disposed(by: disposeBag)
         
-        setSectionView.textField.rx.didEndEditing
+        updateSectionView.textField.rx.didEndEditing
             .subscribe(with: self, onNext: { owner, _ in
-                owner.setSectionView.endEditingTextView()
+                owner.updateSectionView.endEditingTextView()
             })
             .disposed(by: disposeBag)
     }

@@ -154,58 +154,6 @@ final class TimerListViewController: BaseViewController {
         }
     }
     
-//    func checkTimerCount() {
-//        timerListView.notimerLabel.isHidden = viewModel.numOfSections == 0
-//        ? false : true
-//    }
-//    
-//    // MARK: - Actions
-//    @objc func reload() {
-//        viewModel.load()
-//        setGoal()
-//        checkTimerCount()
-//        timerListView.tableView.reloadData()
-//    }
-//    
-//    @objc func recognizeTapped(_ sender: Any) {
-//        timerListView.addButton.isSelected = false
-//        displayButtons(false)
-//    }
-    
-//    @objc func addTimerButtonTapped(_ sender: UIButton) {
-//        let vc = AddTimerVC()
-//        
-//        presentCustom(vc)
-//    }
-//    
-//    @objc func addSectionButtonTapped(_ sender: UIButton) {
-//        let vc = AddSectionVC()
-//        
-//        presentCustom(vc)
-//    }
-//    
-//    @objc func settingsButtonTapped(_ sender: UIButton) {
-//        let vc = SettingsVC()
-//        vc.goal = timerListView.goalLabel.text!
-//        
-//        presentCustom(vc)
-//    }
-    
-//    func popupSetSection(_ index: Int) {
-//        let vc = SetSectionVC()
-//        vc.section = viewModel.sections[index]
-//        
-//        presentCustom(vc)
-//    }
-//    
-//    func popupDetailTimer(_ indexPath: IndexPath) {
-//        let vc = DetailTimerVC()
-//        vc.sectionTitle = viewModel.sectionTitle(indexPath.section)
-//        vc.myTimer = viewModel.timerInfo(indexPath)
-//        
-//        presentCustom(vc)
-//    }
-    
     // MARK: Actions
     
     private func changeStateOfMenuButtons() {
@@ -224,12 +172,8 @@ final class TimerListViewController: BaseViewController {
         presentCustom(vc)
     }
     
-    private func expandSections(at index: Int, with section: RxSection) {
-        
-    }
-    
     private func didTapUpdateSectionButtons(id: UUID) {
-        let vc = SetSectionViewContoller(viewModel: SetSectionViewModel(id: id))
+        let vc = UpdateSectionViewContoller(viewModel: UpdateSectionViewModel(id: id))
         presentCustom(vc)
     }
     

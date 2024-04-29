@@ -1,5 +1,5 @@
 //
-//  SetSectionViewModel.swift
+//  UpdateSectionViewModel.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2024-04-29.
@@ -9,8 +9,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-/// ViewModel for SetSectionViewController
-final class SetSectionViewModel: ViewModelType {
+/// ViewModel for UpdateSectionViewController
+final class UpdateSectionViewModel: ViewModelType {
     
     // Properties
     

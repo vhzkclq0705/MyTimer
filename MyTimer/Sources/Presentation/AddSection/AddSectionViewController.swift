@@ -15,7 +15,7 @@ final class AddSectionViewController: BaseViewController {
     // MARK: Properties
     
     private let viewModel: AddSectionViewModel
-    private let addSectionView = AddSectionView()
+    private let addSectionView = AddORSetSectionView(frame: .zero, feature: .Add)
     private let disposeBag = DisposeBag()
     
     // MARK: Init
@@ -32,7 +32,6 @@ final class AddSectionViewController: BaseViewController {
     // MARK: Life cycle
     
     override func loadView() {
-        super.loadView()
         view = addSectionView
     }
     

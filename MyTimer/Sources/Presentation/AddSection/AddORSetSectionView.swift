@@ -1,5 +1,5 @@
 //
-//  AddSectionView.swift
+//  AddORSetSectionView.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/07/11.
@@ -9,13 +9,18 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddSectionView: BaseView {
+enum SectionFeature {
+    case Add
+    case Update
+}
+
+final class AddORSetSectionView: BaseView {
     
     // MARK:  UI
     
     lazy var titleLabel = UILabel().then {
         $0.setLabelStyle(
-            text: "섹션 추가",
+            text: "",
             font: .bold,
             size: 15,
             color: .black)
@@ -32,6 +37,10 @@ final class AddSectionView: BaseView {
             size: 12,
             color: UIColor.CustomColor(.red))
         $0.alpha = 0
+    }
+    
+    lazy var deleteButton = UIButton().then {
+        $0.setImage(UIImage(named: "delete"), for: .normal)
     }
     
     lazy var okButton = UIButton().then {
@@ -56,8 +65,10 @@ final class AddSectionView: BaseView {
     
     // MARK: Init
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, feature: SectionFeature) {
         super.init(frame: frame)
+        titleLabel.text = feature == .Add ? "섹션 추가" : "섹션 이름 변경"
+        deleteButton.isHidden = feature == .Add ? true : false
     }
     
     required init?(coder: NSCoder) {
@@ -70,6 +81,7 @@ final class AddSectionView: BaseView {
         [
             titleLabel,
             textField,
+            deleteButton,
             okButton,
             cancleButton,
             alertLabel,
@@ -100,6 +112,10 @@ final class AddSectionView: BaseView {
         alertLabel.snp.makeConstraints {
             $0.top.equalTo(textField.snp.bottom).offset(3)
             $0.right.equalTo(textField)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.top.right.equalToSuperview().inset(15)
         }
         
         okButton.snp.makeConstraints {
