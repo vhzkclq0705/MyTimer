@@ -34,7 +34,6 @@ final class SetSectionViewContoller: BaseViewController {
     // MARK:  Life cycle
     
     override func loadView() {
-        super.loadView()
         view = setSectionView
     }
     
@@ -61,8 +60,16 @@ final class SetSectionViewContoller: BaseViewController {
         }
         view.addSubview(deleteButton)
         deleteButton.snp.makeConstraints {
-            $0.top.right.equalToSuperview().inset(15)
+            $0.top.right.equalTo(view).inset(15)
         }
+        
+        
+        deleteButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.deleteSections()
+                owner.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupBindings() {
@@ -82,6 +89,7 @@ final class SetSectionViewContoller: BaseViewController {
         output.updateSection
             .emit(with: self, onNext: { owner, _ in
                 owner.viewModel.updateSections()
+                owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
         

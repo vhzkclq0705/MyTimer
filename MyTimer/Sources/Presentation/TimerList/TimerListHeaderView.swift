@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
-import RxCocoa
 
 // Header view for sections of CollectionView
 final class TimerListHeaderView: UICollectionReusableView {
@@ -29,7 +28,7 @@ final class TimerListHeaderView: UICollectionReusableView {
         $0.setImage(UIImage(named: "arrowUp"), for: .selected)
     }
     
-    lazy var modifyButton = UIButton().then {
+    lazy var updateButton = UIButton().then {
         $0.setImage(UIImage(named: "modify"), for: .normal)
     }
     
@@ -37,18 +36,12 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     static let id = "timerListHeaderView"
     var disposeBag = DisposeBag()
-
-    // MARK: Button tap handlers
-    
-    var expandButtonTapHandler = PublishRelay<Void>()
-    var modifyButtonTapHandler = PublishRelay<Void>()
     
     // MARK: Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        setupBindings()
     }
     
     override func prepareForReuse() {
@@ -67,23 +60,13 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     // MARK: Configure
     
-    private func setupBindings() {
-        expandButton.rx.tap
-            .bind(to: expandButtonTapHandler)
-            .disposed(by: disposeBag)
-        
-        modifyButton.rx.tap
-            .bind(to: modifyButtonTapHandler)
-            .disposed(by: disposeBag)
-    }
-    
     private func configureUI() {
         backgroundColor = .clear
         
         [
             titleLabel,
             expandButton,
-            modifyButton
+            updateButton
         ]
             .forEach { addSubview($0) }
     }
@@ -99,14 +82,14 @@ final class TimerListHeaderView: UICollectionReusableView {
             $0.left.equalTo(titleLabel.snp.right).offset(5)
         }
         
-        modifyButton.snp.makeConstraints {
+        updateButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(expandButton.snp.right).offset(5)
         }
         
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         expandButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        modifyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        updateButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
     // MARK: Update UI

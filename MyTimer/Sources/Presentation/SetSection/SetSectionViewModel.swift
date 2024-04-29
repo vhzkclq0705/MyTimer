@@ -69,4 +69,10 @@ final class SetSectionViewModel: ViewModelType {
         RxTimerManager.shared.updateSection(id: id, title: title)
     }
     
+    // MARK: Delete sections
+    
+    func deleteSections() {
+        RxTimerManager.shared.deleteSection(id: id)
+    }
+    
 }

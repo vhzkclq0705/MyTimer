@@ -63,17 +63,33 @@ final class TimerListViewController: BaseViewController {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimerListHeaderView.id, for: indexPath) as? TimerListHeaderView else {
                     return UICollectionReusableView()
                 }
-                header.updateUI(text: dataSource.sectionModels[indexPath.section].title)
+                var section = dataSource.sectionModels[indexPath.section]
+                header.updateUI(text: section.title)
                 
-                header.expandButtonTapHandler
-                    .subscribe(with: self, onNext: { owner, _ in
+                header.expandButton.rx.tap
+                    .subscribe(with: header, onNext: { owner, _ in
+                        owner.expandButton.isSelected.toggle()
+                        section.isExpanded.toggle()
+                        
+                        let cnt = section.items.count
+                        let indexPaths = (0..<cnt).map { item in
+                            IndexPath(item: item, section: indexPath.section)
+                        }
+                        
+                        collectionView.performBatchUpdates({
+                            if section.isExpanded {
+                                collectionView.insertItems(at: indexPaths)
+                            } else {
+                                collectionView.deleteItems(at: indexPaths)
+                            }
+                        })
                         
                     })
                     .disposed(by: header.disposeBag)
                 
-                header.modifyButtonTapHandler
+                header.updateButton.rx.tap
                     .subscribe(with: self, onNext: { owner, _ in
-                        
+                        owner.didTapUpdateSectionButtons(id: section.id)
                     })
                     .disposed(by: header.disposeBag)
                 
@@ -205,6 +221,15 @@ final class TimerListViewController: BaseViewController {
             UIViewController()
         }
         
+        presentCustom(vc)
+    }
+    
+    private func expandSections(at index: Int, with section: RxSection) {
+        
+    }
+    
+    private func didTapUpdateSectionButtons(id: UUID) {
+        let vc = SetSectionViewContoller(viewModel: SetSectionViewModel(id: id))
         presentCustom(vc)
     }
     

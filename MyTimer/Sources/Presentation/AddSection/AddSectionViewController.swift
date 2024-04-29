@@ -67,7 +67,8 @@ final class AddSectionViewController: BaseViewController {
         
         output.createSection
             .emit(with: self, onNext: { owner, _ in
-                owner.createSections()
+                owner.viewModel.createSections()
+                owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -88,13 +89,6 @@ final class AddSectionViewController: BaseViewController {
                 owner.addSectionView.endEditingTextView()
             })
             .disposed(by: disposeBag)
-    }
-    
-    // MARK: Actions
-    
-    private func createSections() {
-        viewModel.createSections()
-        dismiss(animated: true)
     }
     
 }
