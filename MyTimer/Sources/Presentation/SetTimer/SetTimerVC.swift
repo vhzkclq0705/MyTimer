@@ -12,7 +12,7 @@ import DropDown
 class SetTimerVC: UIViewController {
     
     // MARK: - Property
-    let setTimerView = SetTimerView()
+    let setTimerView = AddORSetTimerView(frame: .zero, feature: .Update)
     let viewModel = SetTimerViewModel()
     let dropDown = DropDown()
     var sectionTitle: String!

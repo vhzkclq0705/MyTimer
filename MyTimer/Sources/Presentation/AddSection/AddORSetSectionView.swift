@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-enum SectionFeature {
+enum SubViewFeature {
     case Add
     case Update
 }
@@ -45,7 +45,6 @@ final class AddORSetSectionView: BaseView {
     
     lazy var okButton = UIButton().then {
         $0.setConfirmButtons(.Ok)
-        $0.isUserInteractionEnabled = false
     }
     
     lazy var cancleButton = UIButton().then {
@@ -65,7 +64,7 @@ final class AddORSetSectionView: BaseView {
     
     // MARK: Init
     
-    init(frame: CGRect, feature: SectionFeature) {
+    init(frame: CGRect, feature: SubViewFeature) {
         super.init(frame: frame)
         titleLabel.text = feature == .Add ? "섹션 추가" : "섹션 이름 변경"
         deleteButton.isHidden = feature == .Add ? true : false

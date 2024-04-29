@@ -7,16 +7,31 @@
 
 import UIKit
 import DropDown
+import RxSwift
+import RxCocoa
 
-// ViewController for add timer
-class AddTimerVC: UIViewController {
+// ViewController for adding timers
+final class AddTimerVC: BaseViewController {
     
-    // MARK: - Property
-    let addTimerView = SetTimerView()
-    let viewModel = AddTimerViewModel()
-    let dropDown = DropDown()
+    // MARK: Properties
     
-    // MARK: - Life cycle
+    private let addTimerView = AddORSetTimerView(frame: .zero, feature: .Add)
+    private let viewModel: AddTimerViewModel
+    private let dropDown = DropDown()
+    
+    // MARK: Init
+    
+    init(viewModel: AddTimerViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Life cycle
+    
     override func loadView() {
         view = addTimerView
     }
@@ -29,10 +44,22 @@ class AddTimerVC: UIViewController {
         initDropDown()
     }
     
-    // MARK: - Keyboard
+    // MARK: Configure
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
+    override func configureViewController() {
+        setupBindings()
+        view.backgroundColor = .black.withAlphaComponent(0.5)
+    }
+    
+    private func setupBindings() {
+        
+    }
+    
+    
     
     // MARK: - Setup
     func setViewController() {

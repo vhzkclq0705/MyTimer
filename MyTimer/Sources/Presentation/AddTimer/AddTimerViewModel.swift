@@ -7,8 +7,8 @@
 
 import UIKit
 
-// ViewModel for AddTimerVC
-class AddTimerViewModel {
+// ViewModel for AddTimerViewController
+final class AddTimerViewModel: ViewModelType {
     
     // MARK: - Property
     let timerManager = TimerManager.shared
