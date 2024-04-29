@@ -23,7 +23,7 @@ final class TimerListViewModel: ViewModelType {
     
     struct Output {
         let sections: Driver<[RxSection]>
-        let showButtons: Signal<Void>
+        let showButtons: Observable<Void>
         let presentAddSectionViewController: Signal<Void>
         let presentAddTimerViewController: Signal<Void>
         let presentSettingsViewController: Signal<Void>
@@ -41,7 +41,6 @@ final class TimerListViewModel: ViewModelType {
         let sections = RxTimerManager.shared.getData()
         
         let showButtons = input.menuButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
         
         let presentAddSectionViewController = input.addSectionButtonTapEvent
             .asSignal(onErrorJustReturn: ())

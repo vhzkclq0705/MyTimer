@@ -52,17 +52,6 @@ final class UpdateSectionViewContoller: BaseViewController {
         view.backgroundColor = .black.withAlphaComponent(0.5)
     }
     
-    override func configureUI() {
-        updateSectionView.titleLabel.text = "섹션 이름 변경"
-        
-//        deleteButton.rx.tap
-//            .bind(with: self, onNext: { owner, _ in
-//                owner.viewModel.deleteSections()
-//                owner.dismiss(animated: true)
-//            })
-//            .disposed(by: disposeBag)
-    }
-    
     private func setupBindings() {
         let input = UpdateSectionViewModel.Input(
             title: updateSectionView.textField.rx.text.orEmpty.distinctUntilChanged().asObservable(),
@@ -86,6 +75,13 @@ final class UpdateSectionViewContoller: BaseViewController {
         
         output.dismissViewController
             .emit(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        updateSectionView.deleteButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.viewModel.deleteSections()
                 owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
