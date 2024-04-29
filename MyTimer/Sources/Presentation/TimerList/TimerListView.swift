@@ -24,14 +24,6 @@ final class TimerListView: BaseView {
         $0.register(TimerListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TimerListHeaderView.id)
         $0.register(TimerListCell.self, forCellWithReuseIdentifier: TimerListCell.id)
     }
-    
-//    lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
-//        $0.backgroundColor = .clear
-//        $0.separatorStyle = .none
-//        
-//        $0.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
-//        $0.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
-//    }
 
     lazy var goalLabel = UILabel().then {
         $0.setLabelStyle(

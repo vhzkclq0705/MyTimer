@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 /// Cell for timers of CollectionView
 final class TimerListCell: UICollectionViewCell {
@@ -41,25 +43,28 @@ final class TimerListCell: UICollectionViewCell {
         $0.setImage(
             UIImage(named: "playCircle"),
             for: .normal)
-        $0.addTarget(
-            self,
-            action: #selector(timerButtonTapped(_:)),
-            for: .touchUpInside)
     }
     
     // MARK: Properties
     
     static let id = "timerListCell"
+    var disposeBag = DisposeBag()
     
     // MARK: Button tap handler
     
-    var timerButtonTapHandler: (() -> Void)?
+    var timerButtonTapHandler = PublishRelay<Void>()
     
     // MARK: init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        setupBindings()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +77,12 @@ final class TimerListCell: UICollectionViewCell {
     }
     
     // MARK: Configure
+    
+    private func setupBindings() {
+        timerButton.rx.tap
+            .bind(to: timerButtonTapHandler)
+            .disposed(by: disposeBag)
+    }
     
     private func configureUI() {
         backgroundColor = .clear
@@ -110,17 +121,11 @@ final class TimerListCell: UICollectionViewCell {
     
     // MARK: Update UI
     
-    func updateUI(title: String, min: Int, sec: Int) {
-        let mintoStr = String(format: "%02d", min)
-        let sectoStr = String(format: "%02d", sec)
-        titleLabel.text = title
+    func updateUI(timer: RxMyTimer) {
+        let mintoStr = String(format: "%02d", timer.min)
+        let sectoStr = String(format: "%02d", timer.sec)
+        titleLabel.text = timer.title
         timeLabel.text = "\(mintoStr):\(sectoStr)"
-    }
-    
-    // MARK: Actions
-    
-    @objc private func timerButtonTapped(_ sender: UIButton) {
-        timerButtonTapHandler?()
     }
     
 }

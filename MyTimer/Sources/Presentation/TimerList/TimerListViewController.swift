@@ -40,17 +40,6 @@ final class TimerListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setController()
-//        loadAlarmSound()
-//        checkTimerCount()
-//        setGoal()
-//        requestAuthNoti()
-//        
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(reload),
-//            name: NSNotification.Name(rawValue: "reload"),
-//            object: nil)
     }
     
     // MARK: Configure
@@ -65,6 +54,9 @@ final class TimerListViewController: BaseViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
                 }
+                let timer = dataSource.sectionModels[indexPath.section].items[indexPath.item]
+                cell.updateUI(timer: timer)
+                
                 return cell
             },
             configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
@@ -72,6 +64,18 @@ final class TimerListViewController: BaseViewController {
                     return UICollectionReusableView()
                 }
                 header.updateUI(text: dataSource.sectionModels[indexPath.section].title)
+                
+                header.expandButtonTapHandler
+                    .subscribe(with: self, onNext: { owner, _ in
+                        
+                    })
+                    .disposed(by: header.disposeBag)
+                
+                header.modifyButtonTapHandler
+                    .subscribe(with: self, onNext: { owner, _ in
+                        
+                    })
+                    .disposed(by: header.disposeBag)
                 
                 return header
             }
@@ -249,79 +253,3 @@ final class TimerListViewController: BaseViewController {
     }
 
 }
-
-// MARK: - TableView
-//extension TimerListViewController: ExpyTableViewDelegate,
-//                       ExpyTableViewDataSource {
-//    // true = Expandable, false = Non-Expandable(Same as default TableView)
-//    func tableView(
-//        _ tableView: ExpyTableView,
-//        canExpandSection section: Int)
-//    -> Bool {
-//        return true
-//    }
-//    
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return viewModel.numOfSections
-//    }
-//    
-//    func tableView(
-//        _ tableView: UITableView,
-//        numberOfRowsInSection section: Int)
-//    -> Int {
-//        return viewModel.numOfTimers(section) + 1
-//    }
-//    
-//    // About Section headers
-//    func tableView(
-//        _ tableView: ExpyTableView,
-//        expandableCellForSection section: Int)
-//    -> UITableViewCell {
-//        guard let header = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
-//            return UITableViewCell()
-//        }
-//        let title = viewModel.sectionTitle(section)
-//        
-//        header.updateUI(text: title)
-//        header.modifyButtonTapHandler = {
-//            self.popupSetSection(section)
-//        }
-//        
-//        return header
-//    }
-//    
-//    func tableView(
-//        _ tableView: UITableView,
-//        cellForRowAt indexPath: IndexPath)
-//    -> UITableViewCell {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListCell.id) as? TimerListCell else {
-//            return UITableViewCell()
-//        }
-//        let timer = viewModel.timerInfo(indexPath)
-//        
-//        cell.updateUI(
-//            title: timer.title,
-//            min: timer.min,
-//            sec: timer.sec)
-//        cell.timerButtonTapHandler = {
-//            self.popupDetailTimer(indexPath)
-//        }
-//        
-//        return cell
-//    }
-//    
-//    func tableView(
-//        _ tableView: UITableView,
-//        heightForRowAt indexPath: IndexPath)
-//    -> CGFloat {
-//        return indexPath.row == 0 ? 25 : 80
-//    }
-//    
-//    // Check whether the Section is open or closed.
-//    func tableView(
-//        _ tableView: ExpyTableView,
-//        expyState state: ExpyState,
-//        changeForSection section: Int) {
-//            // This function is only a stub.
-//        }
-//}

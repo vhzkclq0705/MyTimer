@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 // Header view for sections of CollectionView
 final class TimerListHeaderView: UICollectionReusableView {
@@ -22,33 +24,36 @@ final class TimerListHeaderView: UICollectionReusableView {
             color: .black)
     }
     
-    lazy var detailImageView = UIImageView().then {
-        $0.image = UIImage(named: "arrowDown")
+    lazy var expandButton = UIButton().then {
+        $0.setImage(UIImage(named: "arrowDown"), for: .normal)
+        $0.setImage(UIImage(named: "arrowUp"), for: .selected)
     }
     
     lazy var modifyButton = UIButton().then {
         $0.setImage(UIImage(named: "modify"), for: .normal)
-        $0.addTarget(
-            self,
-            action: #selector(didTapModifyButton(_:)),
-            for: .touchUpInside)
     }
-    
-    lazy var clearView = UIButton()
     
     // MARK: Properties
     
-    static let id = "timerListHeaderCell"
+    static let id = "timerListHeaderView"
+    var disposeBag = DisposeBag()
 
-    // MARK: Button tap handler
+    // MARK: Button tap handlers
     
-    var modifyButtonTapHandler: (() -> Void)?
+    var expandButtonTapHandler = PublishRelay<Void>()
+    var modifyButtonTapHandler = PublishRelay<Void>()
     
     // MARK: Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
+        setupBindings()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     required init?(coder: NSCoder) {
@@ -62,14 +67,23 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     // MARK: Configure
     
+    private func setupBindings() {
+        expandButton.rx.tap
+            .bind(to: expandButtonTapHandler)
+            .disposed(by: disposeBag)
+        
+        modifyButton.rx.tap
+            .bind(to: modifyButtonTapHandler)
+            .disposed(by: disposeBag)
+    }
+    
     private func configureUI() {
         backgroundColor = .clear
         
         [
             titleLabel,
-            detailImageView,
-            modifyButton,
-            clearView,
+            expandButton,
+            modifyButton
         ]
             .forEach { addSubview($0) }
     }
@@ -80,37 +94,25 @@ final class TimerListHeaderView: UICollectionReusableView {
             $0.left.equalToSuperview()
         }
         
-        detailImageView.snp.makeConstraints {
+        expandButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.left.equalTo(titleLabel.snp.right).offset(5)
         }
         
         modifyButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.left.equalTo(detailImageView.snp.right).offset(5)
-        }
-        
-        clearView.snp.makeConstraints {
-            $0.top.bottom.right.equalToSuperview()
-            $0.left.equalTo(modifyButton.snp.right)
+            $0.left.equalTo(expandButton.snp.right).offset(5)
         }
         
         titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        detailImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        expandButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         modifyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        clearView.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     
     // MARK: Update UI
     
     func updateUI(text: String) {
         titleLabel.text = text
-    }
-    
-    // MARK: Actions
-    
-    @objc private func didTapModifyButton(_ sender: UIButton) {
-        modifyButtonTapHandler?()
     }
     
 }
