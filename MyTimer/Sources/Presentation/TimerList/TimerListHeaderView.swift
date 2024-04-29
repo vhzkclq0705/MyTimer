@@ -1,17 +1,16 @@
 //
-//  TimerListHeaderCell.swift
+//  TimerListHeaderView.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/05/30.
 //
 
 import UIKit
-import ExpyTableView
 import SnapKit
 import Then
 
-// Cell for sections of TableView
-final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
+// Header view for sections of CollectionView
+final class TimerListHeaderView: UICollectionReusableView {
     
     // MARK: UI
     
@@ -47,8 +46,8 @@ final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     // MARK: Init
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         configureUI()
     }
     
@@ -65,7 +64,6 @@ final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
     
     private func configureUI() {
         backgroundColor = .clear
-        selectionStyle = .none
         
         [
             titleLabel,
@@ -73,7 +71,7 @@ final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
             modifyButton,
             clearView,
         ]
-            .forEach { contentView.addSubview($0) }
+            .forEach { addSubview($0) }
     }
     
     private func configureLayout() {
@@ -109,34 +107,10 @@ final class TimerListHeaderCell: UITableViewCell, ExpyTableViewHeaderCell {
         titleLabel.text = text
     }
     
-    func changeState(_ state: ExpyState, cellReuseStatus cellReuse: Bool) {
-        switch state {
-        case .willExpand: detailImageView.image = UIImage(named: "arrowUp")
-        case .willCollapse: detailImageView.image = UIImage(named: "arrowDown")
-        default: break
-        }
-    }
-    
     // MARK: Actions
     
     @objc private func didTapModifyButton(_ sender: UIButton) {
         modifyButtonTapHandler?()
     }
-    
-}
-
-extension UITableViewCell {
-    
-//    func showSeparator() {
-//        DispatchQueue.main.async {
-//            self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        }
-//    }
-//    
-//    func hideSeparator() {
-//        DispatchQueue.main.async {
-//            self.separatorInset = UIEdgeInsets(top: 0, left: self.bounds.size.width, bottom: 0, right: 0)
-//        }
-//    }
     
 }

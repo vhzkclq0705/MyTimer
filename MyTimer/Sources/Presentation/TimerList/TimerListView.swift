@@ -13,13 +13,25 @@ final class TimerListView: BaseView {
     
     // MARK: UI
     
-    lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
-        $0.backgroundColor = .clear
-        $0.separatorStyle = .none
-        
-        $0.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
-        $0.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
+    lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
+        let width = UIScreen.main.bounds.width
+        $0.itemSize = CGSize(width: width, height: 80)
+        $0.headerReferenceSize = CGSize(width: width, height: 25)
     }
+    
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {
+        $0.backgroundColor = .clear
+        $0.register(TimerListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TimerListHeaderView.id)
+        $0.register(TimerListCell.self, forCellWithReuseIdentifier: TimerListCell.id)
+    }
+    
+//    lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
+//        $0.backgroundColor = .clear
+//        $0.separatorStyle = .none
+//        
+//        $0.register(TimerListHeaderCell.self, forCellReuseIdentifier: TimerListHeaderCell.id)
+//        $0.register(TimerListCell.self, forCellReuseIdentifier: TimerListCell.id)
+//    }
 
     lazy var goalLabel = UILabel().then {
         $0.setLabelStyle(
@@ -74,7 +86,7 @@ final class TimerListView: BaseView {
             .forEach { controlView.addSubview($0) }
 
         [
-            tableView,
+            collectionView,
             menuButton,
             goalLabel,
             notimerLabel,
@@ -84,11 +96,10 @@ final class TimerListView: BaseView {
     }
 
     override func configureLayout() {
-
-        tableView.snp.makeConstraints {
+        collectionView.snp.makeConstraints {
             $0.top.equalTo(goalLabel.snp.bottom)
             $0.bottom.equalTo(safeAreaLayoutGuide).inset(20)
-            $0.left.right.equalToSuperview()
+            $0.left.right.equalToSuperview().inset(15)
         }
 
         goalLabel.snp.makeConstraints {

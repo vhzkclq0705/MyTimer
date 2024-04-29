@@ -70,7 +70,7 @@
 		76D9AE1E2843637400A2F5B9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76D9AE1C2843637400A2F5B9 /* LaunchScreen.storyboard */; };
 		76D9AE382843B16400A2F5B9 /* TimerListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE362843B16400A2F5B9 /* TimerListCell.swift */; };
 		76D9AE3B2843C69100A2F5B9 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */; };
-		76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */; };
+		76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderView.swift */; };
 		76D9AE3F2843C91A00A2F5B9 /* MyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D9AE3E2843C91A00A2F5B9 /* MyTimer.swift */; };
 		DEFA9523DAB1C051875ACCAB /* Pods_MyTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 440F088CC7FA7E29B462743C /* Pods_MyTimer.framework */; };
 /* End PBXBuildFile section */
@@ -144,7 +144,7 @@
 		76D9AE1F2843637400A2F5B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "MyTimer/Supporting files/Info.plist"; sourceTree = SOURCE_ROOT; };
 		76D9AE362843B16400A2F5B9 /* TimerListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListCell.swift; sourceTree = "<group>"; };
 		76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
-		76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListHeaderCell.swift; sourceTree = "<group>"; };
+		76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListHeaderView.swift; sourceTree = "<group>"; };
 		76D9AE3E2843C91A00A2F5B9 /* MyTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				76D9AE3A2843C69100A2F5B9 /* TimerViewModel.swift */,
-				76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderCell.swift */,
+				76D9AE3C2843C8B200A2F5B9 /* TimerListHeaderView.swift */,
 				76D9AE362843B16400A2F5B9 /* TimerListCell.swift */,
 				763EAD41287B1AB60019DC27 /* TimerListView.swift */,
 				76D9AE152843637200A2F5B9 /* TimerListViewController.swift */,
@@ -623,7 +623,7 @@
 				7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */,
 				769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */,
 				763EAD4D287B2FEC0019DC27 /* CompleteView.swift in Sources */,
-				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderCell.swift in Sources */,
+				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderView.swift in Sources */,
 				769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */,
 				765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */,
 				76553406284514B900C79484 /* Extension++UIButton.swift in Sources */,

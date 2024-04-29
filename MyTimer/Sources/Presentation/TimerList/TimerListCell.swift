@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Then
 
-/// Cell for timers of TableView
-final class TimerListCell: UITableViewCell {
+/// Cell for timers of CollectionView
+final class TimerListCell: UICollectionViewCell {
     
     // MARK:  UI
     
@@ -57,8 +57,8 @@ final class TimerListCell: UITableViewCell {
     
     // MARK: init
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         configureUI()
     }
     
@@ -75,7 +75,6 @@ final class TimerListCell: UITableViewCell {
     
     private func configureUI() {
         backgroundColor = .clear
-        selectionStyle = .none
         
         [
             titleLabel,

@@ -20,11 +20,13 @@ struct RxSection: Codable {
     
     var id: UUID
     var title: String
+    var isExpanded: Bool
     var items: [RxMyTimer]
     
     init(title: String, items: [RxMyTimer]) {
         self.id = UUID()
         self.title = title
+        self.isExpanded = false
         self.items = items
     }
     

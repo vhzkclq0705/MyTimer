@@ -60,17 +60,20 @@ final class TimerListViewController: BaseViewController {
     }
     
     private func setupBindings() {
-        let dataSource = RxTableViewSectionedReloadDataSource<RxSection>(
-            configureCell: { dataSource, tableView, indexPath, item in
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: TimerListHeaderCell.id) as? TimerListHeaderCell else {
-                    return UITableViewCell()
+        let dataSource = RxCollectionViewSectionedReloadDataSource<RxSection>(
+            configureCell: { dataSource, collectionView, indexPath, item in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
+                    return UICollectionViewCell()
                 }
-                cell.updateUI(text: item.title)
-                
                 return cell
             },
-            titleForHeaderInSection: { dataSource, index in
-                return dataSource.sectionModels[index].title
+            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimerListHeaderView.id, for: indexPath) as? TimerListHeaderView else {
+                    return UICollectionReusableView()
+                }
+                header.updateUI(text: dataSource.sectionModels[indexPath.section].title)
+                
+                return header
             }
         )
         
@@ -83,7 +86,7 @@ final class TimerListViewController: BaseViewController {
         let output = viewModel.transform(input: input)
         
         output.sections
-            .drive(timerListView.tableView.rx.items(dataSource: dataSource))
+            .drive(timerListView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         output.showButtons
