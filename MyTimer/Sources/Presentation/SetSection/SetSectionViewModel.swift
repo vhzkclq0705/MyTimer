@@ -1,37 +1,40 @@
 //
-//  AddSectionViewModel.swift
+//  SetSectionViewModel.swift
 //  MyTimer
 //
-//  Created by 권오준 on 2024-04-26.
+//  Created by 권오준 on 2024-04-29.
 //
 
 import Foundation
 import RxSwift
 import RxCocoa
 
-/// ViewModel for AddSectionViewController
-final class AddSectionViewModel: ViewModelType {
+/// ViewModel for SetSectionViewController
+final class SetSectionViewModel: ViewModelType {
     
-    // MARK: Properties
+    // Properties
     
     struct Input {
         let title: Observable<String>
         let okButtonTapEvent: Observable<Void>
-        let cancelButtonTapEvent: Observable<Void>
+        let calcelButtonTapEvent: Observable<Void>
     }
     
     struct Output {
         let titleLength: Driver<Int>
-        let createSection: Signal<Void>
+        let updateSection: Signal<Void>
         let dismissViewController: Signal<Void>
     }
     
     var disposeBag = DisposeBag()
+    private var id: UUID
     private var title = ""
     
     // MARK: Init
     
-    init() {}
+    init(id: UUID) {
+        self.id = id
+    }
     
     // MARK: Binding
     
@@ -48,22 +51,22 @@ final class AddSectionViewModel: ViewModelType {
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
         
-        let createSection = input.okButtonTapEvent
+        let updateSection = input.okButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
-        let dismissViewController = input.cancelButtonTapEvent
+        let dismissViewController = input.calcelButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
         return Output(
             titleLength: titleLength,
-            createSection: createSection,
+            updateSection: updateSection,
             dismissViewController: dismissViewController)
     }
     
-    // MARK: Create sections
+    // MARK: Update sections
     
-    func createSections() {
-        RxTimerManager.shared.addSection(title: title)
+    func updateSections() {
+        RxTimerManager.shared.updateSection(id: id, title: title)
     }
     
 }

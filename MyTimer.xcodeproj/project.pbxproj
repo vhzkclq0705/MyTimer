@@ -31,7 +31,7 @@
 		763EAD4D287B2FEC0019DC27 /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD4C287B2FEC0019DC27 /* CompleteView.swift */; };
 		763EAD51287B37B10019DC27 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD50287B37B10019DC27 /* CheckView.swift */; };
 		763EAD53287B3F450019DC27 /* DeleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD52287B3F450019DC27 /* DeleteVC.swift */; };
-		763EAD57287B47CB0019DC27 /* SetSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD56287B47CB0019DC27 /* SetSectionVC.swift */; };
+		763EAD57287B47CB0019DC27 /* SetSectionViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD56287B47CB0019DC27 /* SetSectionViewContoller.swift */; };
 		7646D50F2BD7ECDF0026E4E4 /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */; };
 		7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5102BD7F1CA0026E4E4 /* Storage.swift */; };
 		7646D5192BDA8AD50026E4E4 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */; };
@@ -39,6 +39,7 @@
 		7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */; };
 		7646D5202BDBA97D0026E4E4 /* MenuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */; };
 		7646D5222BDBA99C0026E4E4 /* ConfirmButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */; };
+		7646D5242BDF9E000026E4E4 /* SetSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5232BDF9E000026E4E4 /* SetSectionViewModel.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerVC.swift */; };
@@ -103,7 +104,7 @@
 		763EAD4C287B2FEC0019DC27 /* CompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteView.swift; sourceTree = "<group>"; };
 		763EAD50287B37B10019DC27 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		763EAD52287B3F450019DC27 /* DeleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteVC.swift; sourceTree = "<group>"; };
-		763EAD56287B47CB0019DC27 /* SetSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSectionVC.swift; sourceTree = "<group>"; };
+		763EAD56287B47CB0019DC27 /* SetSectionViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSectionViewContoller.swift; sourceTree = "<group>"; };
 		7646D50E2BD7ECDF0026E4E4 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		7646D5102BD7F1CA0026E4E4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		7646D5182BDA8AD50026E4E4 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +112,7 @@
 		7646D51C2BDB96180026E4E4 /* AddSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewModel.swift; sourceTree = "<group>"; };
 		7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
 		7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButtonStyle.swift; sourceTree = "<group>"; };
+		7646D5232BDF9E000026E4E4 /* SetSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSectionViewModel.swift; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerVC.swift; sourceTree = "<group>"; };
@@ -273,7 +275,8 @@
 		7646D5042BD7E57D0026E4E4 /* SetSection */ = {
 			isa = PBXGroup;
 			children = (
-				763EAD56287B47CB0019DC27 /* SetSectionVC.swift */,
+				7646D5232BDF9E000026E4E4 /* SetSectionViewModel.swift */,
+				763EAD56287B47CB0019DC27 /* SetSectionViewContoller.swift */,
 			);
 			path = SetSection;
 			sourceTree = "<group>";
@@ -605,7 +608,7 @@
 				76034393285E00950075F9E7 /* Extension++UIView.swift in Sources */,
 				76034391285DFDFE0075F9E7 /* Extension++UILabel.swift in Sources */,
 				762162982874A1870063A3AF /* SplashViewController.swift in Sources */,
-				763EAD57287B47CB0019DC27 /* SetSectionVC.swift in Sources */,
+				763EAD57287B47CB0019DC27 /* SetSectionViewContoller.swift in Sources */,
 				7603B5382849D51B0016B66C /* SetTimerVC.swift in Sources */,
 				7646D50F2BD7ECDF0026E4E4 /* ViewModelType.swift in Sources */,
 				76CC803A2844DE0A00683831 /* TimerManager.swift in Sources */,
@@ -619,6 +622,7 @@
 				763EAD46287B29100019DC27 /* AddSectionView.swift in Sources */,
 				7621628D287499E40063A3AF /* Extension++UIColor.swift in Sources */,
 				7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */,
+				7646D5242BDF9E000026E4E4 /* SetSectionViewModel.swift in Sources */,
 				7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */,
 				7603B53C2849EA170016B66C /* SetTimerViewModel.swift in Sources */,
 				769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */,
