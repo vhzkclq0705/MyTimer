@@ -21,10 +21,8 @@ final class AddTimerViewModel: ViewModelType {
     }
     
     struct Output {
-        let sectionTitles: Observable<[String]>
-        let minutes: Observable<[Int]>
-        let seconds: Observable<[Int]>
-        let timeUnits: Observable<[String]>
+        let minutes: Observable<[String]>
+        let seconds: Observable<[String]>
         let titleLength: Driver<Int>
         let createTimer: Signal<Void>
         let dismissViewController: Signal<Void>
@@ -36,6 +34,19 @@ final class AddTimerViewModel: ViewModelType {
     private var selectedMinute = 0
     private var selectedSecond = 0
     private var sectionTitles = [String]()
+    
+    // MARK: Init
+    
+    init() {
+        RxTimerManager.shared.getData()
+            .map { sections in
+                sections.map { $0.title }
+            }
+            .drive(with: self, onNext: { owner, titles in
+                owner.sectionTitles = titles
+            })
+            .disposed(by: disposeBag)
+    }
     
     // MARK: Binding
     
@@ -52,15 +63,8 @@ final class AddTimerViewModel: ViewModelType {
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
         
-        let sectionTitles = RxTimerManager.shared.getData()
-            .map { sections in
-                sections.map { $0.title }
-            }
-            .asObservable()
-        
         let times = Observable.just([Int](0...59))
-        
-        let timeUnits = Observable.just(["분", "초"])
+            .map { $0.map { String($0) } }
         
         let createTimer = input.okButtonTapEvent
             .asSignal(onErrorJustReturn: ())
@@ -69,10 +73,8 @@ final class AddTimerViewModel: ViewModelType {
             .asSignal(onErrorJustReturn: ())
         
         return Output(
-            sectionTitles: sectionTitles,
             minutes: times,
             seconds: times,
-            timeUnits: timeUnits,
             titleLength: titleLength,
             createTimer: createTimer,
             dismissViewController: dismissViewController)

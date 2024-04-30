@@ -40,6 +40,7 @@
 		7646D5202BDBA97D0026E4E4 /* MenuButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */; };
 		7646D5222BDBA99C0026E4E4 /* ConfirmButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */; };
 		7646D5242BDF9E000026E4E4 /* UpdateSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5232BDF9E000026E4E4 /* UpdateSectionViewModel.swift */; };
+		7646D5282BE0E5730026E4E4 /* Extension++String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5272BE0E5730026E4E4 /* Extension++String.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* AddTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */; };
 		765589202846239800DB4FC2 /* AddTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerViewController.swift */; };
@@ -113,6 +114,7 @@
 		7646D51F2BDBA97D0026E4E4 /* MenuButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButtonStyle.swift; sourceTree = "<group>"; };
 		7646D5212BDBA99C0026E4E4 /* ConfirmButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButtonStyle.swift; sourceTree = "<group>"; };
 		7646D5232BDF9E000026E4E4 /* UpdateSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSectionViewModel.swift; sourceTree = "<group>"; };
+		7646D5272BE0E5730026E4E4 /* Extension++String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++String.swift"; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* AddTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewModel.swift; sourceTree = "<group>"; };
 		7655891F2846239800DB4FC2 /* AddTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewController.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				76216299287561A50063A3AF /* Extension++UITextView.swift */,
 				76034392285E00950075F9E7 /* Extension++UIView.swift */,
 				762162A02875D67E0063A3AF /* Extension++UIViewController.swift */,
+				7646D5272BE0E5730026E4E4 /* Extension++String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderView.swift in Sources */,
 				769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */,
 				765589202846239800DB4FC2 /* AddTimerViewController.swift in Sources */,
+				7646D5282BE0E5730026E4E4 /* Extension++String.swift in Sources */,
 				76553406284514B900C79484 /* Extension++UIButton.swift in Sources */,
 				76D9AE382843B16400A2F5B9 /* TimerListCell.swift in Sources */,
 				763EAD44287B25530019DC27 /* DetailTimerView.swift in Sources */,

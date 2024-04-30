@@ -27,10 +27,10 @@ class SetTimerVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.loadSections()
-        setupDropDown()
-        setViewController()
-        setTimer()
-        initDropDown()
+//        setupDropDown()
+//        setViewController()
+//        setTimer()
+//        initDropDown()
     }
     
     // MARK: - Keyboard
@@ -39,98 +39,98 @@ class SetTimerVC: UIViewController {
     }
     
     // MARK: - Setup
-    func setViewController() {
-        setTimerView.pickerView.delegate = self
-        setTimerView.pickerView.dataSource = self
-        setTimerView.timerTextField.delegate = self
-        
-        setTimerView.sectionButton.addTarget(
-            self,
-            action: #selector(dropDownTapped(_:)),
-            for: .touchUpInside)
-        setTimerView.okButton.addTarget(
-            self,
-            action: #selector(okButtonTapped(_:)),
-            for: .touchUpInside)
-        setTimerView.cancleButton.addTarget(
-            self,
-            action: #selector(didTapCancleButton(_:)),
-            for: .touchUpInside)
-    }
-    
-    func initDropDown() {
-        let dropDownAppearance = DropDown.appearance()
-        dropDownAppearance.textColor = .darkGray
-        dropDownAppearance.selectedTextColor = .black
-        dropDownAppearance.backgroundColor = .white
-        dropDownAppearance.selectionBackgroundColor = .lightGray
-        dropDownAppearance.setupCornerRadius(5)
-        dropDown.dismissMode = .automatic
-    }
-    
-    func setupDropDown() {
-        dropDown.dataSource = viewModel.sectionTitles()
-        dropDown.anchorView = setTimerView.sectionView
-        dropDown.bottomOffset = CGPoint(x: 0, y: 40)
-        dropDown.selectionAction = { index, item in
-            self.viewModel.selectedSectionTitle = self.viewModel.sections[index].title
-            self.setTimerView.sectionTextField.text = item
-            self.setTimerView.sectionTextField.textColor = .black
-            self.setTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            self.setTimerView.alertSectionLabel.alpha = 0
-            self.setTimerView.sectionButton.isSelected = false
-        }
-        dropDown.cancelAction = {
-            self.setTimerView.sectionButton.isSelected = false
-        }
-    }
-    
-    // MARK: - Actions
-    func setTimer() {
-        viewModel.timer = timer
-        viewModel.sectionTitle = sectionTitle
-        viewModel.selectedSectionTitle = sectionTitle
-        setTimerView.sectionTextField.text = sectionTitle
-        setTimerView.sectionTextField.textColor = .black
-        setTimerView.timerTextField.text = timer.title
-        setTimerView.timerTextField.textColor = .black
-        
-        setTimerView.pickerView.selectRow(
-            timer.min,
-            inComponent: 0,
-            animated: true)
-        setTimerView.pickerView.selectRow(
-            timer.sec,
-            inComponent: 2,
-            animated: true)
-    }
-    
-    func checkTextField() {
-        guard let title = setTimerView.timerTextField.text,
-              title != "타이머 이름을 입력해주세요",
-              title.isEmpty == false else {
-            setTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
-            setTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
-            setTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            setTimerView.alertTimerLabel.alpha = 1
-            return
-        }
-        
-        viewModel.timerTitle = title
-        let updatedTimer = viewModel.checkSetting()
-        delegate?.updateTimer(section: updatedTimer.0, timer: updatedTimer.1)
-        
-        changeCompleteView(.setTimer)
-    }
-    
-    @objc func okButtonTapped(_ sender: UIButton) {
-        checkTextField()
-    }
-    
-    @objc func dropDownTapped(_ sender: UIButton) {
-        dropDown.show()
-        setTimerView.sectionButton.isSelected = !setTimerView.sectionButton.isSelected
-    }
+//    func setViewController() {
+//        setTimerView.pickerView.delegate = self
+//        setTimerView.pickerView.dataSource = self
+//        setTimerView.timerTextField.delegate = self
+//        
+//        setTimerView.sectionButton.addTarget(
+//            self,
+//            action: #selector(dropDownTapped(_:)),
+//            for: .touchUpInside)
+//        setTimerView.okButton.addTarget(
+//            self,
+//            action: #selector(okButtonTapped(_:)),
+//            for: .touchUpInside)
+//        setTimerView.cancleButton.addTarget(
+//            self,
+//            action: #selector(didTapCancleButton(_:)),
+//            for: .touchUpInside)
+//    }
+//    
+//    func initDropDown() {
+//        let dropDownAppearance = DropDown.appearance()
+//        dropDownAppearance.textColor = .darkGray
+//        dropDownAppearance.selectedTextColor = .black
+//        dropDownAppearance.backgroundColor = .white
+//        dropDownAppearance.selectionBackgroundColor = .lightGray
+//        dropDownAppearance.setupCornerRadius(5)
+//        dropDown.dismissMode = .automatic
+//    }
+//    
+//    func setupDropDown() {
+//        dropDown.dataSource = viewModel.sectionTitles()
+//        dropDown.anchorView = setTimerView.sectionView
+//        dropDown.bottomOffset = CGPoint(x: 0, y: 40)
+//        dropDown.selectionAction = { index, item in
+//            self.viewModel.selectedSectionTitle = self.viewModel.sections[index].title
+//            self.setTimerView.sectionTextField.text = item
+//            self.setTimerView.sectionTextField.textColor = .black
+//            self.setTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+//            self.setTimerView.alertSectionLabel.alpha = 0
+//            self.setTimerView.sectionButton.isSelected = false
+//        }
+//        dropDown.cancelAction = {
+//            self.setTimerView.sectionButton.isSelected = false
+//        }
+//    }
+//    
+//    // MARK: - Actions
+//    func setTimer() {
+//        viewModel.timer = timer
+//        viewModel.sectionTitle = sectionTitle
+//        viewModel.selectedSectionTitle = sectionTitle
+//        setTimerView.sectionTextField.text = sectionTitle
+//        setTimerView.sectionTextField.textColor = .black
+//        setTimerView.timerTextField.text = timer.title
+//        setTimerView.timerTextField.textColor = .black
+//        
+//        setTimerView.pickerView.selectRow(
+//            timer.min,
+//            inComponent: 0,
+//            animated: true)
+//        setTimerView.pickerView.selectRow(
+//            timer.sec,
+//            inComponent: 2,
+//            animated: true)
+//    }
+//    
+//    func checkTextField() {
+//        guard let title = setTimerView.timerTextField.text,
+//              title != "타이머 이름을 입력해주세요",
+//              title.isEmpty == false else {
+//            setTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
+//            setTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
+//            setTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+//            setTimerView.alertTimerLabel.alpha = 1
+//            return
+//        }
+//        
+//        viewModel.timerTitle = title
+//        let updatedTimer = viewModel.checkSetting()
+//        delegate?.updateTimer(section: updatedTimer.0, timer: updatedTimer.1)
+//        
+//        changeCompleteView(.setTimer)
+//    }
+//    
+//    @objc func okButtonTapped(_ sender: UIButton) {
+//        checkTextField()
+//    }
+//    
+//    @objc func dropDownTapped(_ sender: UIButton) {
+//        dropDown.show()
+//        setTimerView.sectionButton.isSelected = !setTimerView.sectionButton.isSelected
+//    }
 }
 
 // MARK: - PickerView

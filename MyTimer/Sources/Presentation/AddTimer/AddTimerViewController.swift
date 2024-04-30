@@ -18,6 +18,7 @@ final class AddTimerViewController: BaseViewController {
     private let addTimerView = AddORSetTimerView(frame: .zero, feature: .Add)
     private let viewModel: AddTimerViewModel
     private let dropDown = DropDown()
+    private let disposeBag = DisposeBag()
     
     // MARK: Init
     
@@ -38,8 +39,6 @@ final class AddTimerViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDropDown()
-        initDropDown()
     }
     
     // MARK: Configure
@@ -61,9 +60,49 @@ final class AddTimerViewController: BaseViewController {
             cancelButtonTapEvent: addTimerView.cancleButton.rx.tap.asObservable())
         
         let output = viewModel.transform(input: input)
-            
+
+        output.minutes
+            .bind(to: addTimerView.minPickerView.rx.items) { [weak self] _, item, view in
+                return self?.createCustomView(item) ?? UIView()
+            }
+            .disposed(by: disposeBag)
         
+        output.seconds
+            .bind(to: addTimerView.secPickerView.rx.items) { [weak self] _, item, view in
+                return self?.createCustomView(item) ?? UIView()
+            }
+            .disposed(by: disposeBag)
         
+        output.titleLength
+            .drive(with: self, onNext: { owner, length in
+                owner.addTimerView.validateText(length)
+            })
+            .disposed(by: disposeBag)
+        
+        output.createTimer
+            .emit(with: self, onNext: { owner, _ in
+                owner.viewModel.createTimers()
+                owner.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        output.dismissViewController
+            .emit(with: self, onNext: { owner, _ in
+                owner.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        addTimerView.timerTextField.rx.didBeginEditing
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.addTimerView.startEditingTextView()
+            })
+            .disposed(by: disposeBag)
+        
+        addTimerView.timerTextField.rx.didEndEditing
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.addTimerView.endEditingTextView()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setupDropDown() {
@@ -77,148 +116,27 @@ final class AddTimerViewController: BaseViewController {
         dropDown.dismissMode = .automatic
 //        dropDown.dataSource = viewModel.sections
         dropDown.anchorView = addTimerView.sectionView
-        dropDown.bottomOffset = CGPoint(x: 0, y: 40)
-        dropDown.selectionAction = { index, item in
-//            self.viewModel.section = index
-            self.addTimerView.sectionTextField.text = item
-            self.addTimerView.sectionTextField.textColor = .black
-            self.addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            self.addTimerView.alertSectionLabel.alpha = 0
-            self.addTimerView.sectionButton.isSelected = false
-        }
-        dropDown.cancelAction = {
-            self.addTimerView.sectionButton.isSelected = false
+        dropDown.bottomOffset = CGPoint(x: 0, y: 51)
+//        dropDown.selectionAction = { index, item in
+////            self.viewModel.section = index
+//            self.addTimerView.sectionTextField.text = item
+//            self.addTimerView.sectionTextField.textColor = .black
+//            self.addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+//            self.addTimerView.alertSectionLabel.alpha = 0
+//            self.addTimerView.sectionButton.isSelected = false
+//        }
+//        dropDown.cancelAction = {
+//            self.addTimerView.sectionButton.isSelected = false
+//        }
+    }
+    
+    // MARK: Helper Methods
+    
+    private func createCustomView(_ text: String) -> UILabel {
+        return UILabel().then {
+            $0.setLabelStyle(text: text, font: .bold, size: 30, color: .CustomColor(.purple4))
+            $0.textAlignment = .center
         }
     }
     
-    
-    
-    // MARK: - Setup
-//    func setViewController() {
-//        addTimerView.pickerView.delegate = self
-//        addTimerView.pickerView.dataSource = self
-//        addTimerView.timerTextField.delegate = self
-//        
-//        addTimerView.sectionButton.addTarget(
-//            self,
-//            action: #selector(dropDownTapped(_:)),
-//            for: .touchUpInside)
-//        addTimerView.okButton.addTarget(
-//            self,
-//            action: #selector(okButtonTapped(_:)),
-//            for: .touchUpInside)
-//        addTimerView.cancleButton.addTarget(
-//            self,
-//            action: #selector(didTapCancleButton(_:)),
-//            for: .touchUpInside)
-//    }
-    
-    func initDropDown() {
-        
-    }
-    
-    // MARK: - Actions
-//    func checkTextField() {
-//        guard let section = addTimerView.sectionTextField.text,
-//              section != "섹션을 선택해주세요",
-//              section.isEmpty == false else {
-//            addTimerView.sectionTextField.text = "섹션을 선택해주세요"
-//            addTimerView.sectionTextField.textColor = UIColor.CustomColor(.gray1)
-//            addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-//            addTimerView.alertSectionLabel.alpha = 1
-//            return
-//        }
-//        guard let title = addTimerView.timerTextField.text,
-//              title != "타이머 이름을 입력해주세요",
-//              title.isEmpty == false else {
-//            addTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
-//            addTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
-//            addTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-//            addTimerView.alertTimerLabel.alpha = 1
-//            return
-//        }
-//        
-//        viewModel.addTimer(title: title)
-//        
-//        changeCompleteView(.addTimer)
-//    }
-//    
-//    @objc func okButtonTapped(_ sender: UIButton) {
-//        checkTextField()
-//    }
-//    
-//    @objc func dropDownTapped(_ sender: UIButton) {
-//        dropDown.show()
-//        addTimerView.sectionButton.isSelected = !addTimerView.sectionButton.isSelected
-//    }
 }
-
-//// MARK: - PickerView
-//extension AddTimerVC: UIPickerViewDelegate,
-//                      UIPickerViewDataSource {
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return viewModel.numOfComponents
-//    }
-//    
-//    func pickerView(
-//        _ pickerView: UIPickerView,
-//        numberOfRowsInComponent component: Int)
-//    -> Int {
-//        return viewModel.numOfRows(component)
-//    }
-//    
-//    func pickerView(
-//        _ pickerView: UIPickerView,
-//        didSelectRow row: Int,
-//        inComponent component: Int) {
-//            viewModel.didSelectTime(row: row, component: component)
-//        }
-//    
-//    // PickerView item UI
-//    func pickerView(
-//        _ pickerView: UIPickerView,
-//        viewForRow row: Int,
-//        forComponent component: Int,
-//        reusing view: UIView?)
-//    -> UIView {
-//        pickerView.subviews.forEach {
-//            $0.backgroundColor = .clear
-//        }
-//        
-//        return viewModel.componentsLabel(row: row, component: component)
-//    }
-//}
-
-//// MARK: - TextView
-//extension AddTimerVC: UITextViewDelegate {
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        textView.text = ""
-//        textView.textColor = .black
-//    }
-//    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        if addTimerView.timerTextField.text == "" {
-//            addTimerView.timerTextField.text = "타이머 이름을 입력해주세요"
-//            addTimerView.timerTextField.textColor = UIColor.CustomColor(.gray1)
-//        } else {
-//            addTimerView.timerTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-//            addTimerView.alertTimerLabel.alpha = 0
-//        }
-//    }
-//
-//    func textView(
-//        _ textView: UITextView,
-//        shouldChangeTextIn range: NSRange,
-//        replacementText text: String)
-//    -> Bool {
-//        guard let term = addTimerView.timerTextField.text,
-//              let stringRange = Range(range, in: term) else {
-//            return false
-//        }
-//        let updatedText = term.replacingCharacters(
-//            in: stringRange,
-//            with: text)
-//        
-//        return updatedText.count <= 10
-//    }
-//}
