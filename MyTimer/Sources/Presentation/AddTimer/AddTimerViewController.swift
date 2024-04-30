@@ -9,6 +9,7 @@ import UIKit
 import DropDown
 import RxSwift
 import RxCocoa
+import RxGesture
 
 // ViewController for adding timers
 final class AddTimerViewController: BaseViewController {
@@ -83,9 +84,8 @@ final class AddTimerViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.createTimer
-            .emit(with: self, onNext: { owner, _ in
-                owner.viewModel.createTimers()
-                owner.dismiss(animated: true)
+            .emit(with: self, onNext: { owner, isValidated in
+                owner.createTimers(isValidated)
             })
             .disposed(by: disposeBag)
         
@@ -122,17 +122,33 @@ final class AddTimerViewController: BaseViewController {
         dropDown.dismissMode = .automatic
         dropDown.anchorView = addTimerView.sectionView
         dropDown.bottomOffset = CGPoint(x: 0, y: 51)
-//        dropDown.selectionAction = { index, item in
-////            self.viewModel.section = index
-//            self.addTimerView.sectionTextField.text = item
-//            self.addTimerView.sectionTextField.textColor = .black
-//            self.addTimerView.sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-//            self.addTimerView.alertSectionLabel.alpha = 0
-//            self.addTimerView.sectionButton.isSelected = false
-//        }
-//        dropDown.cancelAction = {
-//            self.addTimerView.sectionButton.isSelected = false
-//        }
+        dropDown.selectionAction = { [weak self] index, item in
+            self?.viewModel.updateSelectedSection(newValue: index)
+            self?.addTimerView.updateViewsAfterSelecting(item)
+        }
+        dropDown.cancelAction = { [weak self] in
+            self?.addTimerView.rotateArrowImage()
+        }
+        
+        addTimerView.sectionView.rx.tapGesture().when(.recognized)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.dropDown.show()
+                owner.addTimerView.rotateArrowImage()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: Create Timers
+    
+    private func createTimers(_ isValidated: (Bool, Bool)) {
+        if isValidated.0 && isValidated.1 {
+            viewModel.createTimers()
+            dismiss(animated: true)
+        } else {
+            if !isValidated.0 { addTimerView.displaySectionAlarm() }
+            if !isValidated.1 { addTimerView.displayTimerAlarm() }
+        }
     }
     
     // MARK: Helper Methods

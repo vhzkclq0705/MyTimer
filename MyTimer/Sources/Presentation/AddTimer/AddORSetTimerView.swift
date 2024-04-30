@@ -61,6 +61,7 @@ final class AddORSetTimerView: BaseView {
     private let placeholder = "타이머 이름을 입력해주세요."
     private let exceededAlarm = "타이머 이름은 최대 10자 입니다."
     private let sectionAlarm = "섹션을 선택해주세요."
+    private var isRotated = false
     
     // MARK: Init
     
@@ -194,6 +195,31 @@ final class AddORSetTimerView: BaseView {
     
     // MARK: Update UI
     
+    func updateViewsAfterSelecting(_ text: String) {
+        sectionTextField.text = text
+        sectionTextField.textColor = .black
+        sectionTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
+        alertSectionLabel.alpha = 0
+        rotateArrowImage()
+    }
+    
+    func rotateArrowImage() {
+        let angle = isRotated ? 0 : Double.pi
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.arrowImageView.transform = CGAffineTransform(rotationAngle: angle)
+        }
+        isRotated.toggle()
+    }
+    
+    func displaySectionAlarm() {
+        sectionTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+        alertSectionLabel.alpha = 1
+    }
+    
+    func displayTimerAlarm() {
+        timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
+        alertTimerLabel.alpha = 1
+    }
     
     // MARK: TextView Management
     
@@ -210,9 +236,6 @@ final class AddORSetTimerView: BaseView {
             }
             
             alertTimerLabel.text = length == 0 ? placeholder : exceededAlarm
-            alertTimerLabel.alpha = 1
-            timerTextField.layer.borderColor = UIColor.CustomColor(.red).cgColor
-            okButton.isUserInteractionEnabled = false
         }
     }
     

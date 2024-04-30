@@ -26,13 +26,15 @@ final class AddTimerViewModel: ViewModelType {
         let minutes: Observable<[String]>
         let seconds: Observable<[String]>
         let titleLength: Driver<Int>
-        let createTimer: Signal<Void>
+        let createTimer: Signal<(Bool, Bool)>
         let dismissViewController: Signal<Void>
     }
     
     var disposeBag = DisposeBag()
     private var title = ""
     private var selectedSection = 0
+    private var isSectionSelected = false
+    private var isTitleTyped = false
     private var selectedMinute = 0
     private var selectedSecond = 0
     private var sectionTitles = [String]()
@@ -56,8 +58,10 @@ final class AddTimerViewModel: ViewModelType {
         let inputTitle = input.title.share(replay: 1, scope: .whileConnected)
         
         inputTitle
+            .filter { $0 != "타이머 이름을 입력해주세요." }
             .subscribe(with: self, onNext: { owner, title in
                 owner.title = title
+                owner.isTitleTyped = true
             })
             .disposed(by: disposeBag)
         
@@ -81,7 +85,10 @@ final class AddTimerViewModel: ViewModelType {
             .map { $0.map { String($0) } }
         
         let createTimer = input.okButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+            .map { [weak self] in
+                (self?.isSectionSelected ?? false, self?.isTitleTyped ?? false)
+            }
+            .asSignal(onErrorJustReturn: (false, false))
         
         let dismissViewController = input.cancelButtonTapEvent
             .asSignal(onErrorJustReturn: ())
@@ -102,6 +109,7 @@ final class AddTimerViewModel: ViewModelType {
     
     func updateSelectedSection(newValue: Int) {
         selectedSection = newValue
+        isSectionSelected = true
     }
     
     // MARK: Create Timers
