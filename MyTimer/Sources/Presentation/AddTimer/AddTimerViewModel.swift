@@ -16,6 +16,8 @@ final class AddTimerViewModel: ViewModelType {
     
     struct Input {
         let title: Observable<String>
+        let minSelectEvent: Observable<(row: Int, component: Int)>
+        let secSelectEvent: Observable<(row: Int, component: Int)>
         let okButtonTapEvent: Observable<Void>
         let cancelButtonTapEvent: Observable<Void>
     }
@@ -59,6 +61,18 @@ final class AddTimerViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        input.minSelectEvent
+            .subscribe(with: self, onNext: { owner, item in
+                owner.selectedMinute = item.row
+            })
+            .disposed(by: disposeBag)
+        
+        input.secSelectEvent
+            .subscribe(with: self, onNext: { owner, item in
+                owner.selectedSecond = item.row
+            })
+            .disposed(by: disposeBag)
+        
         let titleLength = inputTitle
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
@@ -80,20 +94,20 @@ final class AddTimerViewModel: ViewModelType {
             dismissViewController: dismissViewController)
     }
     
+    func getTitles() -> [String] {
+        return sectionTitles
+    }
+    
     // MARK: Update Selected Items
     
     func updateSelectedSection(newValue: Int) {
         selectedSection = newValue
     }
     
-    func updateSelectedTimes() {
-        
-    }
-    
     // MARK: Create Timers
     
     func createTimers() {
-        
+        print("create!")
     }
     
 }

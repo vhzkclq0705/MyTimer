@@ -41,7 +41,7 @@ extension UIButton {
         backgroundColor = style.backgroundColor
         layer.maskedCorners = style.corner
         layer.cornerRadius = 5
-        isUserInteractionEnabled = false
+        isUserInteractionEnabled = style == .Cancel
     }
     
     func setSubViewOKButton() {

@@ -49,6 +49,7 @@ final class AddTimerViewController: BaseViewController {
     
     override func configureViewController() {
         setupBindings()
+        setupTextView()
         setupDropDown()
         view.backgroundColor = .black.withAlphaComponent(0.5)
     }
@@ -56,6 +57,8 @@ final class AddTimerViewController: BaseViewController {
     private func setupBindings() {
         let input = AddTimerViewModel.Input(
             title: addTimerView.timerTextField.rx.text.orEmpty.distinctUntilChanged().asObservable(),
+            minSelectEvent: addTimerView.minPickerView.rx.itemSelected.asObservable(),
+            secSelectEvent: addTimerView.secPickerView.rx.itemSelected.asObservable(),
             okButtonTapEvent: addTimerView.okButton.rx.tap.asObservable(),
             cancelButtonTapEvent: addTimerView.cancleButton.rx.tap.asObservable())
         
@@ -91,7 +94,9 @@ final class AddTimerViewController: BaseViewController {
                 owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
-        
+    }
+    
+    private func setupTextView() {
         addTimerView.timerTextField.rx.didBeginEditing
             .subscribe(with: self, onNext: { owner, _ in
                 owner.addTimerView.startEditingTextView()
@@ -113,8 +118,8 @@ final class AddTimerViewController: BaseViewController {
         dropDownAppearance.selectionBackgroundColor = .lightGray
         dropDownAppearance.setupCornerRadius(5)
         
+        dropDown.dataSource = viewModel.getTitles()
         dropDown.dismissMode = .automatic
-//        dropDown.dataSource = viewModel.sections
         dropDown.anchorView = addTimerView.sectionView
         dropDown.bottomOffset = CGPoint(x: 0, y: 51)
 //        dropDown.selectionAction = { index, item in
