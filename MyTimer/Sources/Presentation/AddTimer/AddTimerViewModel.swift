@@ -37,17 +37,17 @@ final class AddTimerViewModel: ViewModelType {
     private var isTitleTyped = false
     private var selectedMinute = 0
     private var selectedSecond = 0
-    private var sectionTitles = [String]()
+    private var sections = [(UUID, String)]()
     
     // MARK: Init
     
     init() {
         RxTimerManager.shared.getData()
             .map { sections in
-                sections.map { $0.title }
+                sections.map { ($0.id, $0.title) }
             }
-            .drive(with: self, onNext: { owner, titles in
-                owner.sectionTitles = titles
+            .drive(with: self, onNext: { owner, section in
+                owner.sections = section
             })
             .disposed(by: disposeBag)
     }
@@ -102,7 +102,7 @@ final class AddTimerViewModel: ViewModelType {
     }
     
     func getTitles() -> [String] {
-        return sectionTitles
+        return sections.map { $0.1 }
     }
     
     // MARK: Update Selected Items
@@ -115,7 +115,12 @@ final class AddTimerViewModel: ViewModelType {
     // MARK: Create Timers
     
     func createTimers() {
-        print("create!")
+        RxTimerManager.shared.addTimer(
+            id: sections[selectedSection].0,
+            title: title,
+            min: selectedMinute,
+            sec: selectedSecond
+        )
     }
     
 }
