@@ -63,6 +63,12 @@ final class TimerListViewController: BaseViewController {
             .do(onNext: { [weak self] sections in
                 self?.timerListView.displayNoTimerLabel(sections.isEmpty)
             })
+            .map { sections in
+                sections.map { section in
+                    let items = section.isExpanded ? section.items : []
+                    return RxSection(title: section.title, items: items)
+                }
+            }
             .drive(timerListView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -113,23 +119,9 @@ final class TimerListViewController: BaseViewController {
                 header.updateUI(text: section.title)
                 
                 header.expandButton.rx.tap
-                    .subscribe(with: header, onNext: { owner, _ in
-                        owner.flipExpandButton()
-                        section.isExpanded.toggle()
-                        
-                        let cnt = section.items.count
-                        let indexPaths = (0..<cnt).map { item in
-                            IndexPath(item: item, section: indexPath.section)
-                        }
-                        
-                        collectionView.performBatchUpdates({
-                            if section.isExpanded {
-                                collectionView.insertItems(at: indexPaths)
-                            } else {
-                                collectionView.deleteItems(at: indexPaths)
-                            }
-                        })
-                        
+                    .subscribe(with: self, onNext: { owner, _ in
+                        owner.viewModel.changeSectionState(index: indexPath.section)
+                        header.flipExpandButton()
                     }, onError: { _, error in
                         print(error)
                     })

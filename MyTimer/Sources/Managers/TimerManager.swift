@@ -145,6 +145,14 @@ final class RxTimerManager {
     
     // MARK: Section Management
     
+    func changeSectionExpandedState(index: Int) {
+        updateSectionsOfStorage { sections in
+            if let index = sections.firstIndex(where: { $0.id == storage.sections.value[index].id }) {
+                sections[index].isExpanded.toggle()
+            }
+        }
+    }
+    
     func addSection(title: String) {
         updateSectionsOfStorage { sections in
             sections.append(RxSection(title: title, items: []))

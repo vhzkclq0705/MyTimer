@@ -26,7 +26,7 @@ struct RxSection: Codable {
     init(title: String, items: [RxMyTimer]) {
         self.id = UUID()
         self.title = title
-        self.isExpanded = false
+        self.isExpanded = true
         self.items = items
     }
     

@@ -59,4 +59,8 @@ final class TimerListViewModel: ViewModelType {
             presentSettingsViewController: presentSettingsViewController)
     }
     
+    func changeSectionState(index: Int) {
+        RxTimerManager.shared.changeSectionExpandedState(index: index)
+    }
+    
 }
