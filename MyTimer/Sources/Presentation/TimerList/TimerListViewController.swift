@@ -154,7 +154,9 @@ final class TimerListViewController: BaseViewController {
         let vc = switch style {
         case .Section: 
             AddSectionViewController(viewModel: AddSectionViewModel())
-        default: 
+        case .Timer:
+            AddTimerViewController(viewModel: AddTimerViewModel())
+        default:
             UIViewController()
         }
         
