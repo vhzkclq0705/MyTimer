@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 // Model for timer
 struct MyTimer: Codable, Equatable {
@@ -16,7 +17,7 @@ struct MyTimer: Codable, Equatable {
 }
 
 /// Timer model
-struct RxMyTimer: Codable, Equatable {
+struct RxMyTimer {
     
     var id: UUID
     var title: String
@@ -28,6 +29,16 @@ struct RxMyTimer: Codable, Equatable {
         self.title = title
         self.min = min
         self.sec = sec
+    }
+    
+}
+
+extension RxMyTimer: Codable, Equatable, IdentifiableType {
+    
+    typealias Identity = UUID
+    
+    var identity: UUID {
+        return id
     }
     
 }

@@ -100,8 +100,13 @@ final class TimerListViewController: BaseViewController {
         .disposed(by: disposeBag)
     }
     
-    private func setupCollectionView() -> RxCollectionViewSectionedReloadDataSource<RxSection> {
-        return RxCollectionViewSectionedReloadDataSource<RxSection>(
+    private func setupCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<RxSection> {
+        return RxCollectionViewSectionedAnimatedDataSource<RxSection>(
+            animationConfiguration: AnimationConfiguration(
+                insertAnimation: .fade,
+                reloadAnimation: .fade,
+                deleteAnimation: .fade
+            ),
             configureCell: { dataSource, collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()

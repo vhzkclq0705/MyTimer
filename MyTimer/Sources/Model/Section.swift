@@ -16,7 +16,7 @@ struct Section: Codable, Equatable {
 }
 
 /// Section model
-struct RxSection: Codable {
+struct RxSection {
     
     var id: UUID
     var title: String
@@ -33,9 +33,14 @@ struct RxSection: Codable {
 }
 
 // RxDataSources
-extension RxSection: SectionModelType {
+extension RxSection: Codable, AnimatableSectionModelType {
  
+    typealias Identity = UUID
     typealias Item = RxMyTimer
+    
+    var identity: UUID {
+        return id
+    }
     
     init(original: RxSection, items: [Item]) {
         self = original
