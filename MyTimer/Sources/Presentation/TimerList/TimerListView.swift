@@ -24,7 +24,7 @@ final class TimerListView: BaseView {
     lazy var collectionViewFlowLayout = UICollectionViewFlowLayout().then {
         let width = UIScreen.main.bounds.width
         $0.itemSize = CGSize(width: width, height: 80)
-        $0.headerReferenceSize = CGSize(width: width, height: 25)
+        $0.headerReferenceSize = CGSize(width: width, height: 40)
     }
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout).then {

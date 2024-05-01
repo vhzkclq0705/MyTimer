@@ -63,12 +63,6 @@ final class TimerListViewController: BaseViewController {
             .do(onNext: { [weak self] sections in
                 self?.timerListView.displayNoTimerLabel(sections.isEmpty)
             })
-            .map { sections in
-                sections.map { section in
-                    let items = section.isExpanded ? section.items : []
-                    return RxSection(title: section.title, items: items)
-                }
-            }
             .drive(timerListView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -102,11 +96,6 @@ final class TimerListViewController: BaseViewController {
     
     private func setupCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<RxSection> {
         return RxCollectionViewSectionedAnimatedDataSource<RxSection>(
-            animationConfiguration: AnimationConfiguration(
-                insertAnimation: .fade,
-                reloadAnimation: .fade,
-                deleteAnimation: .fade
-            ),
             configureCell: { dataSource, collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
@@ -120,12 +109,12 @@ final class TimerListViewController: BaseViewController {
                 guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimerListHeaderView.id, for: indexPath) as? TimerListHeaderView else {
                     return UICollectionReusableView()
                 }
-                var section = dataSource.sectionModels[indexPath.section]
-                header.updateUI(text: section.title)
+                let section = dataSource.sectionModels[indexPath.section]
+                header.updateUI(text: section.title, isExpanded: section.isExpanded)
                 
                 header.expandButton.rx.tap
                     .subscribe(with: self, onNext: { owner, _ in
-                        owner.viewModel.changeSectionState(index: indexPath.section)
+                        owner.viewModel.changeSectionState(id: section.id)
                         header.flipExpandButton()
                     }, onError: { _, error in
                         print(error)

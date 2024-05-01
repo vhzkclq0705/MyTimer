@@ -39,6 +39,12 @@ final class TimerListViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let sections = RxTimerManager.shared.getData()
+            .map { sections in
+                sections.map { section in
+                    let items = section.isExpanded ? section.items : []
+                    return RxSection(id: section.id, title: section.title, items: items)
+                }
+            }
         
         let showButtons = input.menuButtonTapEvent
         
@@ -59,8 +65,8 @@ final class TimerListViewModel: ViewModelType {
             presentSettingsViewController: presentSettingsViewController)
     }
     
-    func changeSectionState(index: Int) {
-        RxTimerManager.shared.changeSectionExpandedState(index: index)
+    func changeSectionState(id: UUID) {
+        RxTimerManager.shared.changeSectionExpandedState(id: id)
     }
     
 }

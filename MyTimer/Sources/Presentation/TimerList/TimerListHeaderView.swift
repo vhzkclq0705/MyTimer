@@ -94,8 +94,9 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     // MARK: Update UI
     
-    func updateUI(text: String) {
+    func updateUI(text: String, isExpanded: Bool) {
         titleLabel.text = text
+        if isExpanded { flipExpandButton() }
     }
     
     func flipExpandButton() {

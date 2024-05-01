@@ -23,8 +23,8 @@ struct RxSection {
     var isExpanded: Bool
     var items: [RxMyTimer]
     
-    init(title: String, items: [RxMyTimer]) {
-        self.id = UUID()
+    init(id: UUID, title: String, items: [RxMyTimer]) {
+        self.id = id
         self.title = title
         self.isExpanded = true
         self.items = items

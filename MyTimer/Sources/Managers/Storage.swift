@@ -48,7 +48,7 @@ final class Storage: StorageProtocol {
         
         sections
             .subscribe(with: self, onNext: { owner, _ in
-                self.saveData()
+                owner.saveData()
             })
             .disposed(by: disposeBag)
     }

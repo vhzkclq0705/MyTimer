@@ -99,7 +99,7 @@ final class TimerListCell: UICollectionViewCell {
     
     private func configureLayout() {
         subView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview().inset(5)
             $0.left.right.equalToSuperview().inset(20)
         }
         
