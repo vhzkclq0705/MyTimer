@@ -60,7 +60,7 @@
 		769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */; };
 		769B521C284F9E6600C3E5A3 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521B284F9E6600C3E5A3 /* SettingsVC.swift */; };
 		769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */; };
-		76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC592849062800342295 /* DetailTimerVC.swift */; };
+		76B3DC5A2849062800342295 /* DetailTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC592849062800342295 /* DetailTimerViewController.swift */; };
 		76B3DC60284928CC00342295 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B3DC5F284928CC00342295 /* CircleProgressBar.swift */; };
 		76CC802E2844901100683831 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC802D2844901100683831 /* Section.swift */; };
 		76CC803A2844DE0A00683831 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76CC80392844DE0A00683831 /* TimerManager.swift */; };
@@ -134,7 +134,7 @@
 		769B5219284F9A3C00C3E5A3 /* AlarmSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSound.swift; sourceTree = "<group>"; };
 		769B521B284F9E6600C3E5A3 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		769B521F284FA43400C3E5A3 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		76B3DC592849062800342295 /* DetailTimerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerVC.swift; sourceTree = "<group>"; };
+		76B3DC592849062800342295 /* DetailTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerViewController.swift; sourceTree = "<group>"; };
 		76B3DC5F284928CC00342295 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		76CC802D2844901100683831 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		76CC80392844DE0A00683831 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 			children = (
 				7603B53D284A22830016B66C /* DetailTimerViewModel.swift */,
 				763EAD43287B25530019DC27 /* DetailTimerView.swift */,
-				76B3DC592849062800342295 /* DetailTimerVC.swift */,
+				76B3DC592849062800342295 /* DetailTimerViewController.swift */,
 			);
 			path = DetailTimer;
 			sourceTree = "<group>";
@@ -598,7 +598,7 @@
 				7646D5222BDBA99C0026E4E4 /* ConfirmButtonStyle.swift in Sources */,
 				7646D51D2BDB96180026E4E4 /* AddSectionViewModel.swift in Sources */,
 				762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */,
-				76B3DC5A2849062800342295 /* DetailTimerVC.swift in Sources */,
+				76B3DC5A2849062800342295 /* DetailTimerViewController.swift in Sources */,
 				763EAD42287B1AB60019DC27 /* TimerListView.swift in Sources */,
 				763EAD51287B37B10019DC27 /* CheckView.swift in Sources */,
 				769B521C284F9E6600C3E5A3 /* SettingsVC.swift in Sources */,

@@ -34,7 +34,7 @@ final class DetailTimerView: BaseView {
         $0.setImage(UIImage(named: "reset"), for: .normal)
     }
     
-    lazy var startButton = UIButton().then {
+    lazy var timerStateButton = UIButton().then {
         $0.setImage(UIImage(named: "play"), for: .normal)
         $0.setImage(UIImage(named: "pause"), for: .selected)
     }
@@ -43,9 +43,14 @@ final class DetailTimerView: BaseView {
         $0.setImage(UIImage(named: "arrowBack"), for: .normal)
     }
     
-    lazy var alertLabel = UILabel().then {
-        $0.setLabelStyle(text: "화면을 터치하세요!!", font: .bold, size: 40, color: .white)
-        $0.textAlignment = .center
+    lazy var bellButton = UIButton().then {
+        $0.setAttributedTitle(
+            NSAttributedString(
+                string: "화면을 터치하세요!!",
+                attributes: [ .font: UIFont(name: Font.bold.rawValue, size: 40)!,
+                              .foregroundColor: UIColor.white,
+                ]),
+            for: .normal)
         $0.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
         $0.isHidden = true
     }
@@ -76,10 +81,10 @@ final class DetailTimerView: BaseView {
             timerLabel,
             remainingTimeLabel,
             resetButton,
-            startButton,
+            timerStateButton,
             backButton,
             circleProgrssBar,
-            alertLabel,
+            bellButton,
             settingButton,
             deleteButton
         ]
@@ -92,7 +97,7 @@ final class DetailTimerView: BaseView {
             $0.centerX.equalToSuperview()
         }
         
-        alertLabel.snp.makeConstraints {
+        bellButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -120,7 +125,7 @@ final class DetailTimerView: BaseView {
             $0.left.equalToSuperview().offset(35)
         }
         
-        startButton.snp.makeConstraints {
+        timerStateButton.snp.makeConstraints {
             $0.centerY.equalTo(resetButton)
             $0.right.equalToSuperview().offset(-35)
         }
@@ -136,5 +141,49 @@ final class DetailTimerView: BaseView {
         }
     }
     
+    // MARK: Update UI
+    
+    func updateTitles(title: (String, String)) {
+        sectionLabel.text = title.0
+        timerLabel.text = title.1
+    }
+    
+    func updateRemainingTime(time: String) {
+        remainingTimeLabel.text = time
+    }
+    
+    func updateTimerState() {
+        timerStateButton.isSelected.toggle()
+    }
+    
+    func updateNotificationView(show: Bool) {
+        bellButton.isHidden = !show
+        shakeViews(show: show)
+    }
+    
+    // MARK: Helper Methods
+    
+    private func shakeViews(show: Bool) {
+        let angle = Double.pi / 24
+        
+        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse], animations: { [weak self] in
+            guard let self else { return }
+            [
+                self.circleProgrssBar,
+                self.remainingTimeLabel,
+                self.backButton,
+                self.timerStateButton,
+                self.resetButton,
+                self.settingButton,
+                self.deleteButton
+            ]
+                .forEach {
+                    show
+                    ? $0.transform = CGAffineTransform(rotationAngle: angle)
+                    : $0.layer.removeAllAnimations()
+                }
+                
+        })
+    }
     
 }

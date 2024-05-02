@@ -24,8 +24,8 @@ struct RxMyTimer {
     var min: Int
     var sec: Int
     
-    init(title: String, min: Int, sec: Int) {
-        self.id = UUID()
+    init(id: UUID, title: String, min: Int, sec: Int) {
+        self.id = id
         self.title = title
         self.min = min
         self.sec = sec
@@ -39,6 +39,17 @@ extension RxMyTimer: Codable, Equatable, IdentifiableType {
     
     var identity: UUID {
         return id
+    }
+    
+}
+
+
+extension RxMyTimer {
+    
+    mutating func updateTimer(title: String, min: Int, sec: Int) {
+        self.title = title
+        self.min = min
+        self.sec = sec
     }
     
 }

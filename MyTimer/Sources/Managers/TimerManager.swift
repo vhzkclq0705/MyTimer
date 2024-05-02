@@ -205,6 +205,10 @@ final class RxTimerManager {
         return storage.sections.asDriver(onErrorJustReturn: [])
     }
     
+    func getOneSection(id: UUID) -> RxSection? {
+        return storage.sections.value.first { $0.id == id }
+    }
+    
     // MARK: Hepler Methods
     
     private func updateSectionsOfStorage(_ updateCompletion: (inout [RxSection]) -> Void) {

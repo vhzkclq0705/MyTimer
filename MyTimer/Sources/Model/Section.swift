@@ -51,14 +51,18 @@ extension RxSection: Codable, AnimatableSectionModelType {
 
 extension RxSection {
     
+    func getOneTimer(id: UUID) -> RxMyTimer? {
+        return items.first { $0.id == id }
+    }
+    
     mutating func addTimer(title: String, min: Int, sec: Int) {
-        let timer = RxMyTimer(title: title, min: min, sec: sec)
+        let timer = RxMyTimer(id: UUID(), title: title, min: min, sec: sec)
         items.append(timer)
     }
     
     mutating func updateTimer(id: UUID, title: String, min: Int, sec: Int) {
         if let index = items.firstIndex(where: { $0.id == id }) {
-            items[index] = RxMyTimer(title: title, min: min, sec: sec)
+            items[index].updateTimer(title: title, min: min, sec: sec)
         }
     }
     
