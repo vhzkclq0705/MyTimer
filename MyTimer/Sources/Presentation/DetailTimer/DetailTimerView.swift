@@ -6,180 +6,94 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
-class DetailTimerView: UIView {
+final class DetailTimerView: BaseView {
     
-    // MARK: - UI
-    let circleProgrssBar = CircleProgressBar()
+    // MARK: UI
     
-    let sectionLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 20,
-            color: .black)
-        label.textAlignment = .center
-        
-        return label
-    }()
+    lazy var circleProgrssBar = CircleProgressBar()
     
-    let colon: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: " : ",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
+    lazy var sectionLabel = UILabel().then {
+        $0.setLabelStyle(text: "", font: .bold, size: 20, color: .black)
+        $0.textAlignment = .center
+    }
     
-    let remainingMinTime: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
+    lazy var remainingTimeLabel = UILabel().then {
+        $0.setLabelStyle(text: "", font: .bold, size: 60, color: .black)
+    }
     
-    let remainingSecTime: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 60,
-            color: .black)
-        
-        return label
-    }()
+    let timerLabel = UILabel().then {
+        $0.setLabelStyle(text: "", font: .bold, size: 25, color: .black)
+        $0.textAlignment = .center
+        $0.numberOfLines = 2
+    }
     
-    let timerLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "",
-            font: .bold,
-            size: 25,
-            color: .black)
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        
-        return label
-    }()
+    lazy var resetButton = UIButton().then {
+        $0.setImage(UIImage(named: "reset"), for: .normal)
+    }
     
-    lazy var resetButton: UIButton = {
-        let button = UIButton()
-        button.setImage(
-            UIImage(named: "reset"),
-            for: .normal)
-        
-        return button
-    }()
+    lazy var startButton = UIButton().then {
+        $0.setImage(UIImage(named: "play"), for: .normal)
+        $0.setImage(UIImage(named: "pause"), for: .selected)
+    }
     
-    lazy var startButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "play"), for: .normal)
-        button.setImage(UIImage(named: "pause"), for: .selected)
-        
-        return button
-    }()
+    lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(named: "arrowBack"), for: .normal)
+    }
     
-    lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "arrowBack"), for: .normal)
-        
-        return button
-    }()
+    lazy var alertLabel = UILabel().then {
+        $0.setLabelStyle(text: "화면을 터치하세요!!", font: .bold, size: 40, color: .white)
+        $0.textAlignment = .center
+        $0.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
+        $0.isHidden = true
+    }
     
-    let alertView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.5, alpha: 0.5)
-        view.isHidden = true
-        
-        return view
-    }()
+    lazy var settingButton = UIButton().then {
+        $0.setImage(UIImage(named: "settingFill"), for: .normal)
+    }
     
-    let alertLabel: UILabel = {
-        let label = UILabel()
-        label.setLabelStyle(
-            text: "화면을 터치하세요!!",
-            font: .bold,
-            size: 40,
-            color: .white)
-        
-        return label
-    }()
+    lazy var deleteButton = UIButton().then {
+        $0.setImage(UIImage(named: "delete"), for: .normal)
+    }
     
-    lazy var settingButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "settingFill"), for: .normal)
-        
-        return button
-    }()
+    // MARK: Init
     
-    lazy var deleteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "delete"), for: .normal)
-        
-        return button
-    }()
-    
-    let recognizeTapGesture = UITapGestureRecognizer()
-    
-    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        backgroundColor = .white
-        addViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        setLayout()
-    }
+    // MARK: Configure
     
-    // MARK: - Setup
-    func addViews() {
-        alertView.addGestureRecognizer(recognizeTapGesture)
-        alertView.addSubview(alertLabel)
-        
+    override func configureUI() {
         [
             sectionLabel,
             timerLabel,
-            remainingMinTime,
-            remainingSecTime,
-            colon,
+            remainingTimeLabel,
             resetButton,
             startButton,
             backButton,
             circleProgrssBar,
-            alertView,
+            alertLabel,
             settingButton,
-            deleteButton,
+            deleteButton
         ]
             .forEach { addSubview($0) }
     }
     
-    func setLayout() {
+    override func configureLayout() {
         circleProgrssBar.snp.makeConstraints {
             $0.centerY.equalToSuperview().offset(-100)
             $0.centerX.equalToSuperview()
         }
         
-        alertView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         alertLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-250)
+            $0.edges.equalToSuperview()
         }
         
         sectionLabel.snp.makeConstraints {
@@ -192,22 +106,12 @@ class DetailTimerView: UIView {
             $0.left.equalToSuperview().offset(16)
         }
         
-        colon.snp.makeConstraints {
+        remainingTimeLabel.snp.makeConstraints {
             $0.center.equalTo(circleProgrssBar)
         }
         
-        remainingMinTime.snp.makeConstraints {
-            $0.centerY.equalTo(colon)
-            $0.right.equalTo(colon.snp.left)
-        }
-        
-        remainingSecTime.snp.makeConstraints {
-            $0.centerY.equalTo(colon)
-            $0.left.equalTo(colon.snp.right)
-        }
-        
         timerLabel.snp.makeConstraints {
-            $0.top.equalTo(colon.snp.bottom).offset(165)
+            $0.top.equalTo(remainingTimeLabel.snp.bottom).offset(165)
             $0.centerX.equalToSuperview()
         }
         
@@ -231,4 +135,6 @@ class DetailTimerView: UIView {
             $0.right.equalTo(settingButton)
         }
     }
+    
+    
 }
