@@ -23,10 +23,10 @@ struct RxSection {
     var isExpanded: Bool
     var items: [RxMyTimer]
     
-    init(id: UUID, title: String, items: [RxMyTimer]) {
+    init(id: UUID, title: String, isExpanded: Bool, items: [RxMyTimer]) {
         self.id = id
         self.title = title
-        self.isExpanded = true
+        self.isExpanded = isExpanded
         self.items = items
     }
     

@@ -34,7 +34,6 @@ final class TimerListViewController: BaseViewController {
     // MARK: Life cycle
     
     override func loadView() {
-        super.loadView()
         view = timerListView
     }
     

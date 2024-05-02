@@ -42,7 +42,7 @@ final class TimerListViewModel: ViewModelType {
             .map { sections in
                 sections.map { section in
                     let items = section.isExpanded ? section.items : []
-                    return RxSection(id: section.id, title: section.title, items: items)
+                    return RxSection(id: section.id, title: section.title, isExpanded: section.isExpanded, items: items)
                 }
             }
         

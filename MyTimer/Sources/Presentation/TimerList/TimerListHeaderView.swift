@@ -25,6 +25,7 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     lazy var expandButton = UIButton().then {
         $0.setImage(UIImage(named: "arrowDown"), for: .normal)
+        $0.setImage(UIImage(named: "arrowUp"), for: .selected)
     }
     
     lazy var updateButton = UIButton().then {
@@ -35,7 +36,6 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     static let id = "timerListHeaderView"
     var disposeBag = DisposeBag()
-    private var isExpanded = false
     
     // MARK: Init
     
@@ -96,15 +96,11 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     func updateUI(text: String, isExpanded: Bool) {
         titleLabel.text = text
-        if isExpanded { flipExpandButton() }
+        expandButton.isSelected = isExpanded
     }
     
     func flipExpandButton() {
-        let angle = isExpanded ? 0 : Double.pi
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            self?.expandButton.transform = CGAffineTransform(rotationAngle: angle)
-        }
-        isExpanded.toggle()
+        expandButton.isSelected.toggle()
     }
     
 }

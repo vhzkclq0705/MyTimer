@@ -155,7 +155,7 @@ final class RxTimerManager {
     
     func addSection(title: String) {
         updateSectionsOfStorage { sections in
-            sections.append(RxSection(id: UUID(), title: title, items: []))
+            sections.append(RxSection(id: UUID(), title: title, isExpanded: true, items: []))
         }
     }
     
