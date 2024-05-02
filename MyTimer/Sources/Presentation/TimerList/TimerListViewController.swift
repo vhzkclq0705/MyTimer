@@ -99,8 +99,15 @@ final class TimerListViewController: BaseViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
                 }
-                let timer = dataSource.sectionModels[indexPath.section].items[indexPath.item]
+                let section = dataSource.sectionModels[indexPath.section]
+                let timer = section.items[indexPath.item]
                 cell.updateUI(timer: timer)
+                
+                cell.timerButton.rx.tap.asSignal()
+                    .emit(with: self, onNext: { owner, _ in
+                        owner.didTapTimerButtons(section.title, section.id, timer.id)
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             },
@@ -111,20 +118,16 @@ final class TimerListViewController: BaseViewController {
                 let section = dataSource.sectionModels[indexPath.section]
                 header.updateUI(text: section.title, isExpanded: section.isExpanded)
                 
-                header.expandButton.rx.tap
-                    .subscribe(with: self, onNext: { owner, _ in
+                header.expandButton.rx.tap.asSignal()
+                    .emit(with: self, onNext: { owner, _ in
                         owner.viewModel.changeSectionState(id: section.id)
                         header.flipExpandButton()
-                    }, onError: { _, error in
-                        print(error)
                     })
                     .disposed(by: header.disposeBag)
                 
-                header.updateButton.rx.tap
-                    .subscribe(with: self, onNext: { owner, _ in
+                header.updateButton.rx.tap.asSignal()
+                    .emit(with: self, onNext: { owner, _ in
                         owner.didTapUpdateSectionButtons(id: section.id)
-                    }, onError: { _, error  in
-                        print(error)
                     })
                     .disposed(by: header.disposeBag)
                 
@@ -150,6 +153,12 @@ final class TimerListViewController: BaseViewController {
     
     private func didTapUpdateSectionButtons(id: UUID) {
         let vc = UpdateSectionViewContoller(viewModel: UpdateSectionViewModel(id: id))
+        presentCustom(vc)
+    }
+    
+    private func didTapTimerButtons(_ title: String, _ sectionID: UUID, _ timerID: UUID) {
+        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
+        let vc = DetailTimerViewController(viewModel: viewModel)
         presentCustom(vc)
     }
 

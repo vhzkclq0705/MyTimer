@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
-import RxCocoa
 
 /// Cell for timers of CollectionView
 final class TimerListCell: UICollectionViewCell {
@@ -50,16 +49,11 @@ final class TimerListCell: UICollectionViewCell {
     static let id = "timerListCell"
     var disposeBag = DisposeBag()
     
-    // MARK: Button tap handler
-    
-    var timerButtonTapHandler = PublishRelay<Void>()
-    
     // MARK: init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        setupBindings()
     }
     
     override func prepareForReuse() {
@@ -77,12 +71,6 @@ final class TimerListCell: UICollectionViewCell {
     }
     
     // MARK: Configure
-    
-    private func setupBindings() {
-        timerButton.rx.tap
-            .bind(to: timerButtonTapHandler)
-            .disposed(by: disposeBag)
-    }
     
     private func configureUI() {
         backgroundColor = .clear
@@ -115,7 +103,8 @@ final class TimerListCell: UICollectionViewCell {
         
         timerButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().inset(20)
+            $0.right.equalToSuperview().inset(5)
+            $0.width.height.equalTo(subView.snp.height).multipliedBy(0.7)
         }
     }
     
@@ -125,7 +114,7 @@ final class TimerListCell: UICollectionViewCell {
         let mintoStr = String(format: "%02d", timer.min)
         let sectoStr = String(format: "%02d", timer.sec)
         titleLabel.text = timer.title
-        timeLabel.text = "\(mintoStr):\(sectoStr)"
+        timeLabel.text = "\(mintoStr) : \(sectoStr)"
     }
     
 }
