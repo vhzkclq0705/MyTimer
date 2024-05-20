@@ -77,13 +77,13 @@ final class DetailTimerView: BaseView {
     
     override func configureUI() {
         [
+            circleProgrssBar,
             sectionLabel,
             timerLabel,
             remainingTimeLabel,
             resetButton,
             timerStateButton,
             backButton,
-            circleProgrssBar,
             bellButton,
             settingButton,
             deleteButton
@@ -93,8 +93,9 @@ final class DetailTimerView: BaseView {
     
     override func configureLayout() {
         circleProgrssBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview().offset(-100)
-            $0.centerX.equalToSuperview()
+            $0.top.equalTo(sectionLabel.snp.bottom).offset(70)
+            $0.left.right.equalToSuperview().inset(30)
+            $0.height.equalTo(circleProgrssBar.snp.width)
         }
         
         bellButton.snp.makeConstraints {
@@ -142,6 +143,14 @@ final class DetailTimerView: BaseView {
     }
     
     // MARK: Update UI
+    
+    func setupProgressingAnimation(duration: TimeInterval) {
+        circleProgrssBar.setupProgressingAnimation(duration: duration)
+    }
+    
+    func setupProgressingLayers() {
+        circleProgrssBar.configureLayers()
+    }
     
     func updateTitles(title: (String, String)) {
         sectionLabel.text = title.0

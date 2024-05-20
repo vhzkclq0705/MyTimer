@@ -25,6 +25,7 @@ final class DetailTimerViewModel: ViewModelType {
     
     struct Output {
         let titles: Driver<(String, String)>
+        let initTime: Driver<Double>
         let remainingTimeText: Driver<String>
         let sendNotification: Signal<Void>
         let resetTimer: Signal<Void>
@@ -66,6 +67,10 @@ final class DetailTimerViewModel: ViewModelType {
     func transform(input: Input) -> Output {
         let titles = Driver.just((sectionTitle, myTimer.title))
         
+        let initTime = remainingTime
+            .take(1)
+            .asDriver(onErrorJustReturn: 0)
+        
         let remainingTimeText = remainingTime
             .map { time in
                 let min = String(format: "%02d", Int(time / 60))
@@ -99,6 +104,7 @@ final class DetailTimerViewModel: ViewModelType {
         
         return Output(
             titles: titles,
+            initTime: initTime,
             remainingTimeText: remainingTimeText,
             sendNotification: sendNotification,
             resetTimer: resetTimer,

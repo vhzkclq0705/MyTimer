@@ -46,6 +46,11 @@ final class DetailTimerViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        detailTimerView.setupProgressingLayers()
+    }
+    
     // MARK: Configure
     
     override func configureViewController() {
@@ -70,9 +75,15 @@ final class DetailTimerViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        output.initTime
+            .drive(with: self, onNext: { owner, time in
+                owner.detailTimerView.setupProgressingAnimation(duration: time)
+            })
+            .disposed(by: disposeBag)
+        
         output.remainingTimeText
-            .drive(with: self, onNext: { owner, _ in
-                
+            .drive(with: self, onNext: { owner, time in
+                owner.detailTimerView.updateRemainingTime(time: time)
             })
             .disposed(by: disposeBag)
         
@@ -96,7 +107,7 @@ final class DetailTimerViewController: BaseViewController {
         
         output.changeTimerState
             .emit(with: self, onNext: { owner, _ in
-                
+                owner.detailTimerView.updateTimerState()
             })
             .disposed(by: disposeBag)
         
@@ -114,7 +125,7 @@ final class DetailTimerViewController: BaseViewController {
         
         output.dismissViewController
             .emit(with: self, onNext: { owner, _ in
-                
+                owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
     }
