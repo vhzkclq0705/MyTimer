@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum ProgressingState {
+    case start
+    case reset
+}
+
 /// Circle Progress Bar for timers
 final class CircleProgressBar: BaseView {
     
@@ -14,6 +19,8 @@ final class CircleProgressBar: BaseView {
     
     private let circleLayer = CAShapeLayer()
     private let progressLayer = CAShapeLayer()
+    private var isFirstStart = true
+    private var isProgressing = false
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -68,29 +75,43 @@ final class CircleProgressBar: BaseView {
     
     // MARK: Progressing Methods
     
-    func startProgress() {
-        progressLayer.speed = 1
+    func changeProgressingState(state: ProgressingState) {
+        switch state {
+        case .start:
+            if isFirstStart {
+                start()
+                isProgressing = true
+                isFirstStart = false
+            } else {
+                isProgressing ? pause() : resume()
+                isProgressing.toggle()
+            }
+        case .reset: reset()
+        }
     }
     
-    func pauseLa(){
+    private func start() {
+        progressLayer.speed = 1
+        progressLayer.timeOffset = 0
+        progressLayer.beginTime = CACurrentMediaTime()
+    }
+    
+    private func pause() {
         let pauseTime = progressLayer.convertTime(CACurrentMediaTime(), from: nil)
         progressLayer.speed = 0
         progressLayer.timeOffset = pauseTime
     }
     
-    func resumeAnimation(){
+    private func resume() {
         let pauseTime = progressLayer.timeOffset
-        progressLayer.beginTime = 0
         progressLayer.speed = 1
-        
-        let timeSincePause = progressLayer.convertTime(
-            CACurrentMediaTime(),
-            from: nil) - pauseTime
-        
-        progressLayer.beginTime = timeSincePause
+        progressLayer.beginTime = CACurrentMediaTime() - pauseTime
     }
     
-    func reset() {
-        progressLayer.removeAnimation(forKey: "progressAnimation")
+    private func reset() {
+        progressLayer.speed = 0
+        progressLayer.beginTime = 0
+        progressLayer.timeOffset = 0
+        progressLayer.strokeEnd = 0
     }
 }

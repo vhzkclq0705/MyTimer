@@ -101,13 +101,13 @@ final class DetailTimerViewController: BaseViewController {
         
         output.resetTimer
             .emit(with: self, onNext: { owner, _ in
-                
+                owner.detailTimerView.changeProgressingState(state: .reset)
             })
             .disposed(by: disposeBag)
         
         output.changeTimerState
             .emit(with: self, onNext: { owner, _ in
-                owner.detailTimerView.updateTimerState()
+                owner.detailTimerView.changeProgressingState(state: .start)
             })
             .disposed(by: disposeBag)
         

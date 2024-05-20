@@ -144,14 +144,6 @@ final class DetailTimerView: BaseView {
     
     // MARK: Update UI
     
-    func setupProgressingAnimation(duration: TimeInterval) {
-        circleProgrssBar.setupProgressingAnimation(duration: duration)
-    }
-    
-    func setupProgressingLayers() {
-        circleProgrssBar.configureLayers()
-    }
-    
     func updateTitles(title: (String, String)) {
         sectionLabel.text = title.0
         timerLabel.text = title.1
@@ -161,13 +153,27 @@ final class DetailTimerView: BaseView {
         remainingTimeLabel.text = time
     }
     
-    func updateTimerState() {
-        timerStateButton.isSelected.toggle()
-    }
-    
     func updateNotificationView(show: Bool) {
         bellButton.isHidden = !show
         shakeViews(show: show)
+    }
+    
+    // MARK: ProgressBar
+    
+    func setupProgressingAnimation(duration: TimeInterval) {
+        circleProgrssBar.setupProgressingAnimation(duration: duration)
+    }
+    
+    func setupProgressingLayers() {
+        circleProgrssBar.configureLayers()
+    }
+    
+    func changeProgressingState(state: ProgressingState) {
+        switch state {
+        case .reset: timerStateButton.isSelected = false
+        default: timerStateButton.isSelected.toggle()
+        }
+        circleProgrssBar.changeProgressingState(state: state)
     }
     
     // MARK: Helper Methods
