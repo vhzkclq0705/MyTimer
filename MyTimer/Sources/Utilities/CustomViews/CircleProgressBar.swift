@@ -52,7 +52,7 @@ final class CircleProgressBar: BaseView {
     
     func configureLayers() {
         setupLayers(layer: circleLayer, color: .gray1, end: 1)
-        setupLayers(layer: progressLayer, color: .purple5, end: 0)
+        setupLayers(layer: progressLayer, color: .purple2, end: 0)
     }
     
     private func setupLayers(layer: CAShapeLayer, color: Colors, end: CGFloat) {
@@ -105,10 +105,13 @@ final class CircleProgressBar: BaseView {
     private func resume() {
         let pauseTime = progressLayer.timeOffset
         progressLayer.speed = 1
+        progressLayer.timeOffset = 0
         progressLayer.beginTime = CACurrentMediaTime() - pauseTime
     }
     
     private func reset() {
+        isFirstStart = true
+        isProgressing = false
         progressLayer.speed = 0
         progressLayer.beginTime = 0
         progressLayer.timeOffset = 0
