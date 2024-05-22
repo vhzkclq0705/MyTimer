@@ -42,8 +42,10 @@ final class DetailTimerViewModel: ViewModelType {
     private let sectionID: UUID
     private let myTimerID: UUID
     private let myTimer: RxMyTimer
-    private var remainingTime: Observable<Double>
+    private let initialTime: Double
+    private var remainingTime = BehaviorSubject<Double>(value: 0)
     private var timer: Disposable?
+    private var isProgressing = false
     
     // MARK: Init
     
@@ -54,12 +56,13 @@ final class DetailTimerViewModel: ViewModelType {
         
         if let myTimer = RxTimerManager.shared.getOneSection(id: sectionID)?.getOneTimer(id: timerID) {
             self.myTimer = myTimer
-            self.remainingTime = Observable
-                .just(Double(myTimer.min * 60 + myTimer.sec))
-                .share()
+            self.initialTime = Double(myTimer.min * 60 + myTimer.sec)
         } else {
             fatalError("Timer not found.")
         }
+        
+        setupNotificationCenterBindings()
+        initRemainingTime()
     }
     
     // MARK: Binding
@@ -72,7 +75,7 @@ final class DetailTimerViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: 0)
         
         let remainingTimeText = remainingTime
-            .map { time in
+            .map { time -> String in
                 let min = String(format: "%02d", Int(time / 60))
                 let sec = String(format: "%02d", Int(time.truncatingRemainder(dividingBy: 60)))
                 return "\(min) : \(sec)"
@@ -81,13 +84,28 @@ final class DetailTimerViewModel: ViewModelType {
         
         let sendNotification = remainingTime
             .filter { $0 <= 0 }
-            .map { _ in }
+            .flatMap { [weak self] _ -> Signal<Void> in
+                guard let self = self else { return .empty() }
+                self.pauseTimer()
+                return .just(())
+            }
             .asSignal(onErrorJustReturn: ())
         
         let resetTimer = input.resetButtonTapEvent
+            .flatMap { [weak self] _ -> Signal<Void> in
+                guard let self = self else { return .empty() }
+                self.pauseTimer()
+                self.initRemainingTime()
+                return .just(())
+            }
             .asSignal(onErrorJustReturn: ())
         
         let changeTimerState = input.timerStateButtonTapEvent
+            .flatMap { [weak self] _ -> Signal<Void> in
+                guard let self = self else { return .empty() }
+                self.isProgressing ? self.pauseTimer() : self.startTimer()
+                return .just(())
+            }
             .asSignal(onErrorJustReturn: ())
         
         let presentSettingsViewController = input.settingsButtonTapEvent
@@ -95,7 +113,7 @@ final class DetailTimerViewModel: ViewModelType {
         
         let deleteTimer = input.deleteButtonTapEvent
             .asSignal(onErrorJustReturn: ())
-        
+            
         let removeAlarm = input.bellButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
@@ -114,6 +132,68 @@ final class DetailTimerViewModel: ViewModelType {
             removeAlarm: removeAlarm,
             dismissViewController: dismissViewController)
     }
+    
+    private func setupNotificationCenterBindings() {
+        NotificationCenter.default.rx.notification(UIApplication.willResignActiveNotification)
+            .asDriver(onErrorJustReturn: Notification(name: UIApplication.willResignActiveNotification))
+            .drive(with: self, onNext: { owner, _ in
+                owner.movedToBackground()
+            })
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+            .asDriver(onErrorJustReturn: Notification(name: UIApplication.didBecomeActiveNotification))
+            .drive(with: self, onNext: { owner, _ in
+                owner.movedToForeground()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: Timer Actions
+    
+    private func startTimer() {
+        isProgressing = true
+        timer = Observable<Int>
+            .interval(.milliseconds(100), scheduler: MainScheduler.instance)
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.remainingTime
+                    .take(1)
+                    .subscribe(onNext: { time in
+                        owner.remainingTime.onNext(time - 0.1)
+                        print(time)
+                    })
+                    .disposed(by: owner.disposeBag)
+            })
+    }
+    
+    private func pauseTimer() {
+        isProgressing = false
+        timer?.dispose()
+    }
+    
+    // MARK: Notification Actions
+    
+    private func movedToBackground() {
+        print("Background")
+    }
+    
+    private func movedToForeground() {
+        print("Foreground")
+    }
+    
+    // MARK: Delete Timers
+    
+    func deleteTimers() {
+        
+    }
+    
+    // MARK: Helper Methods
+    
+    private func initRemainingTime() {
+        remainingTime.onNext(initialTime)
+    }
+    
+    
     
 //    var time: Double!
 //    var myTimer: MyTimer!

@@ -95,19 +95,20 @@ final class DetailTimerViewController: BaseViewController {
         
         output.removeAlarm
             .emit(with: self, onNext: { owner, _ in
-                
+                owner.changeProgressingState(state: .reset)
+                owner.detailTimerView.removeNotificationView()
             })
             .disposed(by: disposeBag)
         
         output.resetTimer
             .emit(with: self, onNext: { owner, _ in
-                owner.detailTimerView.changeProgressingState(state: .reset)
+                owner.changeProgressingState(state: .reset)
             })
             .disposed(by: disposeBag)
         
         output.changeTimerState
             .emit(with: self, onNext: { owner, _ in
-                owner.detailTimerView.changeProgressingState(state: .start)
+                owner.changeProgressingState(state: .start)
             })
             .disposed(by: disposeBag)
         
@@ -119,7 +120,7 @@ final class DetailTimerViewController: BaseViewController {
         
         output.deleteTimer
             .emit(with: self, onNext: { owner, _ in
-                
+                owner.viewModel.deleteTimers()
             })
             .disposed(by: disposeBag)
         
@@ -128,6 +129,12 @@ final class DetailTimerViewController: BaseViewController {
                 owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: Helper Methods
+    
+    private func changeProgressingState(state: ProgressingState) {
+        detailTimerView.changeProgressingState(state: state)
     }
     
     //    func setViewController() {
@@ -243,13 +250,13 @@ final class DetailTimerViewController: BaseViewController {
     //    }
     
     //    // MARK: - Push notification
-    //    func timerNotification() {
-    //        let notificationCenter = NotificationCenter.default
-    //        // Notification when moving to background state.
-    //        notificationCenter.addObserver(self, selector: #selector(movedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
-    //        // Notification when moving to foreground state.
-    //        notificationCenter.addObserver(self, selector: #selector(movedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    //    }
+//        func timerNotification() {
+//            let notificationCenter = NotificationCenter.default
+//            // Notification when moving to background state.
+//            notificationCenter.addObserver(self, selector: #selector(movedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+//            // Notification when moving to foreground state.
+//            notificationCenter.addObserver(self, selector: #selector(movedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+//        }
     //
     //    func pushNotification() {
     //        let notiContent = UNMutableNotificationContent()

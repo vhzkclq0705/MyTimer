@@ -158,6 +158,11 @@ final class DetailTimerView: BaseView {
         shakeViews(show: show)
     }
     
+    func removeNotificationView() {
+        updateNotificationView(show: false)
+        timerStateButton.isSelected = false
+    }
+    
     // MARK: ProgressBar
     
     func setupProgressingAnimation(duration: TimeInterval) {
