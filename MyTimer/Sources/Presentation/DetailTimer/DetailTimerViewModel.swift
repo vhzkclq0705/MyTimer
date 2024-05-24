@@ -45,6 +45,7 @@ final class DetailTimerViewModel: ViewModelType {
     private let initialTime: Double
     private var remainingTime = BehaviorSubject<Double>(value: 0)
     private var timer: Disposable?
+    private var timeInBackground: Date?
     private var isProgressing = false
     
     // MARK: Init
@@ -76,6 +77,7 @@ final class DetailTimerViewModel: ViewModelType {
         
         let remainingTimeText = remainingTime
             .map { time -> String in
+                let time = max(time, 0)
                 let min = String(format: "%02d", Int(time / 60))
                 let sec = String(format: "%02d", Int(time.truncatingRemainder(dividingBy: 60)))
                 return "\(min) : \(sec)"
@@ -119,6 +121,7 @@ final class DetailTimerViewModel: ViewModelType {
         NotificationCenter.default.rx.notification(UIApplication.willResignActiveNotification)
             .asDriver(onErrorJustReturn: Notification(name: UIApplication.willResignActiveNotification))
             .drive(with: self, onNext: { owner, _ in
+                print("resign")
                 owner.movedToBackground()
             })
             .disposed(by: disposeBag)
@@ -126,6 +129,7 @@ final class DetailTimerViewModel: ViewModelType {
         NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
             .asDriver(onErrorJustReturn: Notification(name: UIApplication.didBecomeActiveNotification))
             .drive(with: self, onNext: { owner, _ in
+                print("active")
                 owner.movedToForeground()
             })
             .disposed(by: disposeBag)
@@ -135,6 +139,7 @@ final class DetailTimerViewModel: ViewModelType {
     
     private func startTimer() {
         isProgressing = true
+        createPushNotification()
         timer = Observable<Int>
             .interval(.milliseconds(100), scheduler: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, _ in
@@ -164,11 +169,43 @@ final class DetailTimerViewModel: ViewModelType {
     // MARK: Notification Actions
     
     private func movedToBackground() {
-        print("Background")
+        if isProgressing {
+            timeInBackground = Date()
+            pauseTimer()
+        }
     }
     
     private func movedToForeground() {
-        print("Foreground")
+        guard let timeInBackground = timeInBackground,
+              let time = try? remainingTime.value() else {
+            return
+        }
+        let elapsedTime = Date().timeIntervalSince(timeInBackground)
+        
+        remainingTime.onNext(time - elapsedTime)
+        startTimer()
+        
+        self.timeInBackground = nil
+    }
+    
+    private func createPushNotification() {
+        let notiContent = UNMutableNotificationContent()
+        notiContent.title = myTimer.title
+        notiContent.body = "시간이 되었습니다!!"
+        notiContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(alarmSound).mp3"))
+        
+        remainingTime
+            .take(1)
+            .filter { $0 > 0 }
+            .subscribe(onNext: { timeInterval in
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
+                let request = UNNotificationRequest(identifier: "Push", content: notiContent, trigger: trigger)
+                
+                UNUserNotificationCenter.current().add(request) { error in
+                    if let error = error { print(error) }
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Delete Timers
@@ -181,8 +218,7 @@ final class DetailTimerViewModel: ViewModelType {
     
     private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
         return event
-            .do(onNext: { [weak self] in
-                guard let self = self else { return }
+            .do(onNext: {
                 action()
             })
             .asSignal(onErrorJustReturn: ())

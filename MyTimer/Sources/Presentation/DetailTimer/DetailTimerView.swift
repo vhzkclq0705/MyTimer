@@ -184,26 +184,31 @@ final class DetailTimerView: BaseView {
     // MARK: Helper Methods
     
     private func shakeViews(show: Bool) {
-        let angle = Double.pi / 24
-        
-        UIView.animate(withDuration: 0.01, delay: 0, options: [.repeat, .autoreverse], animations: { [weak self] in
-            guard let self else { return }
-            [
-                self.circleProgrssBar,
-                self.remainingTimeLabel,
-                self.backButton,
-                self.timerStateButton,
-                self.resetButton,
-                self.settingButton,
-                self.deleteButton
-            ]
-                .forEach {
-                    show
-                    ? $0.transform = CGAffineTransform(rotationAngle: angle)
-                    : $0.layer.removeAllAnimations()
-                }
-                
-        })
+        if show {
+            UIView.animate(withDuration: 0.01, delay: 0.0, options: [.autoreverse, .repeat]) { [weak self] in
+                self?.applyRotation(show: show)
+            }
+        } else {
+            applyRotation(show: show)
+        }
     }
+    
+    private func applyRotation(show: Bool) {
+        [
+            sectionLabel,
+            remainingTimeLabel,
+            backButton,
+            timerStateButton,
+            resetButton,
+            settingButton,
+            deleteButton,
+            timerLabel
+        ]
+            .forEach {
+                $0.transform = CGAffineTransform(rotationAngle: show ? Double.pi / 24 : 0)
+                if !show { $0.layer.removeAllAnimations() }
+            }
+    }
+
     
 }
