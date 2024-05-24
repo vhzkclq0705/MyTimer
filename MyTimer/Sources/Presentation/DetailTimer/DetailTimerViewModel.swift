@@ -82,39 +82,21 @@ final class DetailTimerViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: "00 : 00")
         
-        let sendNotification = remainingTime
-            .filter { $0 <= 0 }
-            .flatMap { [weak self] _ -> Signal<Void> in
-                guard let self = self else { return .empty() }
-                self.pauseTimer()
-                return .just(())
-            }
-            .asSignal(onErrorJustReturn: ())
+        let sendNotification = handleEvents(
+            remainingTime
+                .filter { $0 <= 0 }
+                .map { _ in () },
+            action: pauseTimer)
         
-        let resetTimer = input.resetButtonTapEvent
-            .flatMap { [weak self] _ -> Signal<Void> in
-                guard let self = self else { return .empty() }
-                self.pauseTimer()
-                self.initRemainingTime()
-                return .just(())
-            }
-            .asSignal(onErrorJustReturn: ())
+        let resetTimer = handleEvents(input.resetButtonTapEvent, action: initRemainingTime)
         
-        let changeTimerState = input.timerStateButtonTapEvent
-            .flatMap { [weak self] _ -> Signal<Void> in
-                guard let self = self else { return .empty() }
-                self.isProgressing ? self.pauseTimer() : self.startTimer()
-                return .just(())
-            }
-            .asSignal(onErrorJustReturn: ())
+        let changeTimerState = handleEvents(input.timerStateButtonTapEvent, action: toggleTimerState)
+        
+        let removeAlarm = handleEvents(input.bellButtonTapEvent, action: initRemainingTime)
+        
+        let deleteTimer = handleEvents(input.deleteButtonTapEvent, action: deleteTimers)
         
         let presentSettingsViewController = input.settingsButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
-        
-        let deleteTimer = input.deleteButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
-            
-        let removeAlarm = input.bellButtonTapEvent
             .asSignal(onErrorJustReturn: ())
         
         let dismissViewController = input.backButtonTapEvent
@@ -160,7 +142,6 @@ final class DetailTimerViewModel: ViewModelType {
                     .take(1)
                     .subscribe(onNext: { time in
                         owner.remainingTime.onNext(time - 0.1)
-                        print(time)
                     })
                     .disposed(by: owner.disposeBag)
             })
@@ -169,6 +150,15 @@ final class DetailTimerViewModel: ViewModelType {
     private func pauseTimer() {
         isProgressing = false
         timer?.dispose()
+    }
+    
+    private func initRemainingTime() {
+        pauseTimer()
+        remainingTime.onNext(initialTime)
+    }
+    
+    private func toggleTimerState() {
+        isProgressing ? pauseTimer() : startTimer()
     }
     
     // MARK: Notification Actions
@@ -183,69 +173,19 @@ final class DetailTimerViewModel: ViewModelType {
     
     // MARK: Delete Timers
     
-    func deleteTimers() {
+    private func deleteTimers() {
         
     }
     
     // MARK: Helper Methods
     
-    private func initRemainingTime() {
-        remainingTime.onNext(initialTime)
+    private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
+        return event
+            .do(onNext: { [weak self] in
+                guard let self = self else { return }
+                action()
+            })
+            .asSignal(onErrorJustReturn: ())
     }
-    
-    
-    
-//    var time: Double!
-//    var myTimer: MyTimer!
-//    var section: String!
-//    
-//    // MARK: - UI
-//    var sectionTitle: String {
-//        return section
-//    }
-//    
-//    var title: String {
-//        return myTimer.title
-//    }
-//    
-//    var remainingTime: Double {
-//        return time
-//    }
-//    
-//    var min: String {
-//        return String(format: "%02d", Int(time / 60))
-//    }
-//    
-//    var sec: String {
-//        return String(
-//            format: "%02d",
-//            Int(time.truncatingRemainder(dividingBy: 60)))
-//    }
-//    
-//    // MARK: - Timer
-//    func initTime(){
-//        time = Double(myTimer.min * 60 + myTimer.sec)
-//    }
-//    
-//    func updateCounter() {
-//        time -= 0.1
-//    }
-//    
-//    func finish() {
-//        time = 0
-//    }
-//    
-//    func timeIntervalInBackground(_ interval: Double) {
-//        time -= (interval * 100).rounded() / 100
-//        if time < 0 {
-//            time = 0
-//        }
-//    }
-//    
-//    // MARK: - Load
-//    func loadTimer(sectionTitle: String, myTimer: MyTimer) {
-//        self.section = sectionTitle
-//        self.myTimer = myTimer
-//        initTime()
-//    }
+
 }
