@@ -210,7 +210,6 @@ final class DetailTimerViewModel: ViewModelType {
                 let request = UNNotificationRequest(identifier: self.notificationID, content: notiContent, trigger: trigger)
                 
                 self.notificationCenter.add(request) { error in
-                    print("add")
                     if let error = error { print(error) }
                 }
             })
@@ -220,7 +219,7 @@ final class DetailTimerViewModel: ViewModelType {
     // MARK: Delete Timers
     
     private func deleteTimers() {
-        
+        RxTimerManager.shared.deleteTimer(sectionID: sectionID, timerID: myTimerID)
     }
     
     // MARK: Helper Methods
