@@ -43,6 +43,8 @@ final class DetailTimerViewModel: ViewModelType {
     private let myTimerID: UUID
     private let myTimer: RxMyTimer
     private let initialTime: Double
+    private let notificationID = "Push"
+    private let notificationCenter = UNUserNotificationCenter.current()
     private var remainingTime = BehaviorSubject<Double>(value: 0)
     private var timer: Disposable?
     private var timeInBackground: Date?
@@ -163,7 +165,12 @@ final class DetailTimerViewModel: ViewModelType {
     }
     
     private func toggleTimerState() {
-        isProgressing ? pauseTimer() : startTimer()
+        if isProgressing {
+            pauseTimer()
+            notificationCenter.removePendingNotificationRequests(withIdentifiers: [notificationID])
+        } else {
+            startTimer()
+        }
     }
     
     // MARK: Notification Actions
@@ -197,11 +204,13 @@ final class DetailTimerViewModel: ViewModelType {
         remainingTime
             .take(1)
             .filter { $0 > 0 }
-            .subscribe(onNext: { timeInterval in
+            .subscribe(onNext: { [weak self] timeInterval in
+                guard let self = self else { return }
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-                let request = UNNotificationRequest(identifier: "Push", content: notiContent, trigger: trigger)
+                let request = UNNotificationRequest(identifier: self.notificationID, content: notiContent, trigger: trigger)
                 
-                UNUserNotificationCenter.current().add(request) { error in
+                self.notificationCenter.add(request) { error in
+                    print("add")
                     if let error = error { print(error) }
                 }
             })
