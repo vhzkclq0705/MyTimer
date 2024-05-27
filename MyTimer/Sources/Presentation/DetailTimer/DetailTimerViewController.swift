@@ -64,32 +64,31 @@ final class DetailTimerViewController: BaseViewController {
         
         output.titles
             .drive(with: self, onNext: { owner, title in
-                owner.detailTimerView.updateTitles(title: title)
+                owner.updateTitles(title: title)
             })
             .disposed(by: disposeBag)
         
         output.initTime
             .drive(with: self, onNext: { owner, time in
-                owner.detailTimerView.setupProgressingAnimation(duration: time)
+                owner.setupProgressingAnimation(duration: time)
             })
             .disposed(by: disposeBag)
         
         output.remainingTimeText
             .drive(with: self, onNext: { owner, time in
-                owner.detailTimerView.updateRemainingTime(time: time)
+                owner.updateRemainingTime(time: time)
             })
             .disposed(by: disposeBag)
         
         output.sendNotification
             .emit(with: self, onNext: { owner, _ in
-                owner.detailTimerView.updateNotificationView(show: true)
+                owner.updateAlertView()
             })
             .disposed(by: disposeBag)
         
         output.removeAlarm
             .emit(with: self, onNext: { owner, _ in
-                owner.changeProgressingState(state: .reset)
-                owner.detailTimerView.removeNotificationView()
+                owner.removeAlarm()
             })
             .disposed(by: disposeBag)
         
@@ -125,6 +124,27 @@ final class DetailTimerViewController: BaseViewController {
     }
     
     // MARK: Helper Methods
+    
+    private func updateTitles(title: (String, String)) {
+        detailTimerView.updateTitles(title: title)
+    }
+    
+    private func updateRemainingTime(time: String) {
+        detailTimerView.updateRemainingTime(time: time)
+    }
+    
+    private func setupProgressingAnimation(duration: Double) {
+        detailTimerView.setupProgressingAnimation(duration: duration)
+    }
+    
+    private func updateAlertView() {
+        detailTimerView.updateNotificationView(show: true)
+    }
+    
+    private func removeAlarm() {
+        changeProgressingState(state: .reset)
+        detailTimerView.removeNotificationView()
+    }
     
     private func changeProgressingState(state: ProgressingState) {
         detailTimerView.changeProgressingState(state: state)
