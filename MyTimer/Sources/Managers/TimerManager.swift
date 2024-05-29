@@ -201,8 +201,8 @@ final class RxTimerManager {
     
     // MARK: Display Data
     
-    func getData() -> Driver<[RxSection]> {
-        return storage.sections.asDriver(onErrorJustReturn: [])
+    func getData() -> BehaviorRelay<[RxSection]> {
+        return storage.sections
     }
     
     func getOneSection(id: UUID) -> RxSection? {

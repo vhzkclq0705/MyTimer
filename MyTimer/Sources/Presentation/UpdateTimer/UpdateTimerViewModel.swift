@@ -1,5 +1,5 @@
 //
-//  AddTimerViewModel.swift
+//  UpdateTimerViewModel.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/05/31.
@@ -9,8 +9,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-// ViewModel for AddTimerViewController
-final class AddTimerViewModel: ViewModelType {
+// ViewModel for UpdateTimerViewController
+final class UpdateTimerViewModel: ViewModelType {
     
     // MARK: Properties
     
@@ -31,28 +31,50 @@ final class AddTimerViewModel: ViewModelType {
     }
     
     var disposeBag = DisposeBag()
-    private var title = ""
-    private var selectedSection = 0
-    private var isSectionSelected = false
-    private var isTitleTyped = false
-    private var selectedMinute = 0
-    private var selectedSecond = 0
+    private var section: RxSection?
+    private var myTimer: RxMyTimer?
+    private var title: String
+    private var selectedSectionIndex: Int
+    private var isSectionSelected: Bool
+    private var isTitleTyped: Bool
+    private var selectedMinute: Int
+    private var selectedSecond: Int
     private var sections = [(UUID, String)]()
     
     // MARK: Init
     
-    init() {
-        RxTimerManager.shared.getData()
-            .map { sections in
-                sections.map { ($0.id, $0.title) }
-            }
-            .drive(with: self, onNext: { owner, section in
-                owner.sections = section
-            })
-            .disposed(by: disposeBag)
+    init(section: RxSection? = nil, myTimer: RxMyTimer? = nil) {
+        self.section = section
+        self.myTimer = myTimer
+        self.title = myTimer?.title ?? ""
+        self.selectedSectionIndex = 0
+        self.isSectionSelected = false
+        self.isTitleTyped = myTimer != nil
+        self.selectedMinute = myTimer?.min ?? 0
+        self.selectedSecond = myTimer?.sec ?? 0
+        
+        setupBindings()
     }
     
     // MARK: Binding
+    
+    private func setupBindings() {
+        RxTimerManager.shared.getData()
+            .take(1)
+            .map { sections in
+                sections.map { ($0.id, $0.title) }
+            }
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self, onNext: { owner, sections in
+                owner.sections = sections
+                if let section = owner.section,
+                   let selectedSectionIndex = sections.firstIndex(where: { $0.0 == section.id }) {
+                    owner.selectedSectionIndex = selectedSectionIndex
+                    owner.isSectionSelected = true
+                }
+            })
+            .disposed(by: disposeBag)
+    }
     
     func transform(input: Input) -> Output {
         let inputTitle = input.title.share(replay: 1, scope: .whileConnected)
@@ -85,9 +107,16 @@ final class AddTimerViewModel: ViewModelType {
             .map { $0.map { String($0) } }
         
         let createTimer = input.okButtonTapEvent
-            .map { [weak self] in
-                (self?.isSectionSelected ?? false, self?.isTitleTyped ?? false)
+            .map { [weak self] _ -> (Bool, Bool) in
+                guard let self = self else { return (false, false) }
+                return (self.isSectionSelected, self.isTitleTyped)
             }
+            .do(onNext: { [weak self] validated in
+                guard let self = self else { return }
+                if validated.0 && validated.1 {
+                    self.updateTimers()
+                }
+            })
             .asSignal(onErrorJustReturn: (false, false))
         
         let dismissViewController = input.cancelButtonTapEvent
@@ -108,19 +137,28 @@ final class AddTimerViewModel: ViewModelType {
     // MARK: Update Selected Items
     
     func updateSelectedSection(newValue: Int) {
-        selectedSection = newValue
+        selectedSectionIndex = newValue
         isSectionSelected = true
     }
     
-    // MARK: Create Timers
+    // MARK: Create or Update Timers
     
-    func createTimers() {
-        RxTimerManager.shared.addTimer(
-            id: sections[selectedSection].0,
-            title: title,
-            min: selectedMinute,
-            sec: selectedSecond
-        )
+    private func updateTimers() {
+        if let myTimer = myTimer {
+            RxTimerManager.shared.updateTimer(
+                sectionID: sections[selectedSectionIndex].0,
+                timerID: myTimer.id,
+                title: title,
+                min: selectedMinute,
+                sec: selectedSecond)
+        } else {
+            RxTimerManager.shared.addTimer(
+                id: sections[selectedSectionIndex].0,
+                title: title,
+                min: selectedMinute,
+                sec: selectedSecond
+            )
+        }
     }
     
 }
