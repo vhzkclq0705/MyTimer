@@ -1,5 +1,5 @@
 //
-//  AddORSetTimerView.swift
+//  UpdateTimerView.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/07/06.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class AddORSetTimerView: BaseView {
+final class UpdateTimerView: BaseView {
     
     // MARK: UI
     
@@ -65,7 +65,7 @@ final class AddORSetTimerView: BaseView {
     
     // MARK: Init
     
-    init(frame: CGRect, feature: SubViewFeature) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -105,7 +105,7 @@ final class AddORSetTimerView: BaseView {
     override func configureLayout() {
         subView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.left.right.equalToSuperview().inset(17)
+            $0.width.equalToSuperview().inset(17)
             $0.height.equalTo(434)
         }
         
@@ -195,6 +195,17 @@ final class AddORSetTimerView: BaseView {
     
     // MARK: Update UI
     
+    func hidePickerViewSelectedViews() {
+        [minPickerView, secPickerView]
+            .forEach { $0.subviews[1].backgroundColor = .clear }
+    }
+    
+    func initPickerViewRows(isMinute: Bool, _ row: Int) {
+        isMinute
+        ? minPickerView.selectRow(row, inComponent: 0, animated: true)
+        : secPickerView.selectRow(row, inComponent: 0, animated: true)
+    }
+    
     func updateViewsAfterSelecting(_ text: String) {
         sectionTextField.text = text
         sectionTextField.textColor = .black
@@ -205,7 +216,7 @@ final class AddORSetTimerView: BaseView {
     
     func rotateArrowImage() {
         let angle = isRotated ? 0 : Double.pi
-        UIView.animate(withDuration: 0.1) { [weak self] in
+        UIView.animate(withDuration: 0.2) { [weak self] in
             self?.arrowImageView.transform = CGAffineTransform(rotationAngle: angle)
         }
         isRotated.toggle()

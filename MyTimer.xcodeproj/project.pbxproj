@@ -19,7 +19,7 @@
 		762162962874A01B0063A3AF /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 762162922874A01B0063A3AF /* Pretendard-Medium.otf */; };
 		762162982874A1870063A3AF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762162972874A1870063A3AF /* SplashViewController.swift */; };
 		7621629A287561A50063A3AF /* Extension++UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76216299287561A50063A3AF /* Extension++UITextView.swift */; };
-		7621629D2875C9A20063A3AF /* AddORSetTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7621629C2875C9A20063A3AF /* AddORSetTimerView.swift */; };
+		7621629D2875C9A20063A3AF /* UpdateTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7621629C2875C9A20063A3AF /* UpdateTimerView.swift */; };
 		762162A12875D67E0063A3AF /* Extension++UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762162A02875D67E0063A3AF /* Extension++UIViewController.swift */; };
 		763EAD42287B1AB60019DC27 /* TimerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD41287B1AB60019DC27 /* TimerListView.swift */; };
 		763EAD44287B25530019DC27 /* DetailTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 763EAD43287B25530019DC27 /* DetailTimerView.swift */; };
@@ -40,7 +40,7 @@
 		7646D5282BE0E5730026E4E4 /* Extension++String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7646D5272BE0E5730026E4E4 /* Extension++String.swift */; };
 		76553406284514B900C79484 /* Extension++UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76553405284514B900C79484 /* Extension++UIButton.swift */; };
 		7655891C284600C600DB4FC2 /* UpdateTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891B284600C600DB4FC2 /* UpdateTimerViewModel.swift */; };
-		765589202846239800DB4FC2 /* AddTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* AddTimerViewController.swift */; };
+		765589202846239800DB4FC2 /* UpdateTimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7655891F2846239800DB4FC2 /* UpdateTimerViewController.swift */; };
 		76558922284623A400DB4FC2 /* AddSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76558921284623A400DB4FC2 /* AddSectionViewController.swift */; };
 		769B5202284F8B7E00C3E5A3 /* 닭소리.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5201284F8B7E00C3E5A3 /* 닭소리.mp3 */; };
 		769B520E284F9A2700C3E5A3 /* 학교 종소리.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 769B5203284F9A2600C3E5A3 /* 학교 종소리.mp3 */; };
@@ -90,7 +90,7 @@
 		762162922874A01B0063A3AF /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		762162972874A1870063A3AF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		76216299287561A50063A3AF /* Extension++UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UITextView.swift"; sourceTree = "<group>"; };
-		7621629C2875C9A20063A3AF /* AddORSetTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddORSetTimerView.swift; sourceTree = "<group>"; };
+		7621629C2875C9A20063A3AF /* UpdateTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTimerView.swift; sourceTree = "<group>"; };
 		762162A02875D67E0063A3AF /* Extension++UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIViewController.swift"; sourceTree = "<group>"; };
 		763EAD41287B1AB60019DC27 /* TimerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerListView.swift; sourceTree = "<group>"; };
 		763EAD43287B25530019DC27 /* DetailTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerView.swift; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 		7646D5272BE0E5730026E4E4 /* Extension++String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++String.swift"; sourceTree = "<group>"; };
 		76553405284514B900C79484 /* Extension++UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIButton.swift"; sourceTree = "<group>"; };
 		7655891B284600C600DB4FC2 /* UpdateTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTimerViewModel.swift; sourceTree = "<group>"; };
-		7655891F2846239800DB4FC2 /* AddTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTimerViewController.swift; sourceTree = "<group>"; };
+		7655891F2846239800DB4FC2 /* UpdateTimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTimerViewController.swift; sourceTree = "<group>"; };
 		76558921284623A400DB4FC2 /* AddSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewController.swift; sourceTree = "<group>"; };
 		769B5201284F8B7E00C3E5A3 /* 닭소리.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "닭소리.mp3"; sourceTree = "<group>"; };
 		769B5203284F9A2600C3E5A3 /* 학교 종소리.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "학교 종소리.mp3"; sourceTree = "<group>"; };
@@ -280,8 +280,8 @@
 			isa = PBXGroup;
 			children = (
 				7655891B284600C600DB4FC2 /* UpdateTimerViewModel.swift */,
-				7621629C2875C9A20063A3AF /* AddORSetTimerView.swift */,
-				7655891F2846239800DB4FC2 /* AddTimerViewController.swift */,
+				7621629C2875C9A20063A3AF /* UpdateTimerView.swift */,
+				7655891F2846239800DB4FC2 /* UpdateTimerViewController.swift */,
 			);
 			path = UpdateTimer;
 			sourceTree = "<group>";
@@ -600,7 +600,7 @@
 				76D9AE122843637200A2F5B9 /* AppDelegate.swift in Sources */,
 				7655891C284600C600DB4FC2 /* UpdateTimerViewModel.swift in Sources */,
 				76D9AE142843637200A2F5B9 /* SceneDelegate.swift in Sources */,
-				7621629D2875C9A20063A3AF /* AddORSetTimerView.swift in Sources */,
+				7621629D2875C9A20063A3AF /* UpdateTimerView.swift in Sources */,
 				763EAD53287B3F450019DC27 /* DeleteVC.swift in Sources */,
 				7646D5112BD7F1CA0026E4E4 /* Storage.swift in Sources */,
 				763EAD46287B29100019DC27 /* AddORSetSectionView.swift in Sources */,
@@ -612,7 +612,7 @@
 				763EAD4D287B2FEC0019DC27 /* CompleteView.swift in Sources */,
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderView.swift in Sources */,
 				769B5220284FA43400C3E5A3 /* SettingsViewModel.swift in Sources */,
-				765589202846239800DB4FC2 /* AddTimerViewController.swift in Sources */,
+				765589202846239800DB4FC2 /* UpdateTimerViewController.swift in Sources */,
 				7646D5282BE0E5730026E4E4 /* Extension++String.swift in Sources */,
 				76553406284514B900C79484 /* Extension++UIButton.swift in Sources */,
 				76D9AE382843B16400A2F5B9 /* TimerListCell.swift in Sources */,

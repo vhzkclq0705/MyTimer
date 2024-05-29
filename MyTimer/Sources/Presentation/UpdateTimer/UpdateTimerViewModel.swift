@@ -23,15 +23,17 @@ final class UpdateTimerViewModel: ViewModelType {
     }
     
     struct Output {
-        let minutes: Observable<[String]>
-        let seconds: Observable<[String]>
+        let initalMinute: Observable<Int>
+        let initalSecond: Observable<Int>
+        let minutes: Driver<[String]>
+        let seconds: Driver<[String]>
         let titleLength: Driver<Int>
         let createTimer: Signal<(Bool, Bool)>
         let dismissViewController: Signal<Void>
     }
     
     var disposeBag = DisposeBag()
-    private var section: RxSection?
+    private var sectionID: UUID?
     private var myTimer: RxMyTimer?
     private var title: String
     private var selectedSectionIndex: Int
@@ -43,8 +45,8 @@ final class UpdateTimerViewModel: ViewModelType {
     
     // MARK: Init
     
-    init(section: RxSection? = nil, myTimer: RxMyTimer? = nil) {
-        self.section = section
+    init(sectionID: UUID? = nil, myTimer: RxMyTimer? = nil) {
+        self.sectionID = sectionID
         self.myTimer = myTimer
         self.title = myTimer?.title ?? ""
         self.selectedSectionIndex = 0
@@ -67,8 +69,8 @@ final class UpdateTimerViewModel: ViewModelType {
             .asDriver(onErrorJustReturn: [])
             .drive(with: self, onNext: { owner, sections in
                 owner.sections = sections
-                if let section = owner.section,
-                   let selectedSectionIndex = sections.firstIndex(where: { $0.0 == section.id }) {
+                if let sectionID = owner.sectionID,
+                   let selectedSectionIndex = sections.firstIndex(where: { $0.0 == sectionID }) {
                     owner.selectedSectionIndex = selectedSectionIndex
                     owner.isSectionSelected = true
                 }
@@ -103,7 +105,7 @@ final class UpdateTimerViewModel: ViewModelType {
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
         
-        let times = Observable.just([Int](0...59))
+        let times = Driver.just([Int](0...59))
             .map { $0.map { String($0) } }
         
         let createTimer = input.okButtonTapEvent
@@ -123,6 +125,8 @@ final class UpdateTimerViewModel: ViewModelType {
             .asSignal(onErrorJustReturn: ())
         
         return Output(
+            initalMinute: Observable.just(selectedMinute).take(1),
+            initalSecond: Observable.just(selectedSecond).take(1),
             minutes: times,
             seconds: times,
             titleLength: titleLength,
@@ -130,11 +134,18 @@ final class UpdateTimerViewModel: ViewModelType {
             dismissViewController: dismissViewController)
     }
     
+    // MARK: - Helper Methods
+    
+    
+    // MARK: DropDown
+    
     func getTitles() -> [String] {
         return sections.map { $0.1 }
     }
     
-    // MARK: Update Selected Items
+    func getSelectedSectionIndex() -> Int {
+        return selectedSectionIndex
+    }
     
     func updateSelectedSection(newValue: Int) {
         selectedSectionIndex = newValue

@@ -224,6 +224,10 @@ final class DetailTimerViewModel: ViewModelType {
     
     // MARK: Helper Methods
     
+    func getData() -> (UUID, RxMyTimer) {
+        return (sectionID, myTimer)
+    }
+    
     private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
         return event
             .do(onNext: {

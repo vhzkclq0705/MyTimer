@@ -39,12 +39,13 @@ final class TimerListViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let sections = RxTimerManager.shared.getData()
-            .map { sections in
+            .map { sections -> [RxSection] in
                 sections.map { section in
                     let items = section.isExpanded ? section.items : []
                     return RxSection(id: section.id, title: section.title, isExpanded: section.isExpanded, items: items)
                 }
             }
+            .asDriver(onErrorJustReturn: [])
         
         let showButtons = input.menuButtonTapEvent
         

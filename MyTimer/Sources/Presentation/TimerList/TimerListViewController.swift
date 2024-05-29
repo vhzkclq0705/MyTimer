@@ -143,7 +143,7 @@ final class TimerListViewController: BaseViewController {
         case .Section: 
             AddSectionViewController(viewModel: AddSectionViewModel())
         case .Timer:
-            AddTimerViewController(viewModel: AddTimerViewModel())
+            UpdateTimerViewController(viewModel: UpdateTimerViewModel())
         default:
             UIViewController()
         }
