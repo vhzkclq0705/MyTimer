@@ -23,6 +23,8 @@ final class UpdateTimerViewModel: ViewModelType {
     }
     
     struct Output {
+        let initalSectionTitle: Observable<String>
+        let initalMyTimerTitle: Observable<String>
         let initalMinute: Observable<Int>
         let initalSecond: Observable<Int>
         let minutes: Driver<[String]>
@@ -30,6 +32,13 @@ final class UpdateTimerViewModel: ViewModelType {
         let titleLength: Driver<Int>
         let createTimer: Signal<(Bool, Bool)>
         let dismissViewController: Signal<Void>
+    }
+    
+    private enum InitalObject {
+        case SectionTitle
+        case TimerTitle
+        case Minute
+        case Second
     }
     
     var disposeBag = DisposeBag()
@@ -111,7 +120,7 @@ final class UpdateTimerViewModel: ViewModelType {
         let createTimer = input.okButtonTapEvent
             .map { [weak self] _ -> (Bool, Bool) in
                 guard let self = self else { return (false, false) }
-                return (self.isSectionSelected, self.isTitleTyped)
+                return (self.isSectionSelected, !(self.title.isEmpty))
             }
             .do(onNext: { [weak self] validated in
                 guard let self = self else { return }
@@ -125,8 +134,10 @@ final class UpdateTimerViewModel: ViewModelType {
             .asSignal(onErrorJustReturn: ())
         
         return Output(
-            initalMinute: Observable.just(selectedMinute).take(1),
-            initalSecond: Observable.just(selectedSecond).take(1),
+            initalSectionTitle: createObservableObjects(object: .SectionTitle),
+            initalMyTimerTitle: createObservableObjects(object: .TimerTitle),
+            initalMinute: createObservableObjects(object: .Minute).map { Int($0)! },
+            initalSecond: createObservableObjects(object: .Second).map { Int($0)! },
             minutes: times,
             seconds: times,
             titleLength: titleLength,
@@ -135,7 +146,6 @@ final class UpdateTimerViewModel: ViewModelType {
     }
     
     // MARK: - Helper Methods
-    
     
     // MARK: DropDown
     
@@ -169,6 +179,26 @@ final class UpdateTimerViewModel: ViewModelType {
                 min: selectedMinute,
                 sec: selectedSecond
             )
+        }
+    }
+    
+    // MARK: Others
+    
+    private func createObservableObjects(object: InitalObject) -> Observable<String> {
+        return Observable.create { [weak self] observer in
+            if let self = self,
+               let myTimer = self.myTimer {
+                let object: String = switch object {
+                case .SectionTitle: self.sections[self.selectedSectionIndex].1
+                case .TimerTitle: myTimer.title
+                case .Minute: "\(self.selectedMinute)"
+                case .Second: "\(self.selectedSecond)"
+                }
+                
+                observer.onNext(object)
+            }
+            observer.onCompleted()
+            return Disposables.create()
         }
     }
     

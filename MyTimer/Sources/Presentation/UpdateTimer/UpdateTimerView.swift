@@ -200,6 +200,16 @@ final class UpdateTimerView: BaseView {
             .forEach { $0.subviews[1].backgroundColor = .clear }
     }
     
+    func initTitles(isSection: Bool, _ title: String) {
+        if isSection {
+            sectionTextField.text = title
+            sectionTextField.textColor = .black
+        } else {
+            timerTextField.text = title
+            timerTextField.textColor = .black
+        }
+    }
+    
     func initPickerViewRows(isMinute: Bool, _ row: Int) {
         isMinute
         ? minPickerView.selectRow(row, inComponent: 0, animated: true)
@@ -240,7 +250,6 @@ final class UpdateTimerView: BaseView {
         case 1..<20:
             alertTimerLabel.alpha = 0
             timerTextField.layer.borderColor = UIColor.CustomColor(.gray1).cgColor
-            okButton.isUserInteractionEnabled = true
         default:
             if length > 20 {
                 timerTextField.deleteBackward()
@@ -261,7 +270,6 @@ final class UpdateTimerView: BaseView {
         if timerTextField.text.isEmpty {
             timerTextField.text = placeholder
             timerTextField.textColor = .CustomColor(.gray1)
-            okButton.isUserInteractionEnabled = false
         }
     }
     

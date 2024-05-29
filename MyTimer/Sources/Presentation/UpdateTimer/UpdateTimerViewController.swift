@@ -81,6 +81,18 @@ final class UpdateTimerViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.initalSectionTitle
+            .subscribe(with: self, onNext: { owner, title in
+                owner.initTitles(isSection: true, title: title)
+            })
+            .disposed(by: disposeBag)
+        
+        output.initalMyTimerTitle
+            .subscribe(with: self, onNext: { owner, title in
+                owner.initTitles(isSection: false, title: title)
+            })
+            .disposed(by: disposeBag)
+        
         output.initalMinute
             .subscribe(with: self, onNext: { owner, min in
                 owner.initPickerViewRows(isMinute: true, row: min)
@@ -185,6 +197,10 @@ final class UpdateTimerViewController: BaseViewController {
     }
     
     // MARK: Others
+    
+    private func initTitles(isSection: Bool, title: String) {
+        updateTimerView.initTitles(isSection: isSection, title)
+    }
     
     private func initPickerViewRows(isMinute: Bool, row: Int) {
         updateTimerView.initPickerViewRows(isMinute: isMinute, row)
