@@ -100,6 +100,10 @@ final class RxTimerManager {
     
     // MARK: Display Data
     
+    func loadData() -> () {
+        
+    }
+    
     func getData() -> BehaviorRelay<[RxSection]> {
         return storage.sections
     }

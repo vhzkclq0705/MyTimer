@@ -9,69 +9,92 @@ import Foundation
 import RxSwift
 import RxRelay
 
-/// Protocol for Storage.
-protocol StorageProtocol {
-    
-    /// Array of sections containing timers inside.
-    var sections: BehaviorRelay<[RxSection]> { get }
-    /// Path used to determine the URL for data.
-    var filePath: URL { get }
-    var disposeBag: DisposeBag { get set }
-    
-    /// Function for saving data to disk.
-    func saveData()
-    /// Function for loading data from disk.
-    func loadData()
-    
-}
-
 /// Storage for saving and loading data to/from disk.
-final class Storage: StorageProtocol {
+final class Storage {
     
     // MARK: Peoperties
     
-    var sections = BehaviorRelay<[RxSection]>(value: [])
-    var disposeBag = DisposeBag()
-    var filePath: URL
+//    private var sections = BehaviorRelay<[RxSection]>(value: [])
+    private var sectionData = BehaviorRelay<[Section]>(value: [])
+    private var timerData = BehaviorRelay<[MyTimer]>(value: [])
+    private var disposeBag = DisposeBag()
+    private var sectionFilePath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("S.json")
+    }
+    private var timerFilePath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("T.json")
+    }
     
     // MARK: Init
     
     init() {
-        filePath = try! FileManager.default.url(
-            for: .documentDirectory,
-            in: .userDomainMask,
-            appropriateFor: nil,
-            create: true)
-        .appendingPathComponent("Test1.plist")
-        
         loadData()
         
-        sections
+        sectionData
             .subscribe(with: self, onNext: { owner, _ in
-                owner.saveData()
+                owner.saveSectionData()
+            })
+            .disposed(by: disposeBag)
+        
+        timerData
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.saveTimerData()
             })
             .disposed(by: disposeBag)
     }
     
     // MARK: Data Management
     
-    func saveData() {
+    private func saveSectionData() {
         do {
-            let data = try PropertyListEncoder().encode(sections.value)
-            try data.write(to: filePath)
+            try JSONEncoder().encode(sectionData.value).write(to: sectionFilePath)
         } catch {
             print("Failed to save data: \(error)")
         }
     }
     
-    func loadData() {
+    private func saveTimerData() {
         do {
-            let data = try Data(contentsOf: filePath)
-            let loadedSections = try PropertyListDecoder().decode([RxSection].self, from: data)
-            sections.accept(loadedSections)
+            try JSONEncoder().encode(timerData.value).write(to: timerFilePath)
+        } catch {
+            print("Failed to save data: \(error)")
+        }
+    }
+    
+    private func loadData() {
+        do {
+            let sectionData = try Data(contentsOf: sectionFilePath)
+            let sections = try JSONDecoder().decode([Section].self, from: sectionData)
+            self.sectionData.accept(sections)
+        } catch {
+            print("Failed to load sectiom data: \(error)")
+        }
+        do {
+            let timerData = try Data(contentsOf: timerFilePath)
+            let timers = try JSONDecoder().decode([MyTimer].self, from: timerData)
+            self.timerData.accept(timers)
         } catch {
             print("Failed to load data: \(error)")
         }
     }
+//
+//    func saveData() {
+//        do {
+//            let data = try PropertyListEncoder().encode(sections.value)
+//            try data.write(to: filePath)
+//        } catch {
+//            print("Failed to save data: \(error)")
+//        }
+//    }
+//    
+//    func loadData() {
+//        do {
+//            let data = try Data(contentsOf: filePath)
+//            let loadedSections = try PropertyListDecoder().decode([RxSection].self, from: data)
+//            sections.accept(loadedSections)
+//        } catch {
+//            print("Failed to load data: \(error)")
+//        }
+//    }
     
 }
