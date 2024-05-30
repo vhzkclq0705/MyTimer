@@ -10,7 +10,6 @@
 		7603438D285DDAEF0075F9E7 /* NotiPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603438C285DDAEF0075F9E7 /* NotiPermission.swift */; };
 		76034391285DFDFE0075F9E7 /* Extension++UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76034390285DFDFE0075F9E7 /* Extension++UILabel.swift */; };
 		76034393285E00950075F9E7 /* Extension++UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76034392285E00950075F9E7 /* Extension++UIView.swift */; };
-		7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603B5392849E74F0016B66C /* PickerViewManager.swift */; };
 		7603B53E284A22830016B66C /* DetailTimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7603B53D284A22830016B66C /* DetailTimerViewModel.swift */; };
 		7621628D287499E40063A3AF /* Extension++UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7621628C287499E40063A3AF /* Extension++UIColor.swift */; };
 		762162932874A01B0063A3AF /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7621628F2874A01B0063A3AF /* Pretendard-Regular.otf */; };
@@ -81,7 +80,6 @@
 		7603438C285DDAEF0075F9E7 /* NotiPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiPermission.swift; sourceTree = "<group>"; };
 		76034390285DFDFE0075F9E7 /* Extension++UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UILabel.swift"; sourceTree = "<group>"; };
 		76034392285E00950075F9E7 /* Extension++UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIView.swift"; sourceTree = "<group>"; };
-		7603B5392849E74F0016B66C /* PickerViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewManager.swift; sourceTree = "<group>"; };
 		7603B53D284A22830016B66C /* DetailTimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTimerViewModel.swift; sourceTree = "<group>"; };
 		7621628C287499E40063A3AF /* Extension++UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension++UIColor.swift"; sourceTree = "<group>"; };
 		7621628F2874A01B0063A3AF /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				76CC80392844DE0A00683831 /* TimerManager.swift */,
-				7603B5392849E74F0016B66C /* PickerViewManager.swift */,
 				7646D5102BD7F1CA0026E4E4 /* Storage.swift */,
 			);
 			path = Managers;
@@ -607,7 +604,6 @@
 				7621628D287499E40063A3AF /* Extension++UIColor.swift in Sources */,
 				7646D51B2BDA8E580026E4E4 /* BaseView.swift in Sources */,
 				7646D5242BDF9E000026E4E4 /* UpdateSectionViewModel.swift in Sources */,
-				7603B53A2849E74F0016B66C /* PickerViewManager.swift in Sources */,
 				769B521A284F9A3C00C3E5A3 /* AlarmSound.swift in Sources */,
 				763EAD4D287B2FEC0019DC27 /* CompleteView.swift in Sources */,
 				76D9AE3D2843C8B200A2F5B9 /* TimerListHeaderView.swift in Sources */,
