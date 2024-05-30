@@ -8,12 +8,31 @@
 import Foundation
 import RxDataSources
 
-// Model for Section
-struct Section: Codable, Equatable {
-    var id: Int
+/// Section Model
+struct Section: Codable {
+    var id: UUID
     var title: String
-    var timers = [MyTimer]()
+    var isExpanded: Bool
+    var createdDate: Date
+    
+    init(id: UUID, title: String, isExpanded: Bool, createdDate: Date) {
+        self.id = id
+        self.title = title
+        self.isExpanded = isExpanded
+        self.createdDate = createdDate
+    }
 }
+
+// MARK: - Rx
+
+extension Section: Equatable, IdentifiableType {
+    typealias Identity = UUID
+    
+    var identity: UUID {
+        return id
+    }
+}
+
 
 /// Section model
 struct RxSection {
