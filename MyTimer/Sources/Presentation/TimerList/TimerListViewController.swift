@@ -54,13 +54,15 @@ final class TimerListViewController: BaseViewController {
             menuButtonTapEvent: timerListView.menuButton.rx.tap.asObservable(),
             addSectionButtonTapEvent: timerListView.addSectionButton.rx.tap.asObservable(),
             addTimerButtonTapEvent: timerListView.addTimerButton.rx.tap.asObservable(),
-            settingsButtonTapEvent: timerListView.settingsButton.rx.tap.asObservable())
+            settingsButtonTapEvent: timerListView.settingsButton.rx.tap.asObservable(),
+            controlViewTapEvent: timerListView.controlView.rx.tapGesture().when(.recognized).map { _ in }.asObservable()
+        )
         
         let output = viewModel.transform(input: input)
         
-        output.sections
-            .do(onNext: { [weak self] sections in
-                self?.timerListView.displayNoTimerLabel(sections.isEmpty)
+        output.data
+            .do(onNext: { [weak self] data in
+                self?.displayNoTimersLabel(isEmpty: data.isEmpty)
             })
             .drive(timerListView.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -83,31 +85,28 @@ final class TimerListViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        Observable.merge(
-            output.showButtons.map { _ in },
-            timerListView.controlView.rx.tapGesture().when(.recognized).map { _ in }
-        )
-        .bind(with: self, onNext: { owner, _ in
-            owner.timerListView.animateButtons(duration: 0.05)
-        })
-        .disposed(by: disposeBag)
+        output.showButtons
+            .emit(with: self, onNext: { owner, _ in
+                owner.animateMenuButtons()
+            })
+            .disposed(by: disposeBag)
     }
     
-    private func setupCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<RxSection> {
-        return RxCollectionViewSectionedAnimatedDataSource<RxSection>(
+    private func setupCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<CellModel> {
+        return RxCollectionViewSectionedAnimatedDataSource<CellModel>(
             configureCell: { dataSource, collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
                 }
-                let section = dataSource.sectionModels[indexPath.section]
-                let timer = section.items[indexPath.item]
-                cell.updateUI(timer: timer)
-                
-                cell.timerButton.rx.tap.asSignal()
-                    .emit(with: self, onNext: { owner, _ in
-                        owner.didTapTimerButtons(section.title, section.id, timer.id)
-                    })
-                    .disposed(by: cell.disposeBag)
+//                let section = dataSource.sectionModels[indexPath.section]
+//                let timer = section.items[indexPath.item]
+//                cell.updateUI(timer: timer)
+//                
+//                cell.timerButton.rx.tap.asSignal()
+//                    .emit(with: self, onNext: { owner, _ in
+//                        owner.didTapTimerButtons(section.title, section.id, timer.id)
+//                    })
+//                    .disposed(by: cell.disposeBag)
                 
                 return cell
             },
@@ -116,27 +115,43 @@ final class TimerListViewController: BaseViewController {
                     return UICollectionReusableView()
                 }
                 let section = dataSource.sectionModels[indexPath.section]
-                header.updateUI(text: section.title, isExpanded: section.isExpanded)
-                
-                header.expandButton.rx.tap.asSignal()
-                    .emit(with: self, onNext: { owner, _ in
-                        owner.viewModel.changeSectionState(id: section.id)
-                        header.flipExpandButton()
-                    })
-                    .disposed(by: header.disposeBag)
-                
-                header.updateButton.rx.tap.asSignal()
-                    .emit(with: self, onNext: { owner, _ in
-                        owner.didTapUpdateSectionButtons(id: section.id)
-                    })
-                    .disposed(by: header.disposeBag)
+//                header.updateUI(text: section.title, isExpanded: section.isExpanded)
+//                
+//                header.expandButton.rx.tap.asSignal()
+//                    .emit(with: self, onNext: { owner, _ in
+//                        owner.viewModel.changeSectionState(id: section.id)
+//                        header.flipExpandButton()
+//                    })
+//                    .disposed(by: header.disposeBag)
+//                
+//                header.updateButton.rx.tap.asSignal()
+//                    .emit(with: self, onNext: { owner, _ in
+//                        owner.didTapUpdateSectionButtons(id: section.id)
+//                    })
+//                    .disposed(by: header.disposeBag)
                 
                 return header
             }
         )
     }
     
+    // MARK: - Helper Methods
+    
+    // MARK: Update View
+    
+    private func displayNoTimersLabel(isEmpty: Bool) {
+        timerListView.displayNoTimerLabel(isEmpty)
+    }
+    
+    private func animateMenuButtons() {
+        timerListView.animateButtons(duration: 0.05)
+    }
+    
     // MARK: Actions
+    
+    
+    
+    
     
     private func didTapMenuButtons(_ style: MenuButtonStyle) {
         let vc = switch style {

@@ -9,12 +9,23 @@ import Foundation
 import RxDataSources
 
 /// Model for CollectionView
-struct CellModel: IdentifiableType, AnimatableSectionModelType {
+struct CellModel {
     let id: UUID
     let title: String
     let isExpanded: Bool
     var timers: [MyTimer]
     
+    init(id: UUID, title: String, isExpanded: Bool, timers: [MyTimer]) {
+        self.id = id
+        self.title = title
+        self.isExpanded = isExpanded
+        self.timers = timers
+    }
+}
+
+// MARK: - Rx
+
+extension CellModel: Equatable, IdentifiableType, AnimatableSectionModelType {
     var identity: UUID {
             return id
         }

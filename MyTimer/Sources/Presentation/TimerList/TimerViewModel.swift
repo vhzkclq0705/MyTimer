@@ -19,11 +19,12 @@ final class TimerListViewModel: ViewModelType {
         let addSectionButtonTapEvent: Observable<Void>
         let addTimerButtonTapEvent: Observable<Void>
         let settingsButtonTapEvent: Observable<Void>
+        let controlViewTapEvent: Observable<Void>
     }
     
     struct Output {
-        let sections: Driver<[RxSection]>
-        let showButtons: Observable<Void>
+        let data: Driver<[CellModel]>
+        let showButtons: Signal<Void>
         let presentAddSectionViewController: Signal<Void>
         let presentAddTimerViewController: Signal<Void>
         let presentSettingsViewController: Signal<Void>
@@ -38,28 +39,42 @@ final class TimerListViewModel: ViewModelType {
     // MARK: Binding
     
     func transform(input: Input) -> Output {
-        let sections = RxTimerManager.shared.getData()
-            .map { sections -> [RxSection] in
-                sections.map { section in
-                    let items = section.isExpanded ? section.items : []
-                    return RxSection(id: section.id, title: section.title, isExpanded: section.isExpanded, items: items)
+        var dataModel: Driver<[CellModel]> {
+            let (sections, timers) =  RxTimerManager.shared.getData()
+            
+            return Observable.combineLatest(sections, timers)
+                .map { sections, timers in
+                    // Grouping timers with sectionID
+                    let timerDict = Dictionary(grouping: timers, by: { $0.sectionID })
+                    
+                    // Sorting sections by createdDate
+                    let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
+                    
+                    return sortedSections.map { section in
+                        // Creating sections with timers containing own id
+                        let timersInSection = section.isExpanded
+                        ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
+                        : []
+                        
+                        return CellModel(id: section.id, title: section.title, isExpanded: section.isExpanded, timers: timersInSection)
+                    }
                 }
-            }
-            .asDriver(onErrorJustReturn: [])
+                .asDriver(onErrorJustReturn: [])
+        }
         
-        let showButtons = input.menuButtonTapEvent
+        let showButtons = Signal.merge(
+            convertObervableToSignal(input.menuButtonTapEvent),
+            convertObervableToSignal(input.controlViewTapEvent)
+        )
         
-        let presentAddSectionViewController = input.addSectionButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+        let presentAddSectionViewController = convertObervableToSignal(input.addSectionButtonTapEvent)
         
-        let presentAddTimerViewController = input.addTimerButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+        let presentAddTimerViewController = convertObervableToSignal(input.addTimerButtonTapEvent)
         
-        let presentSettingsViewController = input.settingsButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+        let presentSettingsViewController = convertObervableToSignal(input.settingsButtonTapEvent)
         
         return Output(
-            sections: sections,
+            data: dataModel,
             showButtons: showButtons,
             presentAddSectionViewController: presentAddSectionViewController,
             presentAddTimerViewController: presentAddTimerViewController,
@@ -68,6 +83,10 @@ final class TimerListViewModel: ViewModelType {
     
     func changeSectionState(id: UUID) {
         RxTimerManager.shared.changeSectionExpandedState(id: id)
+    }
+    
+    private func convertObervableToSignal(_ event: Observable<Void>) -> Signal<Void> {
+        return event.asSignal(onErrorJustReturn: ())
     }
     
 }

@@ -57,15 +57,19 @@ final class DetailTimerViewModel: ViewModelType {
         self.sectionID = sectionID
         self.myTimerID = timerID
         
-        if let myTimer = RxTimerManager.shared.getOneSection(id: sectionID)?.getOneTimer(id: timerID) {
-            self.myTimer = myTimer
-            self.initialTime = Double(myTimer.min * 60 + myTimer.sec)
-        } else {
-            fatalError("Timer not found.")
-        }
         
-        setupNotificationCenterBindings()
-        initRemainingTime()
+        // FIX
+        self.myTimer = RxMyTimer(id: UUID(), title: "", min: 0, sec: 0)
+        self.initialTime = 0
+//        if let myTimer = RxTimerManager.shared.getOneSection(id: sectionID)?.getOneTimer(id: timerID) {
+//            self.myTimer = myTimer
+//            self.initialTime = Double(myTimer.min * 60 + myTimer.sec)
+//        } else {
+//            fatalError("Timer not found.")
+//        }
+//        
+//        setupNotificationCenterBindings()
+//        initRemainingTime()
     }
     
     // MARK: Binding
