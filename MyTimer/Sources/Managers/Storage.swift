@@ -14,7 +14,6 @@ final class Storage {
     
     // MARK: Peoperties
     
-//    private var sections = BehaviorRelay<[RxSection]>(value: [])
     private var sectionData = BehaviorRelay<[Section]>(value: [])
     private var timerData = BehaviorRelay<[MyTimer]>(value: [])
     private var disposeBag = DisposeBag()
@@ -41,6 +40,12 @@ final class Storage {
                 owner.saveTimerData()
             })
             .disposed(by: disposeBag)
+    }
+    
+    // MARK: Send Data
+    
+    func getData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
+        return (sectionData, timerData)
     }
     
     // MARK: Data Management
@@ -77,24 +82,5 @@ final class Storage {
             print("Failed to load data: \(error)")
         }
     }
-//
-//    func saveData() {
-//        do {
-//            let data = try PropertyListEncoder().encode(sections.value)
-//            try data.write(to: filePath)
-//        } catch {
-//            print("Failed to save data: \(error)")
-//        }
-//    }
-//    
-//    func loadData() {
-//        do {
-//            let data = try Data(contentsOf: filePath)
-//            let loadedSections = try PropertyListDecoder().decode([RxSection].self, from: data)
-//            sections.accept(loadedSections)
-//        } catch {
-//            print("Failed to load data: \(error)")
-//        }
-//    }
     
 }

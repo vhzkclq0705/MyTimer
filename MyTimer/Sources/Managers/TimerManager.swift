@@ -19,27 +19,18 @@ final class RxTimerManager {
     
     static let shared = RxTimerManager()
     
-    private let storage: StorageProtocol
+    private let storage = Storage()
     private let disposeBag = DisposeBag()
+    private var sections: BehaviorRelay<[Section]>
+    private var timers: BehaviorRelay<[MyTimer]>
     
     // MARK: Init
     
-    private init(storage: StorageProtocol = Storage()) {
-        self.storage = storage
+    private init() {
+        let (sectionData, timerData) = storage.getData()
         
-        bindStorageUpdates()
-    }
-    
-    private func bindStorageUpdates() {
-        storage.sections
-            .subscribe(
-                onNext: { sections in
-                    print("Sections changed: \(sections)")
-                },
-                onError: { error in
-                    print("Failed to change sections: \(error)")
-                })
-            .disposed(by: disposeBag)
+        self.sections = sectionData
+        self.timers = timerData
     }
     
     // MARK: Section Management
@@ -100,25 +91,15 @@ final class RxTimerManager {
     
     // MARK: Display Data
     
-    func loadData() -> () {
-        
+    func getData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
+        return (sections, timers)
     }
     
-    func getData() -> BehaviorRelay<[RxSection]> {
-        return storage.sections
-    }
-    
-    func getOneSection(id: UUID) -> RxSection? {
-        return storage.sections.value.first { $0.id == id }
-    }
-    
+
     // MARK: Hepler Methods
     
     private func updateSectionsOfStorage(_ updateCompletion: (inout [RxSection]) -> Void) {
-        var sections = storage.sections.value
-        updateCompletion(&sections)
-        
-        storage.sections.accept(sections)
+
     }
     
 }
