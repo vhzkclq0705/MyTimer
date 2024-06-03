@@ -223,7 +223,7 @@ final class DetailTimerViewModel: ViewModelType {
     // MARK: Delete Timers
     
     private func deleteTimers() {
-        RxTimerManager.shared.deleteTimer(sectionID: sectionID, timerID: myTimerID)
+        TimerManager.shared.deleteTimer(id: myTimerID)
     }
     
     // MARK: Helper Methods

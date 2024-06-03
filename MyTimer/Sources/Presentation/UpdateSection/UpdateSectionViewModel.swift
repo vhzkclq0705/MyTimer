@@ -74,17 +74,17 @@ final class UpdateSectionViewModel: ViewModelType {
     // MARK: - Sections
     
     private func createSections() {
-        RxTimerManager.shared.addSection(title: title)
+        TimerManager.shared.createSection(title: title)
     }
     
     private func updateSections() {
         guard let id = id else { return }
-        RxTimerManager.shared.updateSection(id: id, title: title)
+        TimerManager.shared.updateSection(id: id, title: title)
     }
     
     private func deleteSections() {
         guard let id = id else { return }
-        RxTimerManager.shared.deleteSection(id: id)
+        TimerManager.shared.deleteSection(id: id)
     }
     
     // MARK: - Helper Methods

@@ -166,14 +166,14 @@ final class UpdateTimerViewModel: ViewModelType {
     
     private func updateTimers() {
         if let myTimer = myTimer {
-            RxTimerManager.shared.updateTimer(
+            TimerManager.shared.updateTimer(
                 sectionID: sections[selectedSectionIndex].0,
                 timerID: myTimer.id,
                 title: title,
                 min: selectedMinute,
                 sec: selectedSecond)
         } else {
-            RxTimerManager.shared.addTimer(
+            TimerManager.shared.addTimer(
                 id: sections[selectedSectionIndex].0,
                 title: title,
                 min: selectedMinute,

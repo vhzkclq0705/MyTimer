@@ -40,7 +40,7 @@ final class TimerListViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         var dataModel: Driver<[CellModel]> {
-            let (sections, timers) =  RxTimerManager.shared.getData()
+            let (sections, timers) =  TimerManager.shared.getAllData()
             
             return Observable.combineLatest(sections, timers)
                 .map { sections, timers in
@@ -82,7 +82,7 @@ final class TimerListViewModel: ViewModelType {
     }
     
     func changeSectionState(id: UUID) {
-        RxTimerManager.shared.changeSectionExpandedState(id: id)
+        TimerManager.shared.toggleSectionIsExpanded(id: id)
     }
     
     private func convertObervableToSignal(_ event: Observable<Void>) -> Signal<Void> {
