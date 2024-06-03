@@ -23,6 +23,18 @@ struct Section: Codable {
     }
 }
 
+// MARK: - Update
+
+extension Section {
+    mutating func updateIsExpanded() {
+        self.isExpanded.toggle()
+    }
+    
+    mutating func updateTitle(title: String) {
+        self.title = title
+    }
+}
+
 // MARK: - Rx
 
 extension Section: Equatable, IdentifiableType {

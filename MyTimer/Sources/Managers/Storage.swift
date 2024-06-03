@@ -42,13 +42,19 @@ final class Storage {
             .disposed(by: disposeBag)
     }
     
-    // MARK: Send Data
+    // MARK: Data Management
     
     func getData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
         return (sectionData, timerData)
     }
     
-    // MARK: Data Management
+    func setSectionData(data: [Section]) {
+        sectionData.accept(data)
+    }
+    
+    func setTimerData(data: [MyTimer]) {
+        timerData.accept(data)
+    }
     
     private func saveSectionData() {
         do {
