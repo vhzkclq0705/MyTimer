@@ -9,13 +9,6 @@ import UIKit
 import SnapKit
 import Then
 
-/// Enum for animations of menu buttons
-enum ButtonAnimation {
-    case First
-    case Second
-    case Third
-}
-
 /// View for TimerListViewController
 final class TimerListView: BaseView {
     

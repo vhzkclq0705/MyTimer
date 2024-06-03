@@ -11,11 +11,6 @@ import Then
 import RxSwift
 import RxCocoa
 
-enum HeaderButtonType {
-    case Expand
-    case Update
-}
-
 // Header view for sections of CollectionView
 final class TimerListHeaderView: UICollectionReusableView {
     
