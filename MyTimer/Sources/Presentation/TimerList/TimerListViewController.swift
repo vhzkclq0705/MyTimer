@@ -131,27 +131,35 @@ final class TimerListViewController: BaseViewController {
     // MARK: Actions
     
     private func didTapMenuButtons(_ style: MenuButtonStyle) {
-        let vc = switch style {
-        case .Section: 
-            AddSectionViewController(viewModel: AddSectionViewModel())
-        case .Timer:
-            UpdateTimerViewController(viewModel: UpdateTimerViewModel())
-        default:
-            UIViewController()
+        switch style {
+        case .Section: presentSectionViewController(id: nil)
+        case .Timer: presentTimerViewController()
+        default: break
         }
-        
-        presentCustom(vc)
     }
     
     private func didTapUpdateSectionButtons(id: UUID) {
-        let vc = UpdateSectionViewContoller(viewModel: UpdateSectionViewModel(id: id))
-        presentCustom(vc)
+        presentSectionViewController(id: id)
     }
     
     private func didTapTimerButtons(_ timerID: UUID) {
 //        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
 //        let vc = DetailTimerViewController(viewModel: viewModel)
 //        presentCustom(vc)
+    }
+    
+    // MARK: Others
+    
+    private func presentSectionViewController(id: UUID?) {
+        let viewModel = UpdateSectionViewModel(id: id)
+        let vc = UpdateSectionViewContoller(viewModel: viewModel)
+        presentCustom(vc)
+    }
+    
+    private func presentTimerViewController() {
+        let viewModel = UpdateTimerViewModel()
+        let vc = UpdateTimerViewController(viewModel: viewModel)
+        presentCustom(vc)
     }
 
 }

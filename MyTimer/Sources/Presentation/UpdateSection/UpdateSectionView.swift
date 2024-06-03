@@ -1,5 +1,5 @@
 //
-//  AddORSetSectionView.swift
+//  UpdateSectionView.swift
 //  MyTimer
 //
 //  Created by 권오준 on 2022/07/11.
@@ -9,12 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-enum SubViewFeature {
-    case Add
-    case Update
-}
-
-final class AddORSetSectionView: BaseView {
+final class UpdateSectionView: BaseView {
     
     // MARK:  UI
     
@@ -64,10 +59,8 @@ final class AddORSetSectionView: BaseView {
     
     // MARK: Init
     
-    init(frame: CGRect, feature: SubViewFeature) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        titleLabel.text = feature == .Add ? "섹션 추가" : "섹션 이름 변경"
-        deleteButton.isHidden = feature == .Add ? true : false
     }
     
     required init?(coder: NSCoder) {
@@ -88,6 +81,7 @@ final class AddORSetSectionView: BaseView {
             .forEach { subView.addSubview($0) }
         
         addSubview(subView)
+        backgroundColor = .black.withAlphaComponent(0.5)
     }
     
     override func configureLayout() {
@@ -130,6 +124,13 @@ final class AddORSetSectionView: BaseView {
             $0.right.equalTo(textField.snp.centerX)
             $0.height.equalTo(59)
         }
+    }
+    
+    // MARK: Update UI
+    
+    func updateUI(_ isTypeCreate: Bool) {
+        titleLabel.text = isTypeCreate ? "섹션 추가" : "섹션 이름 변경"
+        deleteButton.isHidden = isTypeCreate
     }
     
     // MARK: TextView Management

@@ -17,7 +17,7 @@ final class UpdateSectionViewContoller: BaseViewController {
     // MARK: Properties
     
     private let viewModel: UpdateSectionViewModel
-    private let updateSectionView = AddORSetSectionView(frame: .zero, feature: .Update)
+    private let updateSectionView = UpdateSectionView()
     private let disposeBag = DisposeBag()
     
     // MARK: Init
@@ -49,27 +49,29 @@ final class UpdateSectionViewContoller: BaseViewController {
     
     override func configureViewController() {
         setupBindings()
-        view.backgroundColor = .black.withAlphaComponent(0.5)
+        setupTextViewBindings()
     }
+    
+    // MARK: Binding
     
     private func setupBindings() {
         let input = UpdateSectionViewModel.Input(
             title: updateSectionView.textField.rx.text.orEmpty.distinctUntilChanged().asObservable(),
+            deleteButtonTapEvent: updateSectionView.deleteButton.rx.tap.asObservable(),
             okButtonTapEvent: updateSectionView.okButton.rx.tap.asObservable(),
-            calcelButtonTapEvent: updateSectionView.cancleButton.rx.tap.asObservable())
+            cancelButtonTapEvent: updateSectionView.cancleButton.rx.tap.asObservable())
         
         let output = viewModel.transform(input: input)
         
-        output.titleLength
-            .drive(with: self, onNext: { owner, length in
-                owner.updateSectionView.validateText(length)
+        output.isTypeCreate
+            .drive(with: self, onNext: { owner, isTypeCreate in
+                owner.updateUI(isTypeCreate: isTypeCreate)
             })
             .disposed(by: disposeBag)
         
-        output.updateSection
-            .emit(with: self, onNext: { owner, _ in
-                owner.viewModel.updateSections()
-                owner.dismiss(animated: true)
+        output.titleLength
+            .drive(with: self, onNext: { owner, length in
+                owner.validateText(length: length)
             })
             .disposed(by: disposeBag)
         
@@ -78,14 +80,9 @@ final class UpdateSectionViewContoller: BaseViewController {
                 owner.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
-        
-        updateSectionView.deleteButton.rx.tap
-            .bind(with: self, onNext: { owner, _ in
-                owner.viewModel.deleteSections()
-                owner.dismiss(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
+    }
+    
+    private func setupTextViewBindings() {
         updateSectionView.textField.rx.didBeginEditing
             .subscribe(with: self, onNext: { owner, _ in
                 owner.updateSectionView.startEditingTextView()
@@ -97,6 +94,16 @@ final class UpdateSectionViewContoller: BaseViewController {
                 owner.updateSectionView.endEditingTextView()
             })
             .disposed(by: disposeBag)
+    }
+ 
+    // MARK: Helper Methods
+    
+    private func validateText(length: Int) {
+        updateSectionView.validateText(length)
+    }
+    
+    private func updateUI(isTypeCreate: Bool) {
+        updateSectionView.updateUI(isTypeCreate)
     }
     
 }

@@ -16,24 +16,27 @@ final class UpdateSectionViewModel: ViewModelType {
     
     struct Input {
         let title: Observable<String>
+        let deleteButtonTapEvent: Observable<Void>
         let okButtonTapEvent: Observable<Void>
-        let calcelButtonTapEvent: Observable<Void>
+        let cancelButtonTapEvent: Observable<Void>
     }
     
     struct Output {
+        let isTypeCreate: Driver<Bool>
         let titleLength: Driver<Int>
-        let updateSection: Signal<Void>
         let dismissViewController: Signal<Void>
     }
     
     var disposeBag = DisposeBag()
-    private var id: UUID
+    private var sectionType: SectionType
+    private var id: UUID?
     private var title = ""
     
     // MARK: Init
     
-    init(id: UUID) {
+    init(id: UUID? = nil) {
         self.id = id
+        self.sectionType = id == nil ? .Create : .Update
     }
     
     // MARK: Binding
@@ -51,28 +54,52 @@ final class UpdateSectionViewModel: ViewModelType {
             .map { $0.count }
             .asDriver(onErrorJustReturn: 0)
         
-        let updateSection = input.okButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+        let deleteSection = handleEvents(input.deleteButtonTapEvent, action: deleteSections)
         
-        let dismissViewController = input.calcelButtonTapEvent
+        let completeAction = handleEvents(input.okButtonTapEvent, action: progressOKAction)
+        
+        let dismissViewController = Observable.merge(
+            deleteSection,
+            completeAction,
+            input.cancelButtonTapEvent
+        )
             .asSignal(onErrorJustReturn: ())
         
         return Output(
+            isTypeCreate: Driver.just(sectionType == .Create),
             titleLength: titleLength,
-            updateSection: updateSection,
             dismissViewController: dismissViewController)
     }
     
-    // MARK: Update sections
+    // MARK: - Sections
     
-    func updateSections() {
+    private func createSections() {
+        RxTimerManager.shared.addSection(title: title)
+    }
+    
+    private func updateSections() {
+        guard let id = id else { return }
         RxTimerManager.shared.updateSection(id: id, title: title)
     }
     
-    // MARK: Delete sections
-    
-    func deleteSections() {
+    private func deleteSections() {
+        guard let id = id else { return }
         RxTimerManager.shared.deleteSection(id: id)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func progressOKAction() {
+        sectionType == .Create
+        ? createSections()
+        : updateSections()
+    }
+    
+    private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Observable<Void> {
+        return event
+            .do(onNext: {
+                action()
+            })
     }
     
 }
