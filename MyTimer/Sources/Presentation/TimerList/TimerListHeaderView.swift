@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
+
+enum HeaderButtonType {
+    case Expand
+    case Update
+}
 
 // Header view for sections of CollectionView
 final class TimerListHeaderView: UICollectionReusableView {
@@ -92,15 +98,28 @@ final class TimerListHeaderView: UICollectionReusableView {
         updateButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    // MARK: Update UI
-    
-    func updateUI(text: String, isExpanded: Bool) {
-        titleLabel.text = text
-        expandButton.isSelected = isExpanded
+    func setupBindings(section: CellModel, completion: @escaping (HeaderButtonType, UUID) -> Void) {
+        updateUI(section)
+        
+        expandButton.rx.tap.asSignal()
+            .emit(with: self, onNext: { owner, _ in
+                owner.expandButton.isSelected.toggle()
+                completion(.Expand, section.id)
+            })
+            .disposed(by: disposeBag)
+        
+        updateButton.rx.tap.asSignal()
+            .emit(onNext: { _ in
+                completion(.Update, section.id)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func flipExpandButton() {
-        expandButton.isSelected.toggle()
+    // MARK: Helper Methods
+    
+    private func updateUI(_ section: CellModel) {
+        titleLabel.text = section.title
+        expandButton.isSelected = section.isExpanded
     }
     
 }

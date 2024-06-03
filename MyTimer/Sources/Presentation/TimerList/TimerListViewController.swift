@@ -48,7 +48,31 @@ final class TimerListViewController: BaseViewController {
     }
     
     private func setupBindings() {
-        let dataSource = setupCollectionView()
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<CellModel>(
+            configureCell: { dataSource, collectionView, indexPath, item in
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
+                    return UICollectionViewCell()
+                }
+                cell.setupBindings(timer: item) { [weak self] id in
+                    self?.didTapTimerButtons(id)
+                }
+                
+                return cell
+            },
+            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
+                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimerListHeaderView.id, for: indexPath) as? TimerListHeaderView else {
+                    return UICollectionReusableView()
+                }
+                let section = dataSource.sectionModels[indexPath.section]
+                header.setupBindings(section: section) { [weak self] type, id in
+                    switch type {
+                    case .Expand: self?.viewModel.changeSectionState(id: id)
+                    case .Update: self?.didTapUpdateSectionButtons(id: id)
+                    }
+                }
+                
+                return header
+            })
         
         let input = TimerListViewModel.Input(
             menuButtonTapEvent: timerListView.menuButton.rx.tap.asObservable(),
@@ -92,49 +116,6 @@ final class TimerListViewController: BaseViewController {
             .disposed(by: disposeBag)
     }
     
-    private func setupCollectionView() -> RxCollectionViewSectionedAnimatedDataSource<CellModel> {
-        return RxCollectionViewSectionedAnimatedDataSource<CellModel>(
-            configureCell: { dataSource, collectionView, indexPath, item in
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
-                    return UICollectionViewCell()
-                }
-//                let section = dataSource.sectionModels[indexPath.section]
-//                let timer = section.items[indexPath.item]
-//                cell.updateUI(timer: timer)
-//                
-//                cell.timerButton.rx.tap.asSignal()
-//                    .emit(with: self, onNext: { owner, _ in
-//                        owner.didTapTimerButtons(section.title, section.id, timer.id)
-//                    })
-//                    .disposed(by: cell.disposeBag)
-                
-                return cell
-            },
-            configureSupplementaryView: { dataSource, collectionView, kind, indexPath in
-                guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TimerListHeaderView.id, for: indexPath) as? TimerListHeaderView else {
-                    return UICollectionReusableView()
-                }
-                let section = dataSource.sectionModels[indexPath.section]
-//                header.updateUI(text: section.title, isExpanded: section.isExpanded)
-//                
-//                header.expandButton.rx.tap.asSignal()
-//                    .emit(with: self, onNext: { owner, _ in
-//                        owner.viewModel.changeSectionState(id: section.id)
-//                        header.flipExpandButton()
-//                    })
-//                    .disposed(by: header.disposeBag)
-//                
-//                header.updateButton.rx.tap.asSignal()
-//                    .emit(with: self, onNext: { owner, _ in
-//                        owner.didTapUpdateSectionButtons(id: section.id)
-//                    })
-//                    .disposed(by: header.disposeBag)
-                
-                return header
-            }
-        )
-    }
-    
     // MARK: - Helper Methods
     
     // MARK: Update View
@@ -148,10 +129,6 @@ final class TimerListViewController: BaseViewController {
     }
     
     // MARK: Actions
-    
-    
-    
-    
     
     private func didTapMenuButtons(_ style: MenuButtonStyle) {
         let vc = switch style {
@@ -171,10 +148,10 @@ final class TimerListViewController: BaseViewController {
         presentCustom(vc)
     }
     
-    private func didTapTimerButtons(_ title: String, _ sectionID: UUID, _ timerID: UUID) {
-        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
-        let vc = DetailTimerViewController(viewModel: viewModel)
-        presentCustom(vc)
+    private func didTapTimerButtons(_ timerID: UUID) {
+//        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
+//        let vc = DetailTimerViewController(viewModel: viewModel)
+//        presentCustom(vc)
     }
 
 }

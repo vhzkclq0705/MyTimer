@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
 
 /// Cell for timers of CollectionView
 final class TimerListCell: UICollectionViewCell {
@@ -108,9 +109,19 @@ final class TimerListCell: UICollectionViewCell {
         }
     }
     
-    // MARK: Update UI
+    func setupBindings(timer: MyTimer, completion: @escaping (UUID) -> Void) {
+        updateUI(timer)
+        
+        timerButton.rx.tap.asSignal()
+            .emit(onNext: {
+                completion(timer.id)
+            })
+            .disposed(by: disposeBag)
+    }
     
-    func updateUI(timer: RxMyTimer) {
+    // MARK: Helper Methods
+    
+    private func updateUI(_ timer: MyTimer) {
         let mintoStr = String(format: "%02d", timer.min)
         let sectoStr = String(format: "%02d", timer.sec)
         titleLabel.text = timer.title
