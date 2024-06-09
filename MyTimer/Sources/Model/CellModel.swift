@@ -10,32 +10,31 @@ import RxDataSources
 
 /// Model for CollectionView
 struct CellModel {
-    let id: UUID
-    let title: String
-    let isExpanded: Bool
-    var timers: [MyTimer]
+    var id: UUID
+    var title: String
+    var isExpanded: Bool
+    var items: [MyTimer]
     
-    init(id: UUID, title: String, isExpanded: Bool, timers: [MyTimer]) {
+    init(id: UUID, title: String, isExpanded: Bool, items: [MyTimer]) {
         self.id = id
         self.title = title
         self.isExpanded = isExpanded
-        self.timers = timers
+        self.items = items
     }
 }
 
 // MARK: - Rx
 
 extension CellModel: Equatable, IdentifiableType, AnimatableSectionModelType {
+    typealias Identity = UUID
+    typealias Item = MyTimer
+    
     var identity: UUID {
-            return id
-        }
-        
-    var items: [MyTimer] {
-        return timers
+        return id
     }
     
-    init(original: CellModel, items: [MyTimer]) {
+    init(original: CellModel, items: [Item]) {
         self = original
-        self.timers = items
+        self.items = items
     }
 }

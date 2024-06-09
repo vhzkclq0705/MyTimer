@@ -14,12 +14,14 @@ struct Section: Codable {
     var title: String
     var isExpanded: Bool
     var createdDate: Date
+    var items: [MyTimer]
     
-    init(id: UUID, title: String, isExpanded: Bool, createdDate: Date) {
+    init(id: UUID, title: String, isExpanded: Bool, createdDate: Date, items: [MyTimer]) {
         self.id = id
         self.title = title
         self.isExpanded = isExpanded
         self.createdDate = createdDate
+        self.items = items
     }
 }
 
@@ -37,11 +39,17 @@ extension Section {
 
 // MARK: - Rx
 
-extension Section: Equatable, IdentifiableType {
+extension Section: Equatable, IdentifiableType, AnimatableSectionModelType {
     typealias Identity = UUID
+    typealias Item = MyTimer
     
     var identity: UUID {
         return id
+    }
+    
+    init(original: Section, items: [Item]) {
+        self = original
+        self.items = items
     }
 }
 

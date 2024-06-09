@@ -48,7 +48,7 @@ final class TimerManager {
     }
     
     func createSection(title: String) {
-        let newSection = Section(id: UUID(), title: title, isExpanded: false, createdDate: Date())
+        let newSection = Section(id: UUID(), title: title, isExpanded: false, createdDate: Date(), items: [])
         updateStorageSections { sections in
             sections.append(newSection)
         }
@@ -96,6 +96,45 @@ final class TimerManager {
     func getAllData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
         return (sections, timers)
     }
+    
+    func getData() -> Driver<[Section]> {
+        return sections
+            .map { [weak self] sections in
+                let timerDict = Dictionary(grouping: self?.timers.value ?? [], by: { $0.id })
+                
+                let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
+                
+                return sortedSections.map { section in
+                    let timers = section.isExpanded
+                    ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
+                    : []
+                    
+                    return Section(id: section.id, title: section.title, isExpanded: section.isExpanded, createdDate: section.createdDate, items: timers)
+                }
+            }
+            .asDriver(onErrorJustReturn: [])
+    }
+    
+//    func getCellModel() -> Driver<[CellModel]> {
+//        return Observable.combineLatest(sections, timers)
+//            .map { sections, timers in
+//                // Grouping timers with sectionID
+//                let timerDict = Dictionary(grouping: timers, by: { $0.sectionID })
+//                
+//                // Sorting sections by createdDate
+//                let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
+//                
+//                return sortedSections.map { section in
+//                    // Creating sections with timers containing own id
+//                    let timersInSection = section.isExpanded
+//                    ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
+//                    : []
+//                    
+//                    return CellModel(id: section.id, title: section.title, isExpanded: section.isExpanded, items: timersInSection)
+//                }
+//            }
+//            .asDriver(onErrorJustReturn: [])
+//    }
 
     // MARK: Hepler Methods
     

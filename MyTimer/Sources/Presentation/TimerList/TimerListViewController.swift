@@ -48,7 +48,7 @@ final class TimerListViewController: BaseViewController {
     }
     
     private func setupBindings() {
-        let dataSource = RxCollectionViewSectionedAnimatedDataSource<CellModel>(
+        let dataSource = RxCollectionViewSectionedAnimatedDataSource<Section>(
             configureCell: { dataSource, collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()

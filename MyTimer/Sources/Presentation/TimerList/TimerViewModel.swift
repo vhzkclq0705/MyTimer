@@ -23,7 +23,7 @@ final class TimerListViewModel: ViewModelType {
     }
     
     struct Output {
-        let data: Driver<[CellModel]>
+        let data: Driver<[Section]>
         let showButtons: Signal<Void>
         let presentAddSectionViewController: Signal<Void>
         let presentAddTimerViewController: Signal<Void>
@@ -39,28 +39,7 @@ final class TimerListViewModel: ViewModelType {
     // MARK: Binding
     
     func transform(input: Input) -> Output {
-        var dataModel: Driver<[CellModel]> {
-            let (sections, timers) =  TimerManager.shared.getAllData()
-            
-            return Observable.combineLatest(sections, timers)
-                .map { sections, timers in
-                    // Grouping timers with sectionID
-                    let timerDict = Dictionary(grouping: timers, by: { $0.sectionID })
-                    
-                    // Sorting sections by createdDate
-                    let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
-                    
-                    return sortedSections.map { section in
-                        // Creating sections with timers containing own id
-                        let timersInSection = section.isExpanded
-                        ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
-                        : []
-                        
-                        return CellModel(id: section.id, title: section.title, isExpanded: section.isExpanded, timers: timersInSection)
-                    }
-                }
-                .asDriver(onErrorJustReturn: [])
-        }
+        let dataModel = TimerManager.shared.getData()
         
         let showButtons = Signal.merge(
             convertObervableToSignal(input.menuButtonTapEvent),
@@ -80,6 +59,8 @@ final class TimerListViewModel: ViewModelType {
             presentAddTimerViewController: presentAddTimerViewController,
             presentSettingsViewController: presentSettingsViewController)
     }
+    
+    // MARK: Helper Methods
     
     func changeSectionState(id: UUID) {
         TimerManager.shared.toggleSectionIsExpanded(id: id)

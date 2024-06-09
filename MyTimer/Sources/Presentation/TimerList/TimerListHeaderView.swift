@@ -93,12 +93,10 @@ final class TimerListHeaderView: UICollectionReusableView {
         updateButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    func setupBindings(section: CellModel, completion: @escaping (HeaderButtonType, UUID) -> Void) {
+    func setupBindings(section: Section, completion: @escaping (HeaderButtonType, UUID) -> Void) {
         updateUI(section)
-        
         expandButton.rx.tap.asSignal()
-            .emit(with: self, onNext: { owner, _ in
-                owner.expandButton.isSelected.toggle()
+            .emit(onNext: { _ in
                 completion(.Expand, section.id)
             })
             .disposed(by: disposeBag)
@@ -112,7 +110,7 @@ final class TimerListHeaderView: UICollectionReusableView {
     
     // MARK: Helper Methods
     
-    private func updateUI(_ section: CellModel) {
+    private func updateUI(_ section: Section) {
         titleLabel.text = section.title
         expandButton.isSelected = section.isExpanded
     }
