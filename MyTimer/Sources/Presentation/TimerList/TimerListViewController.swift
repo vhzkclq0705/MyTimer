@@ -49,6 +49,9 @@ final class TimerListViewController: BaseViewController {
     
     private func setupBindings() {
         let dataSource = RxCollectionViewSectionedAnimatedDataSource<Section>(
+            decideViewTransition: { _, _, changeset in
+                return changeset.isEmpty ? .reload : .animated
+            },
             configureCell: { dataSource, collectionView, indexPath, item in
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
@@ -66,10 +69,7 @@ final class TimerListViewController: BaseViewController {
                 }
                 let section = dataSource.sectionModels[indexPath.section]
                 header.setupBindings(section: section) { [weak self] type, id in
-                    switch type {
-                    case .Expand: self?.viewModel.changeSectionState(id: id)
-                    case .Update: self?.didTapUpdateSectionButtons(id: id)
-                    }
+                    self?.didTapSectionButtons(type: type, id: id)
                 }
                 
                 return header
@@ -130,6 +130,13 @@ final class TimerListViewController: BaseViewController {
     }
     
     // MARK: Actions
+    
+    private func didTapSectionButtons(type: HeaderButtonType, id: UUID) {
+        switch type {
+        case .Expand: viewModel.changeSectionState(id: id)
+        case .Update: didTapUpdateSectionButtons(id: id)
+        }
+    }
     
     private func didTapMenuButtons(_ style: MenuButtonStyle) {
         switch style {

@@ -70,21 +70,20 @@ final class UpdateTimerViewModel: ViewModelType {
     // MARK: Binding
     
     private func setupBindings() {
-//        RxTimerManager.shared.getData()
-//            .take(1)
-//            .map { sections in
-//                sections.map { ($0.id, $0.title) }
-//            }
-//            .asDriver(onErrorJustReturn: [])
-//            .drive(with: self, onNext: { owner, sections in
-//                owner.sections = sections
-//                if let sectionID = owner.sectionID,
-//                   let selectedSectionIndex = sections.firstIndex(where: { $0.0 == sectionID }) {
-//                    owner.selectedSectionIndex = selectedSectionIndex
-//                    owner.isSectionSelected = true
-//                }
-//            })
-//            .disposed(by: disposeBag)
+        TimerManager.shared.getData()
+            .asObservable()
+            .map { sections -> [(UUID, String)] in
+                return sections.map { ($0.id, $0.title) }
+            }
+            .subscribe(with: self, onNext: { owner, sections in
+                owner.sections = sections
+                if let sectionID = owner.sectionID,
+                   let selectedSectionIndex = sections.firstIndex(where: { $0.0 == sectionID }) {
+                    owner.selectedSectionIndex = selectedSectionIndex
+                    owner.isSectionSelected = true
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     func transform(input: Input) -> Output {
