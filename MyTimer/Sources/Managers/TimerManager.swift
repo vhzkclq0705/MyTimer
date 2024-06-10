@@ -65,6 +65,9 @@ final class TimerManager {
         updateStorageSections { sections in
             sections.remove(at: index)
         }
+        updateStorageTimers { timers in
+            timers = timers.filter { $0.sectionID != id }
+        }
     }
     
     func updateSection(id: UUID, title: String) {
@@ -99,24 +102,8 @@ final class TimerManager {
     
     // MARK: Display Data
     
-    func getAllData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
+    func getData() -> (BehaviorRelay<[Section]>, BehaviorRelay<[MyTimer]>) {
         return (sections, timers)
-    }
-    
-    func getData() -> Driver<[Section]> {
-        return sections
-            .map { [weak self] sections -> [Section] in
-                let timerDict = Dictionary(grouping: self?.timers.value ?? [], by: { $0.sectionID })
-                let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
-                return sortedSections.map { section in
-                    let timers = section.isExpanded
-                    ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
-                    : []
-                    
-                    return Section(id: section.id, title: section.title, isExpanded: section.isExpanded, createdDate: section.createdDate, items: timers)
-                }
-            }
-            .asDriver(onErrorJustReturn: [])
     }
     
     func getSectionInfo(id: UUID) -> BehaviorRelay<Section?> {

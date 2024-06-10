@@ -70,7 +70,7 @@ final class UpdateTimerViewModel: ViewModelType {
     // MARK: Binding
     
     private func setupBindings() {
-        TimerManager.shared.getData()
+        TimerManager.shared.getData().0
             .asObservable()
             .map { sections -> [(UUID, String)] in
                 return sections.map { ($0.id, $0.title) }

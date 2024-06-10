@@ -39,7 +39,20 @@ final class TimerListViewModel: ViewModelType {
     // MARK: Binding
     
     func transform(input: Input) -> Output {
-        let dataModel = TimerManager.shared.getData()
+        let (sectons, timers) = TimerManager.shared.getData()
+        let dataModel = Observable.combineLatest(sectons, timers)
+            .map { sections, timers -> [Section] in
+                let timerDict = Dictionary(grouping: timers, by: { $0.sectionID })
+                let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
+                return sortedSections.map { section in
+                    let timers = section.isExpanded
+                    ? (timerDict[section.id] ?? []).sorted(by: { $0.createdDate > $1.createdDate })
+                    : []
+                    
+                    return Section(id: section.id, title: section.title, isExpanded: section.isExpanded, createdDate: section.createdDate, items: timers)
+                }
+            }
+            .asDriver(onErrorJustReturn: [])
         
         let showButtons = Signal.merge(
             convertObervableToSignal(input.menuButtonTapEvent),
