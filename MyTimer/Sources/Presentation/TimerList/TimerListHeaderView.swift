@@ -96,7 +96,8 @@ final class TimerListHeaderView: UICollectionReusableView {
     func setupBindings(section: Section, completion: @escaping (HeaderButtonType, UUID) -> Void) {
         updateUI(section)
         expandButton.rx.tap.asSignal()
-            .emit(onNext: { _ in
+            .emit(with: self, onNext: { owner, _ in
+                owner.expandButton.isSelected.toggle()
                 completion(.Expand, section.id)
             })
             .disposed(by: disposeBag)
