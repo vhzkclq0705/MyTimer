@@ -105,8 +105,8 @@ final class DetailTimerViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         output.presentSettingsViewController
-            .emit(with: self, onNext: { owner, _ in
-                owner.presentUpdateTimerViewController()
+            .emit(with: self, onNext: { owner, id in
+                owner.presentUpdateTimerViewController(id: id)
             })
             .disposed(by: disposeBag)
         
@@ -150,12 +150,8 @@ final class DetailTimerViewController: BaseViewController {
         detailTimerView.changeProgressingState(state: state)
     }
     
-    private func presentUpdateTimerViewController() {
-//        let data = viewModel.getData()
-//        let viewModel = UpdateTimerViewModel(sectionID: data.0, myTimer: data.1)
-//        let vc = UpdateTimerViewController(viewModel: viewModel)
-//        
-//        presentCustom(vc)
+    private func presentUpdateTimerViewController(id: (UUID, UUID)) {
+        let viewModel = UpdateTimerViewModel(sectionID: id.0, timerID: id.1)
     }
 
 }

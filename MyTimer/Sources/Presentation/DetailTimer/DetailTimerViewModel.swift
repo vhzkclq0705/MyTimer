@@ -30,7 +30,7 @@ final class DetailTimerViewModel: ViewModelType {
         let sendNotification: Signal<Void>
         let resetTimer: Signal<Void>
         let changeTimerState: Signal<Void>
-        let presentSettingsViewController: Signal<Void>
+        let presentSettingsViewController: Signal<(UUID, UUID)>
         let deleteTimer: Signal<Void>
         let removeAlarm: Signal<Void>
         let dismissViewController: Signal<Void>
@@ -115,7 +115,12 @@ final class DetailTimerViewModel: ViewModelType {
         let deleteTimer = handleEvents(input.deleteButtonTapEvent, action: deleteTimers)
         
         let presentSettingsViewController = input.settingsButtonTapEvent
-            .asSignal(onErrorJustReturn: ())
+            .map { [weak self] _ -> (UUID, UUID)? in
+                guard let self = self else { return nil }
+                return (self.sectionID, self.timerID)
+            }
+            .asSignal(onErrorJustReturn: nil)
+            .compactMap { $0 }
         
         let dismissViewController = input.backButtonTapEvent
             .asSignal(onErrorJustReturn: ())
@@ -236,6 +241,10 @@ final class DetailTimerViewModel: ViewModelType {
     }
     
     // MARK: Helper Methods
+    
+    private func getIDs() {
+        
+    }
     
     private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
         return event

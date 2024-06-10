@@ -43,7 +43,7 @@ final class UpdateTimerViewModel: ViewModelType {
     
     var disposeBag = DisposeBag()
     private var sectionID: UUID?
-    private var myTimer: RxMyTimer?
+    private var timer: MyTimer?
     private var title: String
     private var selectedSectionIndex: Int
     private var isSectionSelected: Bool
@@ -54,15 +54,14 @@ final class UpdateTimerViewModel: ViewModelType {
     
     // MARK: Init
     
-    init(sectionID: UUID? = nil, myTimer: RxMyTimer? = nil) {
+    init(sectionID: UUID? = nil, timerID: UUID? = nil) {
         self.sectionID = sectionID
-        self.myTimer = myTimer
-        self.title = myTimer?.title ?? ""
+        self.title = timer?.title ?? ""
         self.selectedSectionIndex = 0
         self.isSectionSelected = false
-        self.isTitleTyped = myTimer != nil
-        self.selectedMinute = myTimer?.min ?? 0
-        self.selectedSecond = myTimer?.sec ?? 0
+        self.isTitleTyped = timer != nil
+        self.selectedMinute = timer?.min ?? 0
+        self.selectedSecond = timer?.sec ?? 0
         
         setupBindings()
     }
@@ -73,6 +72,7 @@ final class UpdateTimerViewModel: ViewModelType {
         TimerManager.shared.getData().0
             .asObservable()
             .map { sections -> [(UUID, String)] in
+                let sortedSections = sections.sorted(by: { $0.createdDate > $1.createdDate })
                 return sections.map { ($0.id, $0.title) }
             }
             .subscribe(with: self, onNext: { owner, sections in
@@ -164,10 +164,10 @@ final class UpdateTimerViewModel: ViewModelType {
     // MARK: Create or Update Timers
     
     private func updateTimers() {
-        if let myTimer = myTimer {
+        if let timer = timer {
             TimerManager.shared.updateTimer(
                 sectionID: sections[selectedSectionIndex].0,
-                timerID: myTimer.id,
+                timerID: timer.id,
                 title: title,
                 min: selectedMinute,
                 sec: selectedSecond)
@@ -186,10 +186,10 @@ final class UpdateTimerViewModel: ViewModelType {
     private func createObservableObjects(object: InitalObject) -> Observable<String> {
         return Observable.create { [weak self] observer in
             if let self = self,
-               let myTimer = self.myTimer {
+               let timer = self.timer {
                 let object: String = switch object {
                 case .SectionTitle: self.sections[self.selectedSectionIndex].1
-                case .TimerTitle: myTimer.title
+                case .TimerTitle: timer.title
                 case .Minute: "\(self.selectedMinute)"
                 case .Second: "\(self.selectedSecond)"
                 }
