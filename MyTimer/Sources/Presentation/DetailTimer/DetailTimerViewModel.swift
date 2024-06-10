@@ -69,7 +69,9 @@ final class DetailTimerViewModel: ViewModelType {
             
         myTimer
             .subscribe(with: self, onNext: { owner, timer in
-                owner.initialTime = Double(timer.min * 60 + timer.sec)
+                let time = Double(timer.min * 60 + timer.sec)
+                owner.initialTime = time
+                owner.remainingTime.onNext(time)
             })
             .disposed(by: disposeBag)
         
@@ -89,10 +91,6 @@ final class DetailTimerViewModel: ViewModelType {
             }
             .asDriver(onErrorJustReturn: ("", ""))
         
-        let initTime = remainingTime
-            .take(1)
-            .asDriver(onErrorJustReturn: 0)
-        
         let remainingTimeText = remainingTime
             .map { time -> String in
                 let time = max(time, 0)
@@ -104,7 +102,7 @@ final class DetailTimerViewModel: ViewModelType {
         
         let sendNotification = handleEvents(
             remainingTime
-                .filter { $0 <= 0 }
+                .filter { $0 < 0 }
                 .map { _ in () },
             action: pauseTimer)
         
@@ -124,7 +122,7 @@ final class DetailTimerViewModel: ViewModelType {
         
         return Output(
             titles: titles,
-            initTime: initTime,
+            initTime: Driver.just(initialTime),
             remainingTimeText: remainingTimeText,
             sendNotification: sendNotification,
             resetTimer: resetTimer,
@@ -234,14 +232,10 @@ final class DetailTimerViewModel: ViewModelType {
     // MARK: Delete Timers
     
     private func deleteTimers() {
-//        TimerManager.shared.deleteTimer(id: myTimerID)
+        TimerManager.shared.deleteTimer(id: timerID)
     }
     
     // MARK: Helper Methods
-    
-//    func getData() -> (UUID, RxMyTimer) {
-//        return (sectionID, myTimer)
-//    }
     
     private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
         return event
