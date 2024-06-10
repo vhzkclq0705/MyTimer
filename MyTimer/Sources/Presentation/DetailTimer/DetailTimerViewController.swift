@@ -151,11 +151,11 @@ final class DetailTimerViewController: BaseViewController {
     }
     
     private func presentUpdateTimerViewController() {
-        let data = viewModel.getData()
-        let viewModel = UpdateTimerViewModel(sectionID: data.0, myTimer: data.1)
-        let vc = UpdateTimerViewController(viewModel: viewModel)
-        
-        presentCustom(vc)
+//        let data = viewModel.getData()
+//        let viewModel = UpdateTimerViewModel(sectionID: data.0, myTimer: data.1)
+//        let vc = UpdateTimerViewController(viewModel: viewModel)
+//        
+//        presentCustom(vc)
     }
 
 }

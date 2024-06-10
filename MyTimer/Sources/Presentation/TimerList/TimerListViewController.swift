@@ -53,8 +53,9 @@ final class TimerListViewController: BaseViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TimerListCell.id, for: indexPath) as? TimerListCell else {
                     return UICollectionViewCell()
                 }
-                cell.setupBindings(timer: item) { [weak self] id in
-                    self?.didTapTimerButtons(id)
+                let section = dataSource.sectionModels[indexPath.section]
+                cell.setupBindings(section: section, timer: item) { [weak self] sectionID, timerID in
+                    self?.didTapTimerButtons(sectionID: sectionID, timerID: timerID)
                 }
                 
                 return cell
@@ -142,7 +143,7 @@ final class TimerListViewController: BaseViewController {
         presentSectionViewController(id: id)
     }
     
-    private func didTapTimerButtons(_ timerID: UUID) {
+    private func didTapTimerButtons(sectionID: UUID, timerID: UUID) {
 //        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
 //        let vc = DetailTimerViewController(viewModel: viewModel)
 //        presentCustom(vc)

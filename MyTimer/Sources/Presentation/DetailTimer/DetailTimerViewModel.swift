@@ -38,11 +38,9 @@ final class DetailTimerViewModel: ViewModelType {
     
     var disposeBag = DisposeBag()
     private var timeEnteredBackground: Date?
-    private let sectionTitle: String
     private let sectionID: UUID
-    private let myTimerID: UUID
-    private let myTimer: RxMyTimer
-    private let initialTime: Double
+    private let timerID: UUID
+    private var initialTime: Double = 0
     private let notificationID = "Push"
     private let notificationCenter = UNUserNotificationCenter.current()
     private var remainingTime = BehaviorSubject<Double>(value: 0)
@@ -52,30 +50,44 @@ final class DetailTimerViewModel: ViewModelType {
     
     // MARK: Init
     
-    init(sectionTitle: String, sectionID: UUID, timerID: UUID) {
-        self.sectionTitle = sectionTitle
+    init(sectionID: UUID, timerID: UUID) {
         self.sectionID = sectionID
-        self.myTimerID = timerID
+        self.timerID = timerID
         
-        
-        // FIX
-        self.myTimer = RxMyTimer(id: UUID(), title: "", min: 0, sec: 0)
-        self.initialTime = 0
-//        if let myTimer = RxTimerManager.shared.getOneSection(id: sectionID)?.getOneTimer(id: timerID) {
-//            self.myTimer = myTimer
-//            self.initialTime = Double(myTimer.min * 60 + myTimer.sec)
-//        } else {
-//            fatalError("Timer not found.")
-//        }
-//        
-//        setupNotificationCenterBindings()
-//        initRemainingTime()
+        setupNotificationCenterBindings()
+        initRemainingTime()
     }
     
     // MARK: Binding
     
     func transform(input: Input) -> Output {
-        let titles = Driver.just((sectionTitle, myTimer.title))
+        let section = TimerManager.shared.getSectionInfo(id: sectionID)
+            .compactMap { $0 }
+        
+        let myTimer = TimerManager.shared.getTimerInfo(id: timerID)
+            .compactMap { $0 }
+            
+        myTimer
+            .subscribe(with: self, onNext: { owner, timer in
+                owner.initialTime = Double(timer.min * 60 + timer.sec)
+            })
+            .disposed(by: disposeBag)
+        
+        let sectionTitle = section
+            .map { section in
+                return section.title
+            }
+        
+        let timerTitle = myTimer
+            .map { timer in
+                return timer.title
+            }
+        
+        let titles = Observable.combineLatest(sectionTitle, timerTitle)
+            .map { sectionTitle, timerTitle in
+                return (sectionTitle, timerTitle)
+            }
+            .asDriver(onErrorJustReturn: ("", ""))
         
         let initTime = remainingTime
             .take(1)
@@ -201,7 +213,6 @@ final class DetailTimerViewModel: ViewModelType {
     
     private func createPushNotification() {
         let notiContent = UNMutableNotificationContent()
-        notiContent.title = myTimer.title
         notiContent.body = "시간이 되었습니다!!"
         notiContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(alarmSound).mp3"))
         
@@ -223,14 +234,14 @@ final class DetailTimerViewModel: ViewModelType {
     // MARK: Delete Timers
     
     private func deleteTimers() {
-        TimerManager.shared.deleteTimer(id: myTimerID)
+//        TimerManager.shared.deleteTimer(id: myTimerID)
     }
     
     // MARK: Helper Methods
     
-    func getData() -> (UUID, RxMyTimer) {
-        return (sectionID, myTimer)
-    }
+//    func getData() -> (UUID, RxMyTimer) {
+//        return (sectionID, myTimer)
+//    }
     
     private func handleEvents(_ event: Observable<Void>, action: @escaping () -> Void) -> Signal<Void> {
         return event

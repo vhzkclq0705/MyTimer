@@ -109,12 +109,12 @@ final class TimerListCell: UICollectionViewCell {
         }
     }
     
-    func setupBindings(timer: MyTimer, completion: @escaping (UUID) -> Void) {
+    func setupBindings(section: Section, timer: MyTimer, completion: @escaping (UUID, UUID) -> Void) {
         updateUI(timer)
         
         timerButton.rx.tap.asSignal()
             .emit(onNext: {
-                completion(timer.id)
+                completion(section.id, timer.id)
             })
             .disposed(by: disposeBag)
     }

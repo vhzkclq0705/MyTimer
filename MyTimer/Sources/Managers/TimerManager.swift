@@ -115,6 +115,34 @@ final class TimerManager {
             .asDriver(onErrorJustReturn: [])
     }
     
+    func getSectionInfo(id: UUID) -> BehaviorRelay<Section?> {
+        let section = BehaviorRelay<Section?>(value: nil)
+        
+        sections
+            .map { [weak self] sections in
+                guard let index = self?.getSectionIndex(id: id) else { return nil }
+                return sections[index]
+            }
+            .bind(to: section)
+            .disposed(by: disposeBag)
+        
+        return section
+    }
+    
+    func getTimerInfo(id: UUID) -> BehaviorRelay<MyTimer?> {
+        let timer = BehaviorRelay<MyTimer?>(value: nil)
+        
+        timers
+            .map { [weak self] timers in
+                guard let index = self?.getTimerIndex(id: id) else { return nil }
+                return timers[index]
+            }
+            .bind(to: timer)
+            .disposed(by: disposeBag)
+        
+        return timer
+    }
+    
 //    func getCellModel() -> Driver<[CellModel]> {
 //        return Observable.combineLatest(sections, timers)
 //            .map { sections, timers in
