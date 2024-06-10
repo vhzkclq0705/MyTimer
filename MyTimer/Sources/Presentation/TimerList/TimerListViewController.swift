@@ -94,19 +94,19 @@ final class TimerListViewController: BaseViewController {
         
         output.presentAddSectionViewController
             .emit(with: self, onNext: { owner, _ in
-                owner.didTapMenuButtons(.Section)
+                owner.didTapMenuButtons(style: .Section)
             })
             .disposed(by: disposeBag)
         
         output.presentAddTimerViewController
             .emit(with: self, onNext: { owner, _ in
-                owner.didTapMenuButtons(.Timer)
+                owner.didTapMenuButtons(style: .Timer)
             })
             .disposed(by: disposeBag)
         
         output.presentSettingsViewController
             .emit(with: self, onNext: { owner, _ in
-                owner.didTapMenuButtons(.Settings)
+                owner.didTapMenuButtons(style: .Settings)
             })
             .disposed(by: disposeBag)
         
@@ -138,27 +138,25 @@ final class TimerListViewController: BaseViewController {
         }
     }
     
-    private func didTapMenuButtons(_ style: MenuButtonStyle) {
+    private func didTapMenuButtons(style: MenuButtonStyle) {
         switch style {
-        case .Section: presentSectionViewController(id: nil)
+        case .Section: presentSectionViewController(nil)
         case .Timer: presentTimerViewController()
         default: break
         }
     }
     
     private func didTapUpdateSectionButtons(id: UUID) {
-        presentSectionViewController(id: id)
+        presentSectionViewController(id)
     }
     
     private func didTapTimerButtons(sectionID: UUID, timerID: UUID) {
-//        let viewModel = DetailTimerViewModel(sectionTitle: title, sectionID: sectionID, timerID: timerID)
-//        let vc = DetailTimerViewController(viewModel: viewModel)
-//        presentCustom(vc)
+        presentDetailTimerViewController(sectionID, timerID)
     }
     
     // MARK: Others
     
-    private func presentSectionViewController(id: UUID?) {
+    private func presentSectionViewController(_ id: UUID?) {
         let viewModel = UpdateSectionViewModel(id: id)
         let vc = UpdateSectionViewContoller(viewModel: viewModel)
         presentCustom(vc)
@@ -167,6 +165,12 @@ final class TimerListViewController: BaseViewController {
     private func presentTimerViewController() {
         let viewModel = UpdateTimerViewModel()
         let vc = UpdateTimerViewController(viewModel: viewModel)
+        presentCustom(vc)
+    }
+    
+    private func presentDetailTimerViewController(_ sectionID: UUID, _ timerID: UUID) {
+        let viewModel = DetailTimerViewModel(sectionID: sectionID, timerID: timerID)
+        let vc = DetailTimerViewController(viewModel: viewModel)
         presentCustom(vc)
     }
 
