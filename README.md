@@ -7,34 +7,23 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-# Key Features
+# Skills
 
+- RxSwift
+- SnapKit
+
+<br>
+
+
+# Key Feature
 
  - 🕒 Playback Timers
 
  - 📝 Section and Timer Management
 
   - 🔊 Custom Alert Sounds
+    
 - 📬 Background Push Notifications
-
-<br>
-
-# Update log
-
-### 2022.07.11 v1.1
-- UI Enhancements
-- Added Section Modifications
-- Fixed Timer Deletion Bug
-- Fixed Section Deletion Bug
-
-### 2022.06.27 v1.0
-- Released!
-
-<br>
-
-# Language
-
-- Swift
 
 <br>
 
@@ -46,20 +35,16 @@ The code style applied https://github.com/airbnb/swift.
   <div markdown="6">
 
   ```Swift
-    // Timer
-    struct MyTimer: Codable, Equatable {
-    var id: Int
-    var title: String
-    var min: Int
-    var sec: Int
-    }
+    protocol ViewModelType {
     
-    // Section
-    struct Section: Codable, Equatable {
-    var id: Int
-    var title: String
-    var timers = [MyTimer]()
-    }
+    associatedtype Input
+    associatedtype Output
+    
+    var disposeBag: DisposeBag { get set }
+    
+    func transform(input: Input) -> Output
+    
+  }
   ```
 
   </div>
@@ -67,43 +52,20 @@ The code style applied https://github.com/airbnb/swift.
 
 <br>
 
-# Skills
+# Data Flow
+![diagram](https://github.com/vhzkclq0705/MyTimer/assets/75382687/daa3d2cf-ae5a-4d2e-aa4a-6e782a96ea3c)
 
-- UIBezierPath()
-  > Visually show the progress of the timer.   
-  > The circular progress bar changes over time using `CABasicAnimation()`
 
-- UIView.animate()
-  > To show UI animation used it.   
-  > When a button is tapped, the button is rotated or displayed one after another.
+# Update log
 
-- UserDefaults
-  > Store data inside the client.   
+### 2022.07.11 v1.1
+- UI Enhancements
+- Added Section Modifications
+- Fixed Timer Deletion Bug
+- Fixed Section Deletion Bug
 
-- UNUserNotificationCenter
-  > It is used for push notifications when the app is progressing in the background and the timer is done.    
-  > Request permission from the device.
-
-- UISwipeActionsConfiguration
-  > Swipe cells in TableView.   
-  > Two UIContextualActions were used to set and delete timers.
-
-<br>
-
-# Library
-
-- AVFoundation
-  > Used for sound the alarm.   
-  > There are a total of 12 alarm sounds.   
-  > The set alarm sound is stored through UserDefaults.
-
-- ExpyTableView
-  > Used for implement foldable TableView easily.
-
-- DropDown
-  > Used for show a selection list of sections.
-
-- SnapKit
+### 2022.06.27 v1.0
+- Released!
 
 <br>
 
