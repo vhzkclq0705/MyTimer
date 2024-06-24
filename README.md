@@ -30,9 +30,7 @@ The code style applied https://github.com/airbnb/swift.
 # Architecture
 
 - MVVM   
-  <details>
-  <summary>Models</summary>
-  <div markdown="6">
+  ViewModelType
 
   ```Swift
     protocol ViewModelType {
@@ -46,9 +44,6 @@ The code style applied https://github.com/airbnb/swift.
     
   }
   ```
-
-  </div>
-  </details>
 
 <br>
 
